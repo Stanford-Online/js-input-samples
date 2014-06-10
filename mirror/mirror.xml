@@ -1,0 +1,32 @@
+<problem display_name="mirror"> <!-- rename this! -->
+<script type="loncapa/python">
+import json
+def vglcfn(e, ans):
+  '''
+  par is a dictionary containing two keys, "answer" and "state"
+  The value of answer is the JSON string returned by getGrade
+  The value of state is the JSON string returned by getState
+  '''
+  par = json.loads(ans)
+  # Both of the variables below are available to grade.
+  answer = json.loads(par["answer"])
+  state = json.loads(par["state"])
+  
+  # This is the "Grading Function". This should be changed per problem given conditions.
+  if not answer['0'] and answer['1'] and answer['2'] and not answer['3']:
+    return True
+  else:
+    return False
+</script>
+<customresponse cfn="vglcfn">
+  <jsinput
+    gradefn="JSInput.getGrade"
+    get_statefn="JSInput.getState"
+    set_statefn="JSInput.setState"
+    width="100%"
+    height="360"
+    html_file="/static/mirror.html"
+    sop="false"
+  /> <!-- Edit "height" and "html_file" for your specific use! Optionally, you can also edit "width". -->
+</customresponse>
+</problem>

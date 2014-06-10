@@ -1,0 +1,34 @@
+<problem display_name="HW">
+<script type="loncapa/python">
+import json
+def pythongrader(e, ans):
+  '''
+  par is a dictionary containing two keys, "answer" and "state"
+  The value of answer is the JSON string returned by getGrade
+  The value of state is the JSON string returned by getState
+  '''
+  par = json.loads(ans)
+  # We can use either the value of the answer key to grade
+  
+  par = json.loads(ans)
+  # We can use either the value of the answer key to grade
+  answer = json.loads(par["answer"])
+  if answer['errors'] == 0 and answer['completed']:
+    return True
+  else:
+    return False
+  </script>
+
+  HTML goes here.
+  
+  
+<customresponse cfn="pythongrader">
+  <jsinput gradefn="HW.getGrade"
+    get_statefn="HW.getState"
+    set_statefn="HW.setState"
+    width="800"
+    height="600"
+    html_file="/static/HW2.html"
+    sop="false"/>
+</customresponse>
+</problem>

@@ -1,0 +1,170 @@
+<html>
+    <head>
+        <title>edX jsInput</title>
+        <meta charset="utf-8">
+        
+        <!-- This script enables communication between you iframe and the platform.
+        REQUIRED --- DO NOT REMOVE!! -->
+        <script src="/static/js/capa/src/jschannel.js"></script>
+        
+        <!-- This jQuery is hosted by google. This script is included here because this html
+        is loaded in an iframe and doesn't have access to the platform's scripts. -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        
+        <!-- This is the style for the elements inside the iframe. Customize this!-->
+        <style>
+            #container {
+                width: 685px;
+                height: 340px;
+                margin: 0 auto;
+            }
+            .array {
+                width: 320px;
+                height: 320px;
+                margin: 10px;
+                float: left;
+            }
+            .array .element {
+                display: block;
+                height: 138px;
+                width: 138px;
+                border: 1px solid black;
+                margin: 10px;
+                float: left;
+                background-color: #ddd;
+            }
+            .array .element.on {
+                background-color: #333;
+            }
+            .array a.element:hover {
+                box-shadow: 0 0 50px #333 inset;
+            }
+            .array a.element.on:hover {
+                box-shadow: 0 0 50px #ddd inset;
+            }
+            .divider {
+                height: 340px;
+                width: 5px;
+                float: left;
+                background-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- HTML to build the application. Customize this! -->
+        <div id="container">
+            <div class="array">
+                <div class="element on"></div>
+                <div class="element"></div>
+                <div class="element"></div>
+                <div class="element on"></div>
+            </div>
+            <div class="divider"></div>
+            <div class="array result" id="mirror-response">
+                <a href="#" class="element" id="0"></a>
+                <a href="#" class="element" id="1"></a>
+                <a href="#" class="element" id="2"></a>
+                <a href="#" class="element" id="3"></a>
+            </div>
+        </div>
+        
+        <!-- This is the custom script that establishes the UI and gives the platform the state when requested. -->
+        <script>
+            var JSInput = (function() {
+                var channel,
+                // The above wrapper function and channel variable are both necessary,
+                // REQUIRED --- DO NOT REMOVE/CHANGE!!
+                
+                // The "state" JSON dictionary below is passed to the platform for grading and saving.
+                // Pass through whatever you wish
+                state = {
+                        0: false,
+                        1: false,
+                        2: false,
+                        3: false,
+                    };
+            
+                // Establish a channel only if this application is embedded in an iframe.
+                // This will let the parent window communicate with this application using
+                // RPC and bypass SOP restrictions.
+                //
+                // REQUIRED --- DO NOT REMOVE/CHANGE!!
+                if (window.parent !== window) {
+                    channel = Channel.build({
+                        window: window.parent,
+                        origin: "*",
+                        scope: "JSInput"
+                    });
+                    channel.bind("getGrade", getGrade);
+                    channel.bind("getState", getState);
+                    channel.bind("setState", setState);
+                }
+                
+                // Initialize function: is run every time the iframe is loaded.
+                //
+                // Custom functions and scripting should be defined here.
+                function init() {
+                    $("#mirror-response a.element").click(function() {
+                        event.preventDefault();
+                        var stateID = $(this).attr('id') + '';
+                        if ($(this).hasClass('on')) {
+                            state[stateID] = false;
+                            $(this).removeClass('on');
+                        } else {
+                            state[stateID] = true;
+                            $(this).addClass('on');
+                        }
+                    });
+                }
+                
+                // function that displays saved state changes to the user.
+                //
+                // Customize to load saved state
+                function updateState() {
+                    var count = Object.keys(state).length
+                    for(var i=0;i<count;i++){
+                        var elementOn = state[i];
+                        var elementID = '#' + i;
+                        if (elementOn) {
+                            $(elementID).addClass('on');
+                        }
+                    }
+                }
+                
+                init();
+                
+                // This function gets called by the platform to get the student grade when the submit button is clicked.
+                //
+                // Can be customized, but this is a good default.
+                function getGrade() {
+                    return JSON.stringify(state);
+                }
+                
+                // This function gets called by the platform to save the student state when the submit button is clicked.
+                //
+                // Can be customized, but this is a good default.
+                function getState() {
+                    return JSON.stringify(state);
+                }
+                
+                // This function gets called by the platform to set the student state when the iframe is loaded.
+                //
+                // Can be customized, but this is a good default.
+                function setState() {
+                    stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
+                    state = JSON.parse(stateStr);
+                    updateState();
+                }
+                
+                // return that gives the platform the names of the functions it has available.
+                //
+                // REQUIRED --- DO NOT REMOVE/CHANGE!!
+                return {
+                    getState: getState,
+                    setState: setState,
+                    getGrade: getGrade
+                };
+            }());
+        </script>
+    </body>
+</html>

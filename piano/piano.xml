@@ -1,0 +1,29 @@
+<problem display_name="piano">
+  
+<script type="loncapa/python">
+import json
+def vglcfn(e, ans):
+  '''
+  par is a dictionary containing two keys, "answer" and "state"
+  The value of answer is the JSON string returned by getGrade
+  The value of state is the JSON string returned by getState
+  '''
+  par = json.loads(ans)
+  # We can use either the value of the answer key to grade
+  answer = json.loads(par["answer"])
+  if answer['errors'] == 0 and answer['completed']:
+    return True
+  else:
+    return False
+</script>
+  
+<customresponse cfn="vglcfn">
+  <jsinput gradefn="JSInput.getGrade"
+    get_statefn="JSInput.getState"
+    set_statefn="JSInput.setState"
+    width="100%"
+    height="480"
+    html_file="/static/piano.html"
+    sop="false"/>
+</customresponse>
+</problem>

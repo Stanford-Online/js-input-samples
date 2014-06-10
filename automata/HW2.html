@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script src="jschannel.js"></script>
+        <script>
+            var state = {
+                'errors': 0,
+                'completed': false,
+                'genarray': new Array()
+            };
+
+            var HW = (function () {
+
+                var channel;
+                if (window.parent !== window) {
+                    channel = Channel.build({
+                        window: window.parent,
+                        origin: "*",
+                        scope: "JSInput"
+                    });
+                    channel.bind("getGrade", getGrade);
+                    channel.bind("getState", getState);
+                    channel.bind("setState", setState);
+                }
+
+                function getGrade() {
+                    userErrorsCount = 0;
+                    checkGeneration();
+                    state.errors = userErrorsCount;
+                    state.completed = true;
+                    return JSON.stringify(state);
+                }
+
+                function getState() {
+                    for (index = 0; index < GENERATION_MEMBER_COUNT; index++) {
+                        var activeGenerationMemberId = getGenerationMemberId(index, usersGenerationIndex);
+                        var cell = document.getElementById(activeGenerationMemberId);
+                        state.genarray[index] = cell.style.backgroundColor;
+                    }
+                    return JSON.stringify(state);
+                }
+
+                function setState() {
+                    state = JSON.parse(arguments[1]);
+                    for (index = 0; index < GENERATION_MEMBER_COUNT; index++) {
+                        var cellColor = state.genarray[index];
+                        var activeGenerationMemberId = getGenerationMemberId(index, usersGenerationIndex);
+                        var cell = document.getElementById(activeGenerationMemberId);
+                        cell.style.backgroundColor = cellColor;
+                    }
+                }
+
+                return {
+                    getState: getState,
+                    setState: setState,
+                    getGrade: getGrade
+                };
+
+            }());
+            
+
+        </script>
+
+
+        <h1>Automaton Generations Exercise (v1.4)</h1>
+
+
+        <div class="instructions">
+            Try out the process of generating cell states based on the rule shown. 
+            The submit button will verify that all the cell values are correct and 
+            will highlight any errors in red. 
+           
+            Clicking on a cell (in the active generation) will cause that cell to change 
+            state. White cells are OFF. Black cells are ON. Cyan cells are in an unspecified 
+            state. 
+
+        </div>
+        <br>
+
+        <h2>Generation Rule</h2>
+        <div class="ruleBlock ruleElement">
+            <!-- top row of the rule -->
+            <div id="ruleTop_80_4" class="cell ruleTop ruleTop_80_4"></div>
+            <div id="ruleTop_80_2" class="cell ruleTop ruleTop_80_2"></div>
+            <div id="ruleTop_80_0" class="cell ruleTop ruleTop_80_0"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleTop_40_4" class="cell ruleTop ruleTop_40_4"></div>
+            <div id="ruleTop_40_2" class="cell ruleTop ruleTop_40_2"></div>
+            <div id="ruleTop_40_0" class="cell ruleTop ruleTop_40_0"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleTop_20_4" class="cell ruleTop ruleTop_20_4"></div>
+            <div id="ruleTop_20_2" class="cell ruleTop ruleTop_20_2"></div>
+            <div id="ruleTop_20_0" class="cell ruleTop ruleTop_20_0"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleTop_10_4" class="cell ruleTop ruleTop_10_4"></div>
+            <div id="ruleTop_10_2" class="cell ruleTop ruleTop_10_2"></div>
+            <div id="ruleTop_10_0" class="cell ruleTop ruleTop_10_0"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleTop_08_4" class="cell ruleTop ruleTop_08_4"></div>
+            <div id="ruleTop_08_2" class="cell ruleTop ruleTop_08_2"></div>
+            <div id="ruleTop_08_0" class="cell ruleTop ruleTop_08_0"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleTop_04_4" class="cell ruleTop ruleTop_04_4"></div>
+            <div id="ruleTop_04_2" class="cell ruleTop ruleTop_04_2"></div>
+            <div id="ruleTop_04_0" class="cell ruleTop ruleTop_04_0"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleTop_02_4" class="cell ruleTop ruleTop_02_4"></div>
+            <div id="ruleTop_02_2" class="cell ruleTop ruleTop_02_2"></div>
+            <div id="ruleTop_02_0" class="cell ruleTop ruleTop_02_0"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleTop_01_4" class="cell ruleTop ruleTop_01_4"></div>
+            <div id="ruleTop_01_2" class="cell ruleTop ruleTop_01_2"></div>
+            <div id="ruleTop_01_0" class="cell ruleTop ruleTop_01_0"></div>
+            <br>
+
+            <!-- bottom row of the rule -->
+            <div class="cell ruleElement"></div>
+            <div id="ruleBottom_80" class="cell ruleBottom_80"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleBottom_40" class="cell ruleBottom_40"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleBottom_20" class="cell ruleBottom_20"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleBottom_10" class="cell ruleBottom_10"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleBottom_08" class="cell ruleBottom_08"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleBottom_04" class="cell ruleBottom_04"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleBottom_02" class="cell ruleBottom_02"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div class="cell ruleElement"></div>
+            <div id="ruleBottom_01" class="cell ruleBottom_01"></div>
+            <br>
+        </div>
+
+        <br>
+
+        <h2>Generation Space</h2>
+        <div class="generationBlock generationElement">
+
+        <div id="generationBlock_0">
+            0
+            <div id="generationCell_0_0" class="cell"></div>
+            <div id="generationCell_0_1" class="cell"></div>
+            <div id="generationCell_0_2" class="cell"></div>
+            <div id="generationCell_0_3" class="cell"></div>
+            <div id="generationCell_0_4" class="cell"></div>
+            <div id="generationCell_0_5" class="cell"></div>
+            <div id="generationCell_0_6" class="cell"></div>
+            <div id="generationCell_0_7" class="cell"></div>
+            <div id="generationCell_0_8" class="cell"></div>
+            <div id="generationCell_0_9" class="cell"></div>
+            <div id="generationCell_0_10" class="cell"></div>
+            <div id="generationCell_0_11" class="cell"></div>
+            <div id="generationCell_0_12" class="cell"></div>
+            <div id="generationCell_0_13" class="cell"></div>
+            <div id="generationCell_0_14" class="cell"></div>
+            <div id="generationCell_0_15" class="cell"></div>
+            <div id="generationCell_0_16" class="cell"></div>
+            <div id="generationCell_0_17" class="cell"></div>
+            <div id="generationCell_0_18" class="cell"></div>
+            <div id="generationCell_0_19" class="cell"></div>
+            <div id="generationCell_0_20" class="cell"></div>
+            <div id="generationCell_0_21" class="cell"></div>
+            <div id="generationCell_0_22" class="cell"></div>
+            <div id="generationCell_0_23" class="cell"></div>
+            <div id="generationCell_0_24" class="cell"></div>
+            <div id="generationCell_0_25" class="cell"></div>
+            <div id="generationCell_0_26" class="cell"></div>
+            <div id="generationCell_0_27" class="cell"></div>
+            <div id="generationCell_0_28" class="cell"></div>
+            <div id="generationCell_0_29" class="cell"></div>
+            <div id="generationCell_0_30" class="cell"></div>
+            <div id="generationCell_0_31" class="cell"></div>
+            <br>
+        </div>
+
+        <div id="generationBlock_1">
+            1
+            <div id="generationCell_1_0" class="cell"></div>
+            <div id="generationCell_1_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_1_31" class="cell"></div>
+
+            <button hidden id="button_check_1" onclick="checkGeneration()">Check</button>
+            <br>
+            <button id="button_auto_1" onclick="autoGeneration()">Show Answer</button>
+            <button id="button_auto_1" onclick="HW.setState(0,startingState)">Reset</button>
+            <br>
+        </div>
+
+        <div id="generationBlock_2" hidden>
+            2
+            <div id="generationCell_2_0" class="cell"></div>
+            <div id="generationCell_2_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_2_31" class="cell"></div>
+
+            <button hidden id="button_check_2" onclick="checkGeneration()">Check</button>
+            <button hidden id="button_auto_2" onclick="autoGeneration()">Auto</button>
+            <br>
+        </div>
+
+        <div id="generationBlock_3" hidden>
+            3
+            <div id="generationCell_3_0" class="cell"></div>
+            <div id="generationCell_3_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_3_31" class="cell"></div>
+
+            <button hidden id="button_check_3" onclick="checkGeneration()">Check</button>
+            <button hidden id="button_auto_3" onclick="autoGeneration()">Auto</button>
+            <br>
+        </div>
+
+        <div id="generationBlock_4" hidden>
+            4
+            <div id="generationCell_4_0" class="cell"></div>
+            <div id="generationCell_4_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_4_31" class="cell"></div>
+
+            <button hidden id="button_check_4" onclick="checkGeneration()">Check</button>
+            <button hidden id="button_auto_4" onclick="autoGeneration()">Auto</button>
+            <br>
+        </div>
+
+        <div id="generationBlock_5" hidden>
+            5
+            <div id="generationCell_5_0" class="cell"></div>
+            <div id="generationCell_5_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_5_31" class="cell"></div>
+
+            <button hidden id="button_check_5" onclick="checkGeneration()">Check</button>
+            <button hidden id="button_auto_5" onclick="autoGeneration()">Auto</button>
+            <br>
+        </div>
+
+        <div id="generationBlock_6" hidden>
+            6
+            <div id="generationCell_6_0" class="cell"></div>
+            <div id="generationCell_6_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_6_31" class="cell"></div>
+
+            <button hidden id="button_check_6" onclick="checkGeneration()">Check</button>
+            <button hidden id="button_auto_6" onclick="autoGeneration()">Auto</button>
+            <br>
+        </div>
+
+        <div id="generationBlock_7" hidden>
+            7
+            <div id="generationCell_7_0" class="cell"></div>
+            <div id="generationCell_7_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_7_31" class="cell"></div>
+
+            <button hidden id="button_check_7" onclick="checkGeneration()">Check</button>
+            <button hidden id="button_auto_7" onclick="autoGeneration()">Auto</button>
+            <br>
+        </div>
+
+        <div id="generationBlock_8" hidden>
+            8
+            <div id="generationCell_8_0" class="cell"></div>
+            <div id="generationCell_8_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_8_31" class="cell"></div>
+
+            <button hidden id="button_check_8" onclick="checkGeneration()">Check</button>
+            <button hidden id="button_auto_8" onclick="autoGeneration()">Auto</button>
+            <br>
+        </div>
+
+        <div id="generationBlock_9" hidden>
+            9
+            <div id="generationCell_9_0" class="cell"></div>
+            <div id="generationCell_9_1" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_2" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_3" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_4" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_5" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_6" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_7" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_8" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_9" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_10" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_11" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_12" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_13" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_14" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_15" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_16" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_17" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_18" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_19" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_20" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_21" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_22" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_23" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_24" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_25" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_26" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_27" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_28" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_29" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_30" onclick="toggleCell(id)" class="cell"></div>
+            <div id="generationCell_9_31" class="cell"></div>
+
+            <button hidden id="button_check_9" onclick="checkGeneration()">Check</button>
+            <button hidden id="button_auto_9" onclick="autoGeneration()">Auto</button>
+            <br>
+        </div>
+
+        </div>
+
+        <script>
+            var cellColorName_1 = "black";
+            var cellColorName_0 = "white";
+            var cellColorName_x = "cyan";
+
+            var cellColorName_Correct = "green";
+            var cellColorName_Incorrect = "red";
+
+            var ruleValues = [0, 0, 0, 0, 0, 0, 0, 0];
+            var usersGenerationIndex = -1;
+            var userErrorsCount = 0;
+
+            var GENERATION_MEMBER_COUNT = 32;
+            var GENERATION_COUNT = 10;
+
+            //____________________________________________________________________________
+            // automatically set the correct values for the specified generation
+            function autoGeneration() {
+                for (index = 0; index < GENERATION_MEMBER_COUNT; index++) {
+                    var generationMemberValue = calculateGenerationMemberValue(index)
+                    var activeGenerationMemberId = getGenerationMemberId(index, usersGenerationIndex);
+                    setCell(activeGenerationMemberId, generationMemberValue);
+                }
+            }
+
+            //____________________________________________________________________________
+            // set the specified generation to be active
+            function activateGeneration(generationIndex) {
+                var generationBlockPrefix = 'generationBlock_';
+                var buttonNameCheckPrefix = 'button_check_';
+                var buttonNameAutoPrefix = 'button_auto_';
+
+                if (usersGenerationIndex > 0) {          // if there is a visible button, hide it
+                    var currentGenerationCheckButtonId = buttonNameCheckPrefix + usersGenerationIndex.toString();
+                    var currentGenerationCheckButton = document.getElementById(currentGenerationCheckButtonId);
+                    currentGenerationCheckButton.hidden = true;
+
+                    var currentGenerationAutoButtonId = buttonNameAutoPrefix + usersGenerationIndex.toString();
+                    var currentGenerationAutoButton = document.getElementById(currentGenerationAutoButtonId);
+                    currentGenerationAutoButton.hidden = true;
+                }
+
+                usersGenerationIndex = generationIndex;
+                var newGenerationBlockId = generationBlockPrefix + usersGenerationIndex.toString();
+                var newGenerationBlock = document.getElementById(newGenerationBlockId);
+                newGenerationBlock.hidden = false;
+            }
+
+            //____________________________________________________________________________
+            // given the index of a generation to check, test that new generation for correctness
+            function checkGeneration() {
+                for (index = 0; index < GENERATION_MEMBER_COUNT; index++) {
+                    var expectedValue = calculateGenerationMemberValue(index)
+                    var activeGenerationMemberId = getGenerationMemberId(index, usersGenerationIndex);
+                    var correctValue = getCellState(activeGenerationMemberId);
+
+                    var cell = document.getElementById(activeGenerationMemberId);
+                    if(cell.style.backgroundColor == cellColorName_Incorrect) {
+                        setCellCorrect(activeGenerationMemberId, false);
+                    }
+                    else {
+                        setCellCorrect(activeGenerationMemberId, (correctValue == expectedValue));
+                    }
+                }
+            }
+
+            //____________________________________________________________________________
+            // given a cell id, toggle the background color (i.e. a white cell changes to black, a black cell changes to black)
+            function toggleCell(id) {
+                var usersGenerationPattern = "generationCell_" + usersGenerationIndex.toString();
+                if (id.indexOf(usersGenerationPattern) != -1) {   // only allow the user to change cells on the active row
+                    setCell(id, !getCellState(id));
+                }
+                state.completed = true;
+            }
+
+            //____________________________________________________________________________
+            // given a cell id, set the border color to correct or incorrect, depending
+            // on the value of the boolean; also increment the number or errors encountered
+            // if appropriate
+            function setCellCorrect(id, correct) {
+                var cell = document.getElementById(id);
+                if (cell != null) {
+                    if (correct) {
+                        //cell.style.backgroundColor = cellColorName_Correct;
+                    }
+                    else {
+                        cell.style.backgroundColor = cellColorName_Incorrect;
+                        userErrorsCount++;
+                    }
+                }
+            }
+
+            //____________________________________________________________________________
+            // given a cell id, set the background color to "one" or "zero", depending on the value of the boolean
+            function setCell(id, toOne) {
+                var cell = document.getElementById(id);
+                if (cell != null) {
+                    if (toOne) {
+                        cell.style.backgroundColor = cellColorName_1;
+                    }
+                    else {
+                        cell.style.backgroundColor = cellColorName_0;
+                    }
+                }
+            }
+
+            //____________________________________________________________________________
+            // given a cell id, set the background color to "unknown" state
+            function setCellUninitialized(id) {
+                var cell = document.getElementById(id);
+                cell.style.backgroundColor = cellColorName_x;
+            }
+
+            //____________________________________________________________________________
+            // given a cell id, return true if the cell is in the 1 state
+            function getCellState(id) {
+                var cell = document.getElementById(id);
+                return (cell.style.backgroundColor == cellColorName_1);
+            }
+
+            //____________________________________________________________________________
+            // set one element of the rule by element index and whether the result will be black
+            function setRuleElement(elementIndex0, turnsBlack) {
+                var elementIndex = zeroPadHex(elementIndex0, 2);
+                var leftCellId = 'ruleTop_' + elementIndex + "_4"
+                var middletCellId = 'ruleTop_' + elementIndex + "_2"
+                var rightCellId = 'ruleTop_' + elementIndex + "_0"
+                var bottomCellId = 'ruleBottom_' + elementIndex
+
+                setCell(rightCellId, elementIndex0 & 0x01);
+                setCell(middletCellId, elementIndex0 & 0x02);
+                setCell(leftCellId, elementIndex0 & 0x04);
+                setCell(bottomCellId, turnsBlack);
+
+                if (turnsBlack) {
+                    ruleValues[elementIndex0] = 1;
+                }
+                else {
+                    ruleValues[elementIndex0] = 0;
+                }
+            }
+
+            //____________________________________________________________________________
+            // return a zero padded string representation of the supplied number in hex
+            function zeroPadHex(num, places) {
+                var paddedValue = '0000000' + Math.pow(2, num).toString(16);
+                return paddedValue.substr(paddedValue.length - places, places);
+            }
+
+            //____________________________________________________________________________
+            // write the rule indication block with the specified rule by its standard identifier
+            function establishRule(ruleNumber) {
+                var bitMask = 0x01;
+                var generationCellId;
+
+                for (index = 0; index < 8; index++) {        // set each element of the rule block
+                    setRuleElement(index, ruleNumber & bitMask);
+                    bitMask += bitMask;
+                }
+
+                var generationZeroPattern = 0x4000744;
+                for (index = 0; index < 32; index++) {        // set each element of the 0th generation to zero (but one)
+                    generationCellId = "generationCell_0_" + index.toString();
+                    var cellValue = generationZeroPattern & 0x80000000;
+                    generationZeroPattern = generationZeroPattern << 1;
+                    setCell(generationCellId, cellValue);
+                }
+
+                for (generationIndex = 1; generationIndex < GENERATION_COUNT; generationIndex++) {
+                    for (index = 0; index < GENERATION_MEMBER_COUNT; index++) {        // set each element of the 1st generation to unknown
+                        generationCellId = "generationCell_" + generationIndex.toString() + "_" + index.toString();
+                        if (index == 0 || index == 31) {          // first and last cells set to zero
+                            setCell(generationCellId, false);
+                        }
+                        else {
+                            setCellUninitialized(generationCellId);
+                        }
+                    }
+                }
+            }
+
+            //____________________________________________________________________________
+            // given a generation member index and a generation index, return the cell id string
+            // of the indicated generation member cell
+            function getGenerationMemberId(generationMemberIndex, generationIndex) {
+                var generationMemberId = "generationCell_" + generationIndex.toString() + "_" + generationMemberIndex.toString();
+                return generationMemberId;
+            }
+
+            //____________________________________________________________________________
+            // operating on the active generation, look to the previous generation member
+            // values and apply the rules to produce the proper value for the specified
+            // generation member
+            function calculateGenerationMemberValue(memberIndex) {
+                var activeGenerationMemberId = getGenerationMemberId(memberIndex, usersGenerationIndex);
+                var calculatedValue;
+
+                if (memberIndex == 0 || (memberIndex == GENERATION_MEMBER_COUNT - 1)) {  // extrema cells are always 0
+                    calculatedValue = 0;
+                }
+                else {
+                    var bit0_parentCellId = getGenerationMemberId(memberIndex - 1, usersGenerationIndex - 1);
+                    var bit1_parentCellId = getGenerationMemberId(memberIndex, usersGenerationIndex - 1);
+                    var bit2_parentCellId = getGenerationMemberId(memberIndex + 1, usersGenerationIndex - 1);
+
+                    var bit0_parentCellValue = getCellState(bit0_parentCellId);
+                    var bit1_parentCellValue = getCellState(bit1_parentCellId);
+                    var bit2_parentCellValue = getCellState(bit2_parentCellId);
+
+                    ruleNumber = bit0_parentCellValue * 0x04 +
+                            bit1_parentCellValue * 0x02 +
+                            bit2_parentCellValue * 0x01;
+
+                    calculatedValue = ruleValues[ruleNumber];
+                }
+                return calculatedValue;
+            }
+
+
+            establishRule(0xB6);
+            activateGeneration(1);
+            var startingState=HW.getState();
+                    
+        </script>
+
+        <style>
+            html, body {
+                font-size: 16px;
+            }
+
+            button {
+                text-align: center;
+                font-size: 12;
+                border-radius: 3;
+            }
+
+            .cell {
+                display: inline-block;
+                width: 15px;
+                height: 15px;
+                border: 1px solid #000000;
+            }
+
+            .ruleElement {
+                background-color: #c4d0ef;
+                border: 1px solid #c4d0ef;
+            }
+
+            .ruleBlock {
+                padding: 10px;
+                border: 1px solid black;
+                min-width: 720px;
+                max-width: 720px;
+            }
+
+            .generationElement {
+                background-color: #efefef;
+                border: 1px solid #efefef;
+            }
+
+            .generationBlock {
+                padding: 10px;
+                border: 1px solid black;
+                min-width: 720px;
+                max-width: 720px;
+            }
+
+            h1 {
+                text-align: left;
+                font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+                font-weight: 400;
+            }
+
+            h2 {
+                text-align: left;
+                font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+                font-weight: 400;
+            }
+
+            .instructions {
+                padding: 10px;
+                max-width: 720px;
+                text-align: left;
+                font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+            }
+        </style>
+
+
+    </body>
+</html>

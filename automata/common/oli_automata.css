@@ -1,0 +1,59 @@
+html, body {
+    font-size: 16px;
+}
+
+button {
+    text-align: center;
+    font-size: 12;
+    border-radius: 3;
+}
+
+.cell {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #000000;
+}
+
+.ruleElement {
+    background-color: #c4d0ef;
+    border: 1px solid #c4d0ef;
+}
+
+.ruleBlock {
+    padding: 10px;
+    border: 1px solid black;
+    min-width: 720px;
+    max-width: 720px;
+}
+
+.generationElement {
+    background-color: #efefef;
+    border: 1px solid #efefef;
+}
+
+.generationBlock {
+    padding: 10px;
+    border: 1px solid black;
+    min-width: 720px;
+    max-width: 720px;
+}
+
+h1 {
+    text-align: left;
+    font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 400;
+}
+
+h2 {
+    text-align: left;
+    font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 400;
+}
+
+.instructions {
+    padding: 10px;
+    max-width: 720px;
+    text-align: left;
+    font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}

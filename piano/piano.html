@@ -1,0 +1,301 @@
+<html>
+    <head>
+        <title>edX Music Player</title>
+        <meta charset="utf-8">
+        <script src="raphael-min.js"></script>
+        <script src="/static/js/capa/src/jschannel.js"></script>
+        
+        <style>
+            #piano {
+                display: block;
+                width: 100%;
+                background-color: #7B3F00;
+                border-radius: 25px;
+            }
+            #piano .music-stand {
+                display: block;
+                padding: 10px 10px 0 10px;
+            }
+            #piano .music-stand .music {
+                position: relative;
+                display: block;
+                width: 707px;
+                height: 180px;
+                border: 1px solid black;
+                margin: 10px auto;
+                padding: 10px;
+                background-color: white;
+            }
+            #piano .music-stand .music .note-play {
+                width: 125px;
+                padding: 0 25px;
+                float: left;
+            }
+            #piano .music-stand .music .note-play h4 {
+                margin: 35px 0 0 0;
+            }
+            #piano .music-stand .music .note-hint {
+                width: 100px;
+                float: left;
+                text-align: center;
+            }
+            #piano .music-stand .music .note-hint #noteHint {
+                font-size: 2em;
+                margin: 95px 0 0 0;
+            }
+            #piano .music-stand .music .stats {
+                width: 410px;
+                padding: 10px;
+                float: left;
+            }
+            #piano .music-stand .music .stats #songTitle {
+                font-size: 2em;
+                margin: 0 0 10px 0;
+                text-align: right;
+            }
+            #piano .music-stand .music .stats .notePlayed,
+            #piano .music-stand .music .stats .numErrors {
+                height: 50px;
+                font-size: 1.5em;
+                text-align: right;
+            }
+            #piano .music-stand .music .stats .notePlayed #notePlayed,
+            #piano .music-stand .music .stats .numErrors #numErrors {
+                width: 50px;
+            }
+            #piano .keyboard-frame {
+                display: block;
+                padding: 0 10px 10px 10px;
+            }
+            #piano .keyboard-frame #keyboard {
+                display: block;
+                width: 728px;
+                height: 202px;
+                margin: 10px auto;
+                border-right: 1px solid black;
+            }
+            #piano .keyboard-frame #keyboard ul {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="piano">
+            <div class="music-stand">
+                <div class="music">
+                    <div class="note-play">
+                        <h4>Play this note:</h4>
+                        <canvas id="sheetMusic" width="125" height="120"></canvas>
+                    </div>
+                    <div class="note-hint">
+                        <h3 id="noteHint"></h3>
+                    </div>
+                    <div class="stats">
+                        <h2 id="songTitle"></h2>
+                        <table width="100%">
+                            <tr class="notePlayed">
+                                <th>Note Played:</th><td id="notePlayed"></td>
+                            </tr>
+                            <tr class="numErrors">
+                                <th>Number of Errors:</th><td id="numErrors">0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="keyboard-frame">
+                <div id="keyboard">
+                    
+                </div>
+            </div>
+        </div>
+        <script src="vexflow-min.js"></script>
+        <script src="qwerty-hancock.js"></script>
+        <script>
+            var JSInput = (function() {
+                var state = {
+                        'errors': 0,
+                        'completed': false
+                    },
+                    channel;
+            
+                // Establish a channel only if this application is embedded in an iframe.
+                // This will let the parent window communicate with this application using
+                // RPC and bypass SOP restrictions.
+                if (window.parent !== window) {
+                    channel = Channel.build({
+                        window: window.parent,
+                        origin: "*",
+                        scope: "JSInput"
+                    });
+            
+                    channel.bind("getGrade", getGrade);
+                    channel.bind("getState", getState);
+                    channel.bind("setState", setState);
+                }
+                
+                function init() {
+                    var drawNotes = function(note, canvas) {
+                        canvas.width = canvas.width;
+                        var noteKey = note.substring(0,1);
+                        var noteOctave = note.substring(1,2);
+                        var formattedNote = noteKey.toLowerCase() + '/' + noteOctave;
+                    
+                        canvas.width = canvas.width;
+                        var renderer = new Vex.Flow.Renderer(
+                                            canvas,
+                                            Vex.Flow.Renderer.Backends.CANVAS);
+                        var ctx = renderer.getContext();
+                        var stave = new Vex.Flow.Stave(10, 0, 500);
+                        stave.addClef("treble").setContext(ctx).draw();
+                    
+                        // Create the note
+                        var notes = [
+                            new Vex.Flow.StaveNote({ keys: [formattedNote], duration: "q" }),
+                            
+                            new Vex.Flow.StaveNote({ keys: ["c/4"], duration: "q" }),
+                            new Vex.Flow.StaveNote({ keys: ["c/4"], duration: "q" }),
+                            new Vex.Flow.StaveNote({ keys: ["c/4"], duration: "q" })
+                        ];
+                    
+                        // Create a voice in 4/4
+                        var voice = new Vex.Flow.Voice({
+                            num_beats: 4,
+                            beat_value: 4,
+                            resolution: Vex.Flow.RESOLUTION
+                        });
+                    
+                        // Add notes to voice
+                        voice.addTickables(notes);
+                    
+                        // Format and justify the notes to 500 pixels
+                        var formatter = new Vex.Flow.Formatter().
+                            joinVoices([voice]).format([voice], 500);
+                    
+                        // Render voice
+                        voice.draw(ctx, stave);
+                    };
+                    
+                    var songs = {
+                        0: {
+                            'title': 'Ode to Joy',
+                            'notes': 'E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 E4 D4 D4 E4 E4 F4 G4 G4 F4 E4 D4 C4 C4 D4 E4 D4 C4 C4',
+                        },
+                        1: {
+                            'title': 'Twinkle Twinkle, Little Star',
+                            'notes': 'C4 C4 G4 G4 A4 A4 G4 F4 F4 E4 E4 D4 D4 C4 G4 G4 F4 F4 E4 E4 D4 G4 G4 F4 F4 E4 E4 D4 C4 C4 G4 G4 A4 A4 G4 F4 F4 E4 E4 D4 D4 C4',
+                        },
+                        2: {
+                            'title': 'Row, Row, Row Your Boat',
+                            'notes': 'C4 C4 C4 D4 E4 E4 D4 E4 F4 G4 C5 C5 C5 G4 G4 G4 E4 E4 E4 C4 C4 C4 G4 F4 D4 E4 C4',
+                        },
+                    }
+                    var count = Object.keys(songs).length
+                    
+                    var song = songs[Math.floor(Math.random() * count)];
+                    var songTitle = song.title;
+                    var songNotes = song.notes.split(' ');
+                    var songPosition = 0;
+                    
+                    var currentNote;
+                    var getNextNote = function() {
+                        currentNote = songNotes[songPosition];
+                        drawNotes(currentNote, document.getElementById('sheetMusic'));
+                        
+                        document.getElementById("noteHint").innerHTML=currentNote;
+                        
+                        songPosition++;
+                    };
+                    getNextNote();
+                    
+                    document.getElementById("songTitle").innerHTML=songTitle;
+                    
+                    var context,
+                        settings = {
+                            id: 'keyboard',
+                            width: 735,
+                            height: 200,
+                            startNote: 'F4',
+                            whiteNotesColour: 'white',
+                            blackNotesColour: 'black',
+                            hoverColour: '#820000',
+                            octaves: 2
+                        },
+                        keyboard = new QwertyHancock(settings);
+                    
+                    if (typeof AudioContext === 'function') {
+                        context = new AudioContext();
+                    } else {
+                        context = new webkitAudioContext();
+                    }
+                    
+                    masterGain = context.createGain(),
+                    nodes = [];
+                    
+                    masterGain.gain.value = 0.75;
+                    masterGain.connect(context.destination);
+                    
+                    keyboard.keyDown = function (note, frequency) {
+                        var oscillator = context.createOscillator();
+                        oscillator.type = 3;
+                        oscillator.frequency.value = frequency;
+                        oscillator.connect(masterGain);
+                        oscillator.start(0);
+                    
+                        nodes.push(oscillator);
+                        
+                        document.getElementById("notePlayed").innerHTML=note;
+                        
+                        if (note != currentNote && state.completed == false) {
+                            state.errors++;
+                            document.getElementById("numErrors").innerHTML=state.errors;
+                        }
+                    };
+                    
+                    keyboard.keyUp = function (note, frequency) {
+                        var new_nodes = [];
+                    
+                        for (var i = 0; i < nodes.length; i++) {
+                            if (Math.round(nodes[i].frequency.value) === Math.round(frequency)) {
+                                nodes[i].stop(0);
+                                nodes[i].disconnect();
+                            } else {
+                                new_nodes.push(nodes[i]);
+                            }
+                        }
+                    
+                        nodes = new_nodes;
+                        
+                        if (songPosition < songNotes.length) {
+                            getNextNote();
+                        } else {
+                            var canvas = document.getElementById('sheetMusic');
+                            canvas.parentNode.removeChild(canvas);
+                            
+                            state.completed = true;
+                        }
+                    };
+                }
+                init();
+                
+                function getGrade() {
+                    return JSON.stringify(state);
+                }
+            
+                function getState() {
+                    return JSON.stringify(state);
+                }
+            
+                function setState() {
+                    
+                }
+            
+                return {
+                    getState: getState,
+                    setState: setState,
+                    getGrade: getGrade
+                };
+            }());
+        </script>
+    </body>
+</html>
