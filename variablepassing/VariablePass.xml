@@ -1,0 +1,62 @@
+<problem>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("yourinstitution.yourcourse.test_problem", ThatThing);
+
+}
+
+</script>
+
+<!-- Sweet! We can actually use Javascript within the problem tag in this kind of problem!
+     Not all edX problem types seemed to allow that last time I tried. -->
+	
+<script type="loncapa/python">
+
+import json
+
+testnumber = random.randrange(1,11)
+
+def answercheck(e, ans):
+
+  parsed = json.loads(ans)
+  answer = json.loads(parsed['answer'])
+  
+  return answer['isCorrect']
+  
+</script>
+
+<!-- Python from the script above generates the testnumber variable and places it
+     into the span tag below. Javascript from within our iframe reads it out,
+     so that the same random number is available to our Javascript problem. -->
+
+<p>This problem uses Javascript and Python together. The Python creates a random number, and the Javasript within in the iframe reads that number straight off the page. We're essentially passing a variable from the Python part into the Javascript part.</p>
+
+<p>Passing a variable back out is easy; it's done by default in these kinds of problems. This problem doesn't use the Python for grading, but in general that's your best bet - it keeps students from being able to read the problem's source code and cheat that way.</p>
+
+<p>Even better, this logs things to the official edX logamajig, so that you can get results from this problem in the edX data dumps. Score.</p>
+
+<p>The only error I know of right now is that once you're marked as correct, you can enter whatever other stuff you want and still be marked correct. So that's weird. It's not the worst thing ever, but I'm not sure why it's happening. Probably something in the way I'm implementing the setState function.</p>
+
+<p>What is the square of <span id="variable1">$testnumber</span>?</p>
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="VariablePass.getGrade"
+    get_statefn="VariablePass.getState"
+    set_statefn="VariablePass.setState"
+    width="400"
+    height="100"
+    html_file="/static/VariablePass.html"
+    sop="false"/>
+</customresponse>
+</problem>
+
