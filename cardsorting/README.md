@@ -13,8 +13,8 @@ Here's how to adapt this example to create your own card-sorting problems.
 2. Find images or write text (full HTML ok) for the cards.
 3. Download the files used in this problem.
 4. Update the CardSort\_CardList.js file. Fill in the 'type' property with either 'text' or 'image', and fill in the according property with the image's filename or with your text.
-5. Upload all your images and files to the "Files and Uploads" section of Studio.
-6, Create a new Custom Javascript Display and Input problem (under the "Advanced" problem tab). Copy and paste the contents of CardSortJS.xml into that problem, and add your own instructions for the students.
+5. Upload all your images and files to the "Files and Uploads" section of Studio, or just dump them in the proper directory if you're using the XML approach.
+6. Create a new Custom Javascript Display and Input problem (under the "Advanced" problem tab). Copy and paste the contents of CardSortJS.xml into that problem, and add your own instructions for the students.
 7. If you want to grade based on a more complex criteron than "All cards are in groups", you'll need to code it yourself within the Python code in the XML.
 8. Use your browser's javascript console for debugging - for instance, if your cards' text or images aren't showing up, it may point you to the line in your CardSort_CardList.js file that is causing the problem.
 
