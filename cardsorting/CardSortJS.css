@@ -1,0 +1,183 @@
+#cardspaceheader {
+    display: inline-block;
+    vertical-align: top;
+    float: left;
+
+    background-color: #CCC;
+	background: linear-gradient(to top, #ddd 0%,#fafafa 100%);
+
+    width: 250px;
+    height: 32pt;
+
+    border: 1px solid #eee;
+    padding: 4px;
+}
+
+#cardspace {
+    display: inline-block;
+    vertical-align: top;
+    float: left;
+
+    width: 250px;
+    height: 430px;
+	overflow-y:auto;
+
+    margin: 0px;
+    padding: 4px;
+}
+
+#groupspaceheader {
+    display: inline-block;
+    vertical-align: top;
+    float: left;
+
+    background-color: #CCC;
+	background: linear-gradient(to top, #ddd 0%,#fafafa 100%);
+
+    width: 410px;
+    height: 32pt;
+    
+    border-top: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    border-left: 0px none #eee;
+    padding: 4px 4px 4px 9px;
+}
+
+#groupwrapper {
+    display: inline-block;
+    vertical-align: top;
+    float: left;
+	
+    height: 430px;
+    width: 420px;
+	overflow:auto;
+	
+    margin: 0px;
+    padding: 4px;
+}
+
+#groupspace {
+	display: inline-block;
+    vertical-align: top;    
+    width: 400px;
+}
+
+#addgroup {
+	font-size:x-large;
+	text-align: center;
+
+	height: 30px;
+	width: 30px;
+
+    margin: 2px;
+    border: 1px black dotted;
+    border-radius: 8px;
+    padding: 2px;
+}
+
+.deletegroup {
+
+	float:right;
+	
+	font-size: large;
+	text-align: center;
+	
+	height: 15px;
+	width: 15px;
+	line-height: 8pt;
+	
+	margin: -28pt 0pt 0pt 0pt;
+    border: 1px red solid;
+	padding: 0px;
+}
+
+.card {
+    display: inline-block;
+	text-align: center;
+
+    width: auto;
+    height: auto;
+
+    margin: 2px;
+    border: 0px;
+    padding: 2px;
+
+    background-color: white;
+	background: linear-gradient(to top, #ccc 0%,#eee 10%,#fff 25%,#fff 100%); /* W3C */
+}
+
+.cardimage {
+	width: 80px;
+}
+
+.cardtext {
+	width: 80px;
+	height: 120px;
+	
+	text-align: left;
+	overflow: hidden;
+	font-size: small;
+	
+	color: #666;
+	margin-bottom: -10px;	
+}
+
+.bigimgcard {
+	display: none;
+}
+
+.bigtextcard {
+	display: none;
+}
+
+.group {
+    width: auto;
+    height: auto;
+
+    margin: 3px;
+    border: 1px black solid;
+    border-radius: 8px;
+    padding: 2px;
+    
+}
+
+.title {
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    font-weight: bold;
+}
+
+.subtitle {
+    margin: -14pt 0px 10pt 0px;
+    border: 0px;
+    padding: 0px;
+	font-size: x-small;
+}
+
+.cardtitle{
+	font-size: small;
+}
+
+.drophighlight {
+	box-shadow: 0px 0px 6px #000;
+}
+
+.ui-widget-overlay {
+	background: #000;
+}
+
+p, span, h1, h2, h3 {
+	font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
+	font-weight: normal;
+	color: #333;
+}
+
+h3 {
+	margin-top: 2px;
+}
+
+br {
+	clear: both;
+}

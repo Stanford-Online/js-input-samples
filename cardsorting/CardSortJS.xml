@@ -1,0 +1,50 @@
+<problem>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+// Logs a javascript object.
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.blue_monkey.test_problem", ThatThing);
+
+}
+
+</script>
+	
+<script type="loncapa/python">
+
+import json
+
+def answercheck(e, ans):
+
+  parsed = json.loads(ans)
+  answer = json.loads(parsed['answer'])
+  
+  if len(answer['pairings']) == len(answer['cards']):
+    return True
+  else:
+    return False
+  
+</script>
+
+<p>This is a sorting exercise. Drag the cards below into the groups on the right to indicate commonalities between the subjects shown on the cards. Your groups should indicate your understanding of the subjects. You should rename the groups by clicking on their names. You can create additional groups if you need them with the [+] button. </p>
+  
+<p>Every card must be in one and only one group. Other than that, there are no right or wrong ways to sort the cards!</p>
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="CardSortJS.getGrade"
+    get_statefn="CardSortJS.getState"
+    set_statefn="CardSortJS.setState"
+    width="750"
+    height="500"
+    html_file="/static/CardSortJS.html"
+    sop="false"/>
+</customresponse>
+</problem>
