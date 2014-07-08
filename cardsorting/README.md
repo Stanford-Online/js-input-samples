@@ -29,6 +29,7 @@ Never put two card-sorting problems on the same page. The universe will explode.
 Inside you will find many pieces used to create this problem:
 
 - `jschannel.js`: the javascript file that allows javascript-type problems to work at all. You should not need to change this. I didn't make this one.
+- `jquery.ui.touch-punch.min.js`: [Touch Punch](https://github.com/furf/jquery-ui-touch-punch), an awesome JQuery extension that maps touch events into mouse events. Used for mobile compatibility. Should not need to alter.
 - `CardSortJS.js`: the javascript file that does the majority of the work and allows you to drag cards around and stuff. You should not need to change this.
 - `CardSortJS.css`: the css file that makes things look pretty (or as close as I could get them). You should not need to change this.
 - `CardSortJS.html`: the HTML file that will be iframed into the page. You should not need to change this unless you have more than one card-sorting problem in your course.
