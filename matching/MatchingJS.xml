@@ -1,0 +1,58 @@
+<problem>
+
+<!-- 
+This file is used to make the problem work within the edX system. 
+You will not need it if you are using this code for other purposes.
+ -->
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+// Logs a javascript object.
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.blue_monkey.mathcing_problem", ThatThing);
+
+}
+
+</script>
+	
+<script type="loncapa/python">
+
+import json
+
+def answercheck(e, ans):
+
+  right_answer = [['A','1'],['B','2'],['C','3'],['D','5'],['B','4']]
+
+  parsed = json.loads(ans)
+  answer = json.loads(parsed['answer'])
+  
+  answer_sort = answer['pairings'].sort()
+  right_answer_sort = right_answer.sort()
+  
+  if answer_sort == right_answer_sort:
+    return True
+  else:
+    return False
+  
+</script>
+
+<p>This is a matching exercise. Drag the elements on the left into the ones on the right to create a match. You can match items with more than one other item, but you should choose the best match if you can. </p>
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="MatchingJS.getGrade"
+    get_statefn="MatchingJS.getState"
+    set_statefn="MatchingJS.setState"
+    width="780"
+    height="550"
+    html_file="/static/MatchingJS.html"
+    sop="false"/>
+</customresponse>
+</problem>
