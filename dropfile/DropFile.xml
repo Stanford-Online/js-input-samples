@@ -1,0 +1,46 @@
+<problem>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.blue_monkey.drop_file", ThatThing);
+
+}
+
+</script>
+
+<script type="loncapa/python">
+
+import json
+
+def answercheck(e, ans):
+
+  parsed = json.loads(ans)
+  answer = json.loads(parsed['answer'])
+  
+  return answer['uploadedRightThing']
+  
+</script>
+
+
+<p>This is a </p>
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="DropFile.getGrade"
+    get_statefn="DropFile.getState"
+    set_statefn="DropFile.setState"
+    width="800"
+    height="800"
+    html_file="/static/DropFile.html"
+    sop="false"/>
+</customresponse>
+</problem>
+

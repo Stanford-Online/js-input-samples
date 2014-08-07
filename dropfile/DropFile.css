@@ -1,0 +1,62 @@
+p {
+	margin: 2px;
+	border: none;
+	padding: 2px;
+}
+
+#dropspace {
+	width: 500px;
+	height: 200px;
+	background-color: #eee;
+
+	border: 1px solid grey;
+}
+
+#output {
+	
+	position: relative;
+
+	height: 300px;
+	width: 500px;
+	overflow-y: auto;
+	
+	border: 1px solid grey;
+}
+
+#fileinfo {
+	width: 500px;
+	border: 1px solid grey;
+}
+
+#drophere{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 500px;
+	height: 200px;
+	
+	background-image: url('drop_icon_small.png');
+	background-repeat: no-repeat;
+	background-position:center;
+	background-size: 100px;
+}
+
+#dropped{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 500px;
+	height: 200px;
+
+	display: none;
+
+	background-image: url('checkmark_small.png');
+	background-repeat: no-repeat;
+	background-position:center;
+	background-size: 100px;
+}
+
+.preview {
+	width: 200px;
+}
+
