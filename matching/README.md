@@ -37,4 +37,4 @@ Inside you will find many pieces used to create this problem:
 - `Matching\_Elements.js`: holds the pregenerated group names. You will need to update this to have the items you want.
 - And several image files that you will need to replace with your own. 
 
-When creating your own card-sorting problem, you will upload almost every file in this directory to the Files and Uploads section. There are two exceptions: the XML file (which you cut-and-paste into Studio) and the image files (which you replace with your own).
+When creating your own matching problem, you will upload almost every file in this directory to the Files and Uploads section. There are two exceptions: the XML file (which you cut-and-paste into Studio) and the image files (which you replace with your own).
