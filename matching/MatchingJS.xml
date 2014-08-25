@@ -17,7 +17,7 @@ function logThatThing(ThatThing){
 	console.log(JSON.stringify(ThatThing));
 	
 	// Send it to the official edX logamajig!
-	Logger.log("harvardx.blue_monkey.mathcing_problem", ThatThing);
+	Logger.log("harvardx.blue_monkey.matching_problem", ThatThing);
 
 }
 
@@ -34,8 +34,8 @@ def answercheck(e, ans):
   parsed = json.loads(ans)
   answer = json.loads(parsed['answer'])
   
-  answer_sort = answer['pairings'].sort()
-  right_answer_sort = right_answer.sort()
+  answer_sort = sorted(answer['pairings'])
+  right_answer_sort = sorted(right_answer)
   
   if answer_sort == right_answer_sort:
     return True
@@ -44,7 +44,7 @@ def answercheck(e, ans):
   
 </script>
 
-<p>This is a matching exercise. Drag the elements on the left into the ones on the right to create a match. You can match items with more than one other item, but you should choose the best match if you can. </p>
+<p>This is a matching exercise. Drag the elements on the left into the ones on the right to create a match. You can match items with more than one other item, but you should choose the best match if you can. Click on the items for a better view if you need it.</p>
 
 <customresponse cfn="answercheck">
   <jsinput gradefn="MatchingJS.getGrade"
