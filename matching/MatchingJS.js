@@ -73,6 +73,8 @@ function loadElements(){
 					+ '" class="element-left image">';
 				content = '<tr><td colspan="2" class="content left-image openbig"><img src="' 
 					+ elementsLeft[tableArray[i][0]].imgURL 
+					+ '" alt="'
+					+ elementsRight[tableArray[i][0]].text 
 					+ '" class="icon" /></td></tr>';
 				$('#hiddenspace').append('<div id="bigelement' 
 					+ tableArray[i][0] 
@@ -80,6 +82,8 @@ function loadElements(){
 					+ elementsLeft[tableArray[i][0]].label 
 					+ '"><img src="' 
 					+ elementsLeft[tableArray[i][0]].imgURL 
+					+ '" alt="'
+					+ elementsLeft[tableArray[i][0]].text 
 					+ '" /></div>');
 			}
 			if(elementsLeft[tableArray[i][0]].type == 'text'){
@@ -122,6 +126,8 @@ function loadElements(){
 					+ dropArea 
 					+ '<td class="content right-image openbig"><img src="' 
 					+ elementsRight[tableArray[i][1]].imgURL 
+					+ '" alt="'
+					+ elementsRight[tableArray[i][1]].text 
 					+ '" class="icon" /></td></tr>';
 				$('#hiddenspace').append('<div id="bigelement' 
 					+ tableArray[i][1] 
@@ -129,6 +135,8 @@ function loadElements(){
 					+ elementsRight[tableArray[i][1]].label 
 					+ '"><img src="' 
 					+ elementsRight[tableArray[i][1]].imgURL 
+					+ '" alt="'
+					+ elementsRight[tableArray[i][1]].text 
 					+ '" /></div>');
 			}
 			if(elementsRight[tableArray[i][1]].type == 'text'){
