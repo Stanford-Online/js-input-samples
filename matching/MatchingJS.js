@@ -9,9 +9,6 @@ var JSProblemState = {
 // Loads the cards from the cardList variable
 function loadElements(){
 
-	var matchingTable = $('#matchingTable');
-	var loopy = 0;
-	
 	var tableArrayLeft = [];
 	var tableArrayRight = [];
 	var tableArray = [];
@@ -21,7 +18,7 @@ function loadElements(){
 	var rightElements = $('#rightelements');
 	
 	// We're going to build an array from the elementsLeft and elementsRight objects,
-	// and then we'll build an HTML table out of that. It'll be easier.
+	// and then we'll build HTML elements out of that. It'll be easier.
 	
 	for(var key in elementsLeft){
 		tableArrayLeft.push(key);
