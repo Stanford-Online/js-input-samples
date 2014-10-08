@@ -284,14 +284,14 @@ function loadElementsScreenReader(){
 		
 		selectionForm = '<td><form>' + selectionForm + '</form></td>';
 		currentRow.append(selectionForm);
-		
-		// Add event listeners.
-		$('input:checkbox').on('click tap', function(){
-			handleCheck(event, this); 
-		});
-		
+				
 	}
 	
+	// Add event listeners.
+	$('input:checkbox').on('click tap', function(){
+		console.log(this);
+		handleCheck(event, this); 
+	});
 	
 }
 
@@ -329,10 +329,10 @@ function handleDrop(event, ui){
 function handleCheck(event, checkbox){
 
 	// Check for existing match in the problem state.
-	var leftID = checkbox.attr('name');
+	var leftID = $(checkbox).attr('name');
 	var letter = leftID.replace('element', '');
-	var rightID = checkbox.attr('value');
-	var number = leftID.replace('element', '');
+	var rightID = $(checkbox).attr('value');
+	var number = rightID.replace('element', '');
 	var thisPairing = [letter,number];
 
 	var existingMatch = false;
@@ -406,7 +406,7 @@ function putMatchesBack(){
 			addMatch(indicatorSpace, letter, number);
 		}else{
 			console.log('setting checkbox ' + letter + '-' + number);
-			thisCheckbox = $('input[value="element' + number + '"]');
+			thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');  // This is overmatching. Need sub-find.
 			thisCheckbox.prop('checked', true);
 		}
 	}
@@ -431,15 +431,16 @@ $(document).ready(function(){
 	
 	// Different spaces for blind and partially sighted learners.
 	// These will be rebuilt from the JSProblemState rather than being saved.
-	$('#switcher').on('click tap', function(){
+	$('#switcher').on('click tap', function(event){
+		event.preventDefault();
 		if(sighted){
-			space.empty();
 			space.html('<div id="elementtable"></div>');
 			sighted = false;
+			loadElementsScreenReader();
 		}else{
-			space.empty();
 			space.html('<div id="leftelements"></div><div id="rightelements"></div><div id="hiddenspace"></div>');
 			sighted = true;
+			loadElementsSighted();
 		}
 		putMatchesBack();
 
