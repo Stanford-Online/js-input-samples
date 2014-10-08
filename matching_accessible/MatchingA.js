@@ -227,7 +227,7 @@ function loadElementsScreenReader(){
 	
 	
 	// Now we actually build the table.
-	elementDiv.append('<table></table>');
+	elementDiv.append('<table class="accesstable"></table>');
 	var elementTable = $('table');
 	var currentRow = '';
 	var selectionForm = 'form error';
@@ -243,13 +243,13 @@ function loadElementsScreenReader(){
 		currentRow = $('#row' + tableArrayLeft[i]);
 		
 		if(elementsLeft[tableArrayLeft[i]].type == 'text'){
-			currentRow.append('<td id="element'
+			currentRow.append('<td class="accesstable" id="element'
 				+ tableArrayLeft[i] 
 				+ '">'
 				+ elementsLeft[tableArrayLeft[i]].text
 				+ '</td>');
 		}else if(elementsLeft[tableArrayLeft[i]].type == 'image'){
-			currentRow.append('<td id="element'
+			currentRow.append('<td class="accesstable" id="element'
 				+ tableArrayLeft[i] 
 				+ '"><img src="'
 				+ elementsLeft[tableArrayLeft[i]].imgURL
@@ -282,7 +282,7 @@ function loadElementsScreenReader(){
 			}
 		}
 		
-		selectionForm = '<td><form>' + selectionForm + '</form></td>';
+		selectionForm = '<td class="accesstable"><form>' + selectionForm + '</form></td>';
 		currentRow.append(selectionForm);
 				
 	}
@@ -405,7 +405,6 @@ function putMatchesBack(){
 			indicatorSpace = $('#element'+number).find('td.drop-area');
 			addMatch(indicatorSpace, letter, number);
 		}else{
-			console.log('setting checkbox ' + letter + '-' + number);
 			thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');  // This is overmatching. Need sub-find.
 			thisCheckbox.prop('checked', true);
 		}

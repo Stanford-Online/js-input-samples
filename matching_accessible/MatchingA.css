@@ -2,11 +2,11 @@ body {
 	font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
 }
 
-table {
+table.accesstable {
 	border-collapse: collapse;
 }
 
-table, th, td {
+.accesstable {
 	border: 1px solid #999;
 }
 
