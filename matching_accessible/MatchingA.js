@@ -3,13 +3,13 @@
 // The "JSProblemState" JSON dictionary below is passed to the platform for grading and saving.
 // Pass through whatever you wish. It will get logged.
 var JSProblemState = {
-	'pairings': [] // Pairings of the form [letter, number].
+	'pairings': [], // Pairings of the form [letter, number].
+	'sighted': 'true'
 };
 
 // This one tracks whether we're working with sighted users (the default)
 // or with blind or partially sighted users (switched with link).
-// Right now it's on false for testing.
-var sighted = false;
+var sighted = true;
 	
 // Loads the cards from the cardList variable
 function loadElementsSighted(){
@@ -32,138 +32,117 @@ function loadElementsSighted(){
 	for(var key in elementsRight){
 		tableArrayRight.push(key);
 	}
+		
+	// Now we actually build the elements.
+	// Setting it up this way as extra debugging breadcrumbs.
+	var thisElement = 'error message';
+	var tableTag = 'no table';
+	var label = 'no label';
+	var content = 'no content';
+	var innercontent = 'no inner content';
+	var dropArea = 'nothing';
 	
-	var totalTableLength = Math.max(tableArrayLeft.length, tableArrayRight.length);
+	for(var i = 0; i < tableArrayLeft.length; i++){
 	
-	for(var i = 0; i<totalTableLength; i++){
-		if(tableArrayLeft[i] && tableArrayRight[i]){
-			tableArray.push([tableArrayLeft[i], tableArrayRight[i]]);
+		label = '<tr><td class="spacer-right"></td><td class="label-left openbig">' 
+			+ elementsLeft[tableArrayLeft[i]].label 
+			+ '</td></tr>';
+	
+		// Handle image vs text
+		// Also load full-sized elements in hidden space for zoom later.
+		if(elementsLeft[tableArrayLeft[i]].type == 'image'){
+			tableTag = '<table id="element' 
+				+ tableArrayLeft[i] 
+				+ '" class="element-left image">';
+			content = '<tr><td colspan="2" class="content left-image openbig"><img src="' 
+				+ elementsLeft[tableArrayLeft[i]].imgURL 
+				+ '" alt="'
+				+ elementsLeft[tableArrayLeft[i]].text 
+				+ '" class="icon" /></td></tr>';
+			$('#hiddenspace').append('<div id="bigelement' 
+				+ tableArrayLeft[i] 
+				+ '" class="bigelement" title="' 
+				+ elementsLeft[tableArrayLeft[i]].label 
+				+ '"><img src="' 
+				+ elementsLeft[tableArrayLeft[i]].imgURL 
+				+ '" alt="'
+				+ elementsLeft[tableArrayLeft[i]].text 
+				+ '" /></div>');
 		}
-		if(tableArrayLeft[i] && !tableArrayRight[i]){
-			tableArray.push([tableArrayLeft[i], false]);
+		if(elementsLeft[tableArrayLeft[i] ].type == 'text'){
+			tableTag = '<table id="element' 
+				+ tableArrayLeft[i] 
+				+ '" class="element-left text">';
+			content = '<tr><td colspan="2" class="content left-text openbig">' 
+				+ elementsLeft[tableArrayLeft[i]].text 
+				+ '</td></tr>';
+			$('#hiddenspace').append('<div id="bigelement' 
+				+ tableArrayLeft[i] 
+				+ '" class="bigelement" title="' 
+				+ elementsLeft[tableArrayLeft[i]].label 
+				+ '">' 
+				+ elementsLeft[tableArrayLeft[i]].text 
+				+ '</div>');
 		}
-		if(!tableArrayLeft[i] && tableArrayRight[i]){
-			tableArray.push([false, tableArrayRight[i]]);
-		}
+	
+		thisElement = tableTag + label + content + '</table>';
+	
+		leftElements.append(thisElement);
+
 		
 	}
 	
-	// Now we actually build the elements.
+	for(var i = 0; i < tableArrayRight.length; i++){		
 	
-	for(var i = 0; i < totalTableLength; i++){
+		label = '<tr><td class="spacer-right"></td><td class="label-right openbig">' 
+			+ elementsRight[tableArrayRight[i]].label 
+			+ '</td></tr>';
+		dropArea = '<td class="drop-area"> </td>'
 		
-		// Setting it up this way as extra debugging breadcrumbs.
-		var thisElement = 'error message';
-		var tableTag = 'no table';
-		var label = 'no label';
-		var content = 'no content';
-		var innercontent = 'no inner content';
-		var dropArea = 'nothing';
-		
-		// Left-hand elements:
-		if(tableArray[i][0]){
-		
-			label = '<tr><td class="spacer-right"></td><td class="label-left openbig">' 
-				+ elementsLeft[tableArray[i][0]].label 
+		// Handle image vs text.
+		// Also load full-sized elements in hidden space for zoom later.
+		if(elementsRight[tableArrayRight[i]].type == 'image'){
+			tableTag = '<table id="element' 
+				+ tableArrayRight[i]
+				+ '" class="element-right image">';
+			content = '<tr>' 
+				+ dropArea 
+				+ '<td class="content right-image openbig"><img src="' 
+				+ elementsRight[tableArrayRight[i]].imgURL 
+				+ '" alt="'
+				+ elementsRight[tableArrayRight[i]].text 
+				+ '" class="icon" /></td></tr>';
+			$('#hiddenspace').append('<div id="bigelement' 
+				+ tableArrayRight[i]
+				+ '" class="bigelement" title="' 
+				+ elementsRight[tableArrayRight[i]].label 
+				+ '"><img src="' 
+				+ elementsRight[tableArrayRight[i]].imgURL 
+				+ '" alt="'
+				+ elementsRight[tableArrayRight[i]].text 
+				+ '" /></div>');
+		}
+		if(elementsRight[tableArrayRight[i]].type == 'text'){
+			tableTag = '<table id="element' 
+				+ tableArrayRight[i] 
+				+ '" class="element-right text">';
+			content = '<tr>' 
+				+ dropArea 
+				+ '<td class="content right-text openbig">' 
+				+ elementsRight[tableArrayRight[i]].text 
 				+ '</td></tr>';
-			
-			// Handle image vs text
-			// Also load full-sized elements in hidden space for zoom later.
-			if(elementsLeft[tableArray[i][0]].type == 'image'){
-				tableTag = '<table id="element' 
-					+ tableArray[i][0] 
-					+ '" class="element-left image">';
-				content = '<tr><td colspan="2" class="content left-image openbig"><img src="' 
-					+ elementsLeft[tableArray[i][0]].imgURL 
-					+ '" alt="'
-					+ elementsRight[tableArray[i][0]].text 
-					+ '" class="icon" /></td></tr>';
-				$('#hiddenspace').append('<div id="bigelement' 
-					+ tableArray[i][0] 
-					+ '" class="bigelement" title="' 
-					+ elementsLeft[tableArray[i][0]].label 
-					+ '"><img src="' 
-					+ elementsLeft[tableArray[i][0]].imgURL 
-					+ '" alt="'
-					+ elementsLeft[tableArray[i][0]].text 
-					+ '" /></div>');
-			}
-			if(elementsLeft[tableArray[i][0]].type == 'text'){
-				tableTag = '<table id="element' 
-					+ tableArray[i][0] 
-					+ '" class="element-left text">';
-				content = '<tr><td colspan="2" class="content left-text openbig">' 
-					+ elementsLeft[tableArray[i][0]].text 
-					+ '</td></tr>';
-				$('#hiddenspace').append('<div id="bigelement' 
-					+ tableArray[i][0] 
-					+ '" class="bigelement" title="' 
-					+ elementsLeft[tableArray[i][0]].label 
-					+ '">' 
-					+ elementsLeft[tableArray[i][0]].text 
-					+ '</div>');
-			}
-			
-			thisElement = tableTag + label + content + '</table>';
-			
-			leftElements.append(thisElement);
-
+			$('#hiddenspace').append('<div id="bigelement' 
+				+ tableArrayRight[i]
+				+ '" class="bigelement" title="' 
+				+ elementsRight[tableArrayRight[i]].label 
+				+ '">' 
+				+ elementsRight[tableArrayRight[i]].text 
+				+ '</div>');
 		}
 		
-		// Right-hand elements:
-		if(tableArray[i][1]){
-			
-			label = '<tr><td class="spacer-right"></td><td class="label-right openbig">' 
-				+ elementsRight[tableArray[i][1]].label 
-				+ '</td></tr>';
-			dropArea = '<td class="drop-area"> </td>'
-			
-			// Handle image vs text.
-			// Also load full-sized elements in hidden space for zoom later.
-			if(elementsRight[tableArray[i][1]].type == 'image'){
-				tableTag = '<table id="element' 
-					+ tableArray[i][1] 
-					+ '" class="element-right image">';
-				content = '<tr>' 
-					+ dropArea 
-					+ '<td class="content right-image openbig"><img src="' 
-					+ elementsRight[tableArray[i][1]].imgURL 
-					+ '" alt="'
-					+ elementsRight[tableArray[i][1]].text 
-					+ '" class="icon" /></td></tr>';
-				$('#hiddenspace').append('<div id="bigelement' 
-					+ tableArray[i][1] 
-					+ '" class="bigelement" title="' 
-					+ elementsRight[tableArray[i][1]].label 
-					+ '"><img src="' 
-					+ elementsRight[tableArray[i][1]].imgURL 
-					+ '" alt="'
-					+ elementsRight[tableArray[i][1]].text 
-					+ '" /></div>');
-			}
-			if(elementsRight[tableArray[i][1]].type == 'text'){
-				tableTag = '<table id="element' 
-					+ tableArray[i][1] 
-					+ '" class="element-right text">';
-				content = '<tr>' 
-					+ dropArea 
-					+ '<td class="content right-text openbig">' 
-					+ elementsRight[tableArray[i][1]].text 
-					+ '</td></tr>';
-				$('#hiddenspace').append('<div id="bigelement' 
-					+ tableArray[i][1] 
-					+ '" class="bigelement" title="' 
-					+ elementsRight[tableArray[i][1]].label 
-					+ '">' 
-					+ elementsRight[tableArray[i][1]].text 
-					+ '</div>');
-			}
-			
-			thisElement = tableTag + label + content + '</table>';
-			
-			rightElements.append(thisElement);
-
-		}
+		thisElement = tableTag + label + content + '</table>';
+		
+		rightElements.append(thisElement);
 
 	}
 	
@@ -262,34 +241,48 @@ function loadElementsScreenReader(){
 		// Build the form for the checkboxes from the right-hand elements.		
 		for(var j=0; j<tableArrayRight.length; j++){
 			if(elementsRight[tableArrayRight[j]].type == 'text'){
-				selectionForm += '<input type="checkbox" name="element'
+				selectionForm += '<input type="checkbox" id="element'
+					+ tableArrayLeft[i] + tableArrayRight[j]
+					+ '" name="element'
 					+ tableArrayLeft[i]
 					+ '" value="element'
 					+ tableArrayRight[j]
+					+ '"><label for="element'
+					+ tableArrayLeft[i] + tableArrayRight[j]
 					+ '">'
 					+ elementsRight[tableArrayRight[j]].text
-					+ '<br>';
+					+ '</label><br>';
+					
 			}else if(elementsRight[tableArrayRight[j]].type == 'image'){
-				selectionForm += '<input type="checkbox" name="element'
+				selectionForm += '<input type="checkbox" id="element'
+					+ tableArrayLeft[i] + tableArrayRight[j]
+					+ '" name="element'
 					+ tableArrayLeft[i]
 					+ '" value="element'
 					+ tableArrayRight[j]
-					+ '"><img src="'
+					+ '"><label for="element'
+					+ tableArrayLeft[i] + tableArrayRight[j]
+					+ '">'
+					+ elementsRight[tableArrayRight[j]].text
+					+ '<img src="'
 					+ elementsRight[tableArrayRight[j]].imgURL
 					+ '" alt="'
 					+ elementsRight[tableArrayRight[j]].text
-					+ '" class="accessicon" /><br>';
+					+ '" class="accessicon" /></label><br>';
 			}
 		}
 		
-		selectionForm = '<td class="accesstable"><form>' + selectionForm + '</form></td>';
+		selectionForm = '<td class="accesstable"><form><fieldset><legend>'
+			+ elementsLeft[tableArrayLeft[i]].label
+			+ '</legend>' 
+			+ selectionForm 
+			+ '</fieldset></form></td>';
 		currentRow.append(selectionForm);
 				
 	}
 	
 	// Add event listeners.
 	$('input:checkbox').on('click tap', function(){
-		console.log(this);
 		handleCheck(event, this); 
 	});
 	
@@ -405,40 +398,62 @@ function putMatchesBack(){
 			indicatorSpace = $('#element'+number).find('td.drop-area');
 			addMatch(indicatorSpace, letter, number);
 		}else{
-			thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');  // This is overmatching. Need sub-find.
+			thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');
 			thisCheckbox.prop('checked', true);
 		}
 	}
 	
 }
 
+function setUpSpace(){
 
-
-$(document).ready(function(){
-	
+	// Set up the space differently for sighted vs. screen-reader
 	var space = $('#spacewrapper');
+	var switcher = $('#switcher');
+	var instructions = $('#instructions');	
 	
 	if(sighted){
 		// Bring in the left-hand and right-hand elements in our standard space.
 		space.html('<div id="leftelements"></div><div id="rightelements"></div><div id="hiddenspace"></div>');
+		switcher.html('[Click here for accessible version.]');
+		instructions.html('[Drag from left to right to match. Click to zoom.]');
 		loadElementsSighted();
 	}else{
 		// Build a view for people who are blind or partially sighted.
 		space.html('<div id="elementtable"></div>');
+		switcher.html('[Click here for sighted version.]');
+		instructions.html('[Use checkboxes in the table below to put items into categories.]');
 		loadElementsScreenReader();
 	}
+}
+
+
+$(document).ready(function(){
 	
+	// Called as a default for first-runs.
+	loadElementsSighted();
+
+	var space = $('#spacewrapper');
+	var switcher = $('#switcher');
+	var instructions = $('#instructions');	
+		
 	// Different spaces for blind and partially sighted learners.
 	// These will be rebuilt from the JSProblemState rather than being saved.
 	$('#switcher').on('click tap', function(event){
 		event.preventDefault();
 		if(sighted){
 			space.html('<div id="elementtable"></div>');
+			switcher.html('[Click here for sighted version.]');
+			instructions.html('[Use checkboxes in the table below to put items into categories.]');
 			sighted = false;
+			JSProblemState.sighted = 'false';
 			loadElementsScreenReader();
 		}else{
 			space.html('<div id="leftelements"></div><div id="rightelements"></div><div id="hiddenspace"></div>');
+			switcher.html('[Click here for accessible version.]');
+			instructions.html('[Drag from left to right to match. Click to zoom.]');
 			sighted = true;
+			JSProblemState.sighted = 'true';
 			loadElementsSighted();
 		}
 		putMatchesBack();
@@ -479,7 +494,11 @@ var MatchingA = (function() {
 		stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
 		JSProblemState = JSON.parse(stateStr);
 		
+		// Update the sighted variable from the state
+		sighted = (JSProblemState.sighted == 'true');
+		
 		// Put the cards in the correct locations based on what the problem state says.
+		setUpSpace();
 		putMatchesBack();
 		
 	}
