@@ -29,7 +29,7 @@ import json
 
 def answercheck(e, ans):
 
-  right_answer = [['A','4'],['B','1'],['B','4'],['C','3'],['D','2']]
+  right_answer = [['A','2'],['B','4'],['C','3'],['D','1'],['D','2']]
 
   parsed = json.loads(ans)
   answer = json.loads(parsed['answer'])
