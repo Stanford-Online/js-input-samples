@@ -57,7 +57,7 @@ function loadElementsSighted(){
 			content = '<tr><td colspan="2" class="content left-image openbig"><img src="' 
 				+ elementsLeft[tableArrayLeft[i]].imgURL 
 				+ '" alt="'
-				+ elementsLeft[tableArrayLeft[i]].text 
+				+ jQuery('<p>' + elementsLeft[tableArrayLeft[i]].text + '</p>').text()  // Strip the tags from the text for alt text
 				+ '" class="icon" /></td></tr>';
 			$('#hiddenspace').append('<div id="bigelement' 
 				+ tableArrayLeft[i] 
@@ -66,7 +66,7 @@ function loadElementsSighted(){
 				+ '"><img src="' 
 				+ elementsLeft[tableArrayLeft[i]].imgURL 
 				+ '" alt="'
-				+ elementsLeft[tableArrayLeft[i]].text 
+				+ jQuery('<p>' + elementsLeft[tableArrayLeft[i]].text + '</p>').text()  // Strip the tags from the text for alt text
 				+ '" /></div>');
 		}
 		if(elementsLeft[tableArrayLeft[i] ].type == 'text'){
@@ -110,7 +110,7 @@ function loadElementsSighted(){
 				+ '<td class="content right-image openbig"><img src="' 
 				+ elementsRight[tableArrayRight[i]].imgURL 
 				+ '" alt="'
-				+ elementsRight[tableArrayRight[i]].text 
+				+ jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
 				+ '" class="icon" /></td></tr>';
 			$('#hiddenspace').append('<div id="bigelement' 
 				+ tableArrayRight[i]
@@ -119,7 +119,7 @@ function loadElementsSighted(){
 				+ '"><img src="' 
 				+ elementsRight[tableArrayRight[i]].imgURL 
 				+ '" alt="'
-				+ elementsRight[tableArrayRight[i]].text 
+				+ jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
 				+ '" /></div>');
 		}
 		if(elementsRight[tableArrayRight[i]].type == 'text'){
@@ -230,11 +230,12 @@ function loadElementsScreenReader(){
 		}else if(elementsLeft[tableArrayLeft[i]].type == 'image'){
 			currentRow.append('<td class="accesstable" id="element'
 				+ tableArrayLeft[i] 
-				+ '"><img src="'
-				+ elementsLeft[tableArrayLeft[i]].imgURL
-				+ '" alt="'
+				+ '">'
 				+ elementsLeft[tableArrayLeft[i]].text
-				+ '" class="accessicon" /></td>');
+				+ '<br/><img src="'
+				+ elementsLeft[tableArrayLeft[i]].imgURL
+				+ '" alt=""'  // Alt tag intentionally left blank. We have the description above in text.
+				+ 'class="accessicon" /></td>');
 		}
 		
 		

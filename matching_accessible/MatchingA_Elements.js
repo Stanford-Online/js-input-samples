@@ -53,7 +53,7 @@ var elementsLeft = {
 	'C': {
 		'label': 'A Night in Tunisia',
 		'type': 'image',
-		'text': 'A Night in Tunisia, by Dizzy Gillespie and Frank Paparelli. A piece for trumpet, bass, drum, and potentially other instruments.',
+		'text': '<em>A Night in Tunisia</em>, by Dizzy Gillespie and Frank Paparelli. A piece for trumpet, bass, drum, and potentially other instruments.',
 		'imgURL': 'Tunisia.jpg'
 	},
 	'D': {
