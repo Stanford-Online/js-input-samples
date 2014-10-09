@@ -1,6 +1,8 @@
-### Matching ###
+### Matching (Deprecated) ###
 
 #### Overview ####
+**This is an older, deprecated version. You should use the new [Accessible Matching ](https://github.com/Stanford-Online/js-input-samples/tree/master/matching_accessible) type instead.**
+
 This implements a standard matching exercise of the "draw the lines to match things on the left with things on the right" sort (though without actually drawing lines). It handles both text and images, and does one-to-one and many-to-many matching. The correct answer is hidden from students via python in the problem XML.
 
 Student state is recorded via Logger.log() when a grade is calculated, but not at other times.
