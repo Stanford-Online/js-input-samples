@@ -17,7 +17,7 @@ function logThatThing(ThatThing){
 	console.log(JSON.stringify(ThatThing));
 	
 	// Send it to the official edX logamajig!
-	Logger.log("harvardx.blue_monkey.matching_problem", ThatThing);
+	Logger.log("harvardx.public_demo.matching_problem", ThatThing);
 
 }
 
