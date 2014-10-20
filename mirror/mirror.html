@@ -3,31 +3,31 @@
         <title>edX jsInput</title>
         <meta charset="utf-8">
         
-        <!-- This script enables communication between you iframe and the platform.
-        REQUIRED --- DO NOT REMOVE!! -->
+        <!-- This script enables communication between you iframe and the platform. REQUIRED --- DO NOT REMOVE!! -->
         <script src="/static/js/capa/src/jschannel.js"></script>
         
-        <!-- This jQuery is hosted by google. This script is included here because this html
-        is loaded in an iframe and doesn't have access to the platform's scripts. -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <!-- I load jQuery here letting google host it for me. This is necessary if you need jQuery
+        because this html is loaded in an iframe and doesn't have access to the platform's scripts. -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         
-        <!-- This is the style for the elements inside the iframe. Customize this!-->
+        <!-- This is the style for the elements inside the iframe. Customize this!
+        (You may want to move this to its own file if you start adding lots of styles...) -->
         <style>
             #container {
-                width: 685px;
-                height: 340px;
+                width: 645px;
+                height: 320px;
                 margin: 0 auto;
             }
             .array {
-                width: 320px;
-                height: 320px;
+                width: 300px;
+                height: 300px;
                 margin: 10px;
                 float: left;
             }
             .array .element {
                 display: block;
-                height: 138px;
-                width: 138px;
+                height: 125px;
+                width: 125px;
                 border: 1px solid black;
                 margin: 10px;
                 float: left;
@@ -43,7 +43,7 @@
                 box-shadow: 0 0 50px #ddd inset;
             }
             .divider {
-                height: 340px;
+                height: 320px;
                 width: 5px;
                 float: left;
                 background-color: black;
