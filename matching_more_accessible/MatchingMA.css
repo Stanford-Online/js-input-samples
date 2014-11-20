@@ -163,8 +163,13 @@ table.accesstable {
 	width: 200px;
 }
 
-.bigelement{
+.bigelement {
 	display: none;
+}
+
+.match-indicator {
+	list-style-type: none;
+	padding: 0;
 }
 
 .ui-widget-overlay {
