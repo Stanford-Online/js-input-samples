@@ -465,7 +465,7 @@ $(document).ready(function(){
 
 
 // This wrapper function is necessary.
-var MatchingA = (function() {
+var MatchingMA = (function() {
 
 	// REQUIRED --- DO NOT REMOVE/CHANGE!!
 	var channel;

@@ -47,12 +47,12 @@ def answercheck(e, ans):
 <p>This is a matching exercise. Drag the elements on the left into the ones on the right to create a match. You can match items with more than one other item, but you should choose the best match if you can. Click on the items for a better view if you need it.</p>
 
 <customresponse cfn="answercheck">
-  <jsinput gradefn="MatchingA.getGrade"
-    get_statefn="MatchingA.getState"
-    set_statefn="MatchingA.setState"
+  <jsinput gradefn="MatchingMA.getGrade"
+    get_statefn="MatchingMA.getState"
+    set_statefn="MatchingMA.setState"
     width="780"
     height="550"
-    html_file="/static/MatchingA.html"
+    html_file="/static/MatchingMA.html"
     sop="false"/>
 </customresponse>
 </problem>
