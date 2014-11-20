@@ -21,7 +21,7 @@ var elementsRight = {
 		'label': 'Jazz',
 		'type': 'image',
 		'text': 'Jazz music and improvisation',
-		'imgURL': 'Dizzy.jpg'
+		'imgURL': 'Armstrong.jpg'
 	},
 	'4': {
 		'label': 'Techno',
