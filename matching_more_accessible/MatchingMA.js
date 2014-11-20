@@ -98,7 +98,10 @@ function loadElementsSighted(){
 	
 	for(var i = 0; i < tableArrayRight.length; i++){		
 	
-		label = '<tr><td class="spacer-right"></td><td class="label-right openbig" tabindex="0">' 
+		label = '<tr><td class="spacer-right"></td>'
+			+ '<td class="label-right openbig" id="labelfor' +
+			+ tableArrayRight[i]
+			+ '">' 
 			+ elementsRight[tableArrayRight[i]].label 
 			+ '</td></tr>';
 		dropArea = '<td class="drop-area"> </td>'
@@ -111,7 +114,9 @@ function loadElementsSighted(){
 				+ '" class="element-right image">';
 			content = '<tr>' 
 				+ dropArea 
-				+ '<td class="content right-image openbig"><img src="' 
+				+ '<td class="content right-image openbig" id="contentfor' +
+				+ tableArrayRight[i]
+				+ '"><img src="' 
 				+ elementsRight[tableArrayRight[i]].imgURL 
 				+ '" alt="'
 				+ jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
@@ -132,7 +137,9 @@ function loadElementsSighted(){
 				+ '" class="element-right text">';
 			content = '<tr>' 
 				+ dropArea 
-				+ '<td class="content right-text openbig">' 
+				+ '<td class="content right-text openbig" id="contentfor' +
+				+ tableArrayRight[i]
+				+ '">' 
 				+ elementsRight[tableArrayRight[i]].text 
 				+ '</td></tr>';
 			$('#hiddenspace').append('<div id="bigelement' 
@@ -144,7 +151,15 @@ function loadElementsSighted(){
 				+ '</div>');
 		}
 		
-		thisElement = tableTag + label + content + '</table>';
+		// Wrap it in a div that we can tab through using screen readers.
+		thisElement = '<div tabindex="0" id="forreader' 
+			+ tableArrayRight[i]
+			+ '" aria-labelledby="'
+			+ 'labelfor' + tableArrayRight[i] + ' contentfor' + tableArrayRight[i]
+			+ '" aria-describedby="' // list
+			+ 
+			+ '">' + tableTag + label + content + '</table>' 
+			+ '</div>';
 		
 		rightElements.append(thisElement);
 
@@ -405,6 +420,7 @@ function putMatchesBack(){
 		}else{
 			thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');
 			thisCheckbox.prop('checked', true);
+			thisCheckbox.attr('checked', true);
 		}
 	}
 	
