@@ -44,23 +44,23 @@ function loadElementsSighted(){
 	
 	for(var i = 0; i < tableArrayLeft.length; i++){
 	
-		label = '<tr><td class="spacer-right"></td><td class="label-left openbig">' 
+		label = '<div><div class="spacer-right"></div><div class="label-left openbig">' 
 			+ elementsLeft[tableArrayLeft[i]].label 
-			+ '</td></tr>';
+			+ '</div></div>';
 	
 		// Handle image vs text
 		// Also load full-sized elements in hidden space for zoom later.
 		if(elementsLeft[tableArrayLeft[i]].type == 'image'){
-			tableTag = '<table id="element' 
+			tableTag = '<div id="element' 
 				+ tableArrayLeft[i] 
 				+ '" class="element-left image">';
-			content = '<tr><td colspan="2" id="description'
+			content = '<div><div id="description'
 				+ tableArrayLeft[i] 
 				+ '" class="content left-image openbig"><img src="' 
 				+ elementsLeft[tableArrayLeft[i]].imgURL 
 				+ '" alt="'
 				+ jQuery('<p>' + elementsLeft[tableArrayLeft[i]].text + '</p>').text()  // Strip the tags from the text for alt text
-				+ '" class="icon" /></td></tr>';
+				+ '" class="icon" /></div></div>';
 			$('#hiddenspace').append('<div id="bigelement' 
 				+ tableArrayLeft[i] 
 				+ '" class="bigelement" title="' 
@@ -72,14 +72,14 @@ function loadElementsSighted(){
 				+ '" /></div>');
 		}
 		if(elementsLeft[tableArrayLeft[i] ].type == 'text'){
-			tableTag = '<table id="element' 
+			tableTag = '<div id="element' 
 				+ tableArrayLeft[i] 
 				+ '" class="element-left text">';
-			content = '<tr><td colspan="2" id="description'
+			content = '<div><div id="description'
 				+ tableArrayLeft[i] 
 				+ '" class="content left-text openbig">' 
 				+ elementsLeft[tableArrayLeft[i]].text 
-				+ '</td></tr>';
+				+ '</div></div>';
 			$('#hiddenspace').append('<div id="bigelement' 
 				+ tableArrayLeft[i] 
 				+ '" class="bigelement" title="' 
@@ -89,7 +89,7 @@ function loadElementsSighted(){
 				+ '</div>');
 		}
 	
-		thisElement = tableTag + label + content + '</table>';
+		thisElement = tableTag + label + content + '</div>';
 	
 		leftElements.append(thisElement);
 
@@ -98,29 +98,32 @@ function loadElementsSighted(){
 	
 	for(var i = 0; i < tableArrayRight.length; i++){		
 	
-		label = '<tr><td class="spacer-right"></td>'
-			+ '<td class="label-right openbig" id="labelfor' +
+		label = '<div><div class="spacer-right"></div>'
+			+ '<div class="label-right openbig" id="labelfor' +
 			+ tableArrayRight[i]
 			+ '">' 
 			+ elementsRight[tableArrayRight[i]].label 
-			+ '</td></tr>';
-		dropArea = '<td class="drop-area"> </td>'
+			+ '</div></div>';
+		dropArea = '<div class="drop-area">'
+			+ '<ul class="match-indicator" id="listfor'
+			+ tableArrayRight[i]
+			+ '"></ul></div>'
 		
 		// Handle image vs text.
 		// Also load full-sized elements in hidden space for zoom later.
 		if(elementsRight[tableArrayRight[i]].type == 'image'){
-			tableTag = '<table id="element' 
+			tableTag = '<div role="presentation" id="element' 
 				+ tableArrayRight[i]
 				+ '" class="element-right image">';
-			content = '<tr>' 
+			content = '<div>' 
 				+ dropArea 
-				+ '<td class="content right-image openbig" id="contentfor' +
+				+ '<div class="content right-image openbig" id="contentfor' +
 				+ tableArrayRight[i]
 				+ '"><img src="' 
 				+ elementsRight[tableArrayRight[i]].imgURL 
 				+ '" alt="'
 				+ jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
-				+ '" class="icon" /></td></tr>';
+				+ '" class="icon" /></div></div>';
 			$('#hiddenspace').append('<div id="bigelement' 
 				+ tableArrayRight[i]
 				+ '" class="bigelement" title="' 
@@ -132,16 +135,16 @@ function loadElementsSighted(){
 				+ '" /></div>');
 		}
 		if(elementsRight[tableArrayRight[i]].type == 'text'){
-			tableTag = '<table id="element' 
+			tableTag = '<div role="presentation" id="element' 
 				+ tableArrayRight[i] 
 				+ '" class="element-right text">';
-			content = '<tr>' 
+			content = '<div>' 
 				+ dropArea 
-				+ '<td class="content right-text openbig" id="contentfor' +
+				+ '<div class="content right-text openbig" id="contentfor' +
 				+ tableArrayRight[i]
 				+ '">' 
 				+ elementsRight[tableArrayRight[i]].text 
-				+ '</td></tr>';
+				+ '</div></div>';
 			$('#hiddenspace').append('<div id="bigelement' 
 				+ tableArrayRight[i]
 				+ '" class="bigelement" title="' 
@@ -156,9 +159,10 @@ function loadElementsSighted(){
 			+ tableArrayRight[i]
 			+ '" aria-labelledby="'
 			+ 'labelfor' + tableArrayRight[i] + ' contentfor' + tableArrayRight[i]
-			+ '" aria-describedby="' // list
-			+ 
-			+ '">' + tableTag + label + content + '</table>' 
+			+ '" aria-describedby="listfor'
+			+ tableArrayRight[i]
+			+ '" aria-haspopup="true">' 
+			+ tableTag + label + content + '</div>' 
 			+ '</div>';
 		
 		rightElements.append(thisElement);
@@ -203,111 +207,111 @@ function loadElementsSighted(){
 
 }
 
-function loadElementsScreenReader(){
-	
-	var tableArrayLeft = [];
-	var tableArrayRight = [];
-	var tableArray = [];
-	var totalTableLength = 0;
-	
-	var elementDiv = $('#elementtable');
-	
-	// We're going to build two arrays from the keys of elementsLeft and elementsRight,
-	// and then we'll build an HTML table out of those.
-	
-	for(var key in elementsLeft){
-		tableArrayLeft.push(key);
-	}
-	
-	for(var key in elementsRight){
-		tableArrayRight.push(key);
-	}
-	
-	
-	// Now we actually build the table.
-	elementDiv.append('<table class="accesstable"></table>');
-	var elementTable = $('table');
-	var currentRow = '';
-	var selectionForm = 'form error';
-	
-	// Table rows are associated with left-hand elements.
-	for(var i=0; i<tableArrayLeft.length; i++){
-		
-		selectionForm = '';
-		
-		elementTable.append('<tr id="row' 
-			+ tableArrayLeft[i] 
-			+ '"></tr>')
-		currentRow = $('#row' + tableArrayLeft[i]);
-		
-		if(elementsLeft[tableArrayLeft[i]].type == 'text'){
-			currentRow.append('<td class="accesstable" id="element'
-				+ tableArrayLeft[i] 
-				+ '">'
-				+ elementsLeft[tableArrayLeft[i]].text
-				+ '</td>');
-		}else if(elementsLeft[tableArrayLeft[i]].type == 'image'){
-			currentRow.append('<td class="accesstable" id="element'
-				+ tableArrayLeft[i] 
-				+ '">'
-				+ elementsLeft[tableArrayLeft[i]].text
-				+ '<br/><img src="'
-				+ elementsLeft[tableArrayLeft[i]].imgURL
-				+ '" alt=""'  // Alt tag intentionally left blank. We have the description above in text.
-				+ 'class="accessicon" /></td>');
-		}
-		
-		
-		// Build the form for the checkboxes from the right-hand elements.		
-		for(var j=0; j<tableArrayRight.length; j++){
-			if(elementsRight[tableArrayRight[j]].type == 'text'){
-				selectionForm += '<input type="checkbox" id="element'
-					+ tableArrayLeft[i] + tableArrayRight[j]
-					+ '" name="element'
-					+ tableArrayLeft[i]
-					+ '" value="element'
-					+ tableArrayRight[j]
-					+ '"><label for="element'
-					+ tableArrayLeft[i] + tableArrayRight[j]
-					+ '">'
-					+ elementsRight[tableArrayRight[j]].text
-					+ '</label><br>';
-					
-			}else if(elementsRight[tableArrayRight[j]].type == 'image'){
-				selectionForm += '<input type="checkbox" id="element'
-					+ tableArrayLeft[i] + tableArrayRight[j]
-					+ '" name="element'
-					+ tableArrayLeft[i]
-					+ '" value="element'
-					+ tableArrayRight[j]
-					+ '"><label for="element'
-					+ tableArrayLeft[i] + tableArrayRight[j]
-					+ '">'
-					+ elementsRight[tableArrayRight[j]].text
-					+ '<img src="'
-					+ elementsRight[tableArrayRight[j]].imgURL
-					+ '" alt="'
-					+ elementsRight[tableArrayRight[j]].text
-					+ '" class="accessicon" /></label><br>';
-			}
-		}
-		
-		selectionForm = '<td class="accesstable"><form><fieldset><legend>'
-			+ elementsLeft[tableArrayLeft[i]].label
-			+ '</legend>' 
-			+ selectionForm 
-			+ '</fieldset></form></td>';
-		currentRow.append(selectionForm);
-				
-	}
-	
-	// Add event listeners.
-	$('input:checkbox').on('click tap', function(){
-		handleCheck(event, this); 
-	});
-	
-}
-
+// function loadElementsScreenReader(){
+// 	
+// 	var tableArrayLeft = [];
+// 	var tableArrayRight = [];
+// 	var tableArray = [];
+// 	var totalTableLength = 0;
+// 	
+// 	var elementDiv = $('#elementtable');
+// 	
+// 	// We're going to build two arrays from the keys of elementsLeft and elementsRight,
+// 	// and then we'll build an HTML table out of those.
+// 	
+// 	for(var key in elementsLeft){
+// 		tableArrayLeft.push(key);
+// 	}
+// 	
+// 	for(var key in elementsRight){
+// 		tableArrayRight.push(key);
+// 	}
+// 	
+// 	
+// 	// Now we actually build the table.
+// 	elementDiv.append('<table class="accesstable"></table>');
+// 	var elementTable = $('table');
+// 	var currentRow = '';
+// 	var selectionForm = 'form error';
+// 	
+// 	// Table rows are associated with left-hand elements.
+// 	for(var i=0; i<tableArrayLeft.length; i++){
+// 		
+// 		selectionForm = '';
+// 		
+// 		elementTable.append('<tr id="row' 
+// 			+ tableArrayLeft[i] 
+// 			+ '"></tr>')
+// 		currentRow = $('#row' + tableArrayLeft[i]);
+// 		
+// 		if(elementsLeft[tableArrayLeft[i]].type == 'text'){
+// 			currentRow.append('<td class="accesstable" id="element'
+// 				+ tableArrayLeft[i] 
+// 				+ '">'
+// 				+ elementsLeft[tableArrayLeft[i]].text
+// 				+ '</td>');
+// 		}else if(elementsLeft[tableArrayLeft[i]].type == 'image'){
+// 			currentRow.append('<td class="accesstable" id="element'
+// 				+ tableArrayLeft[i] 
+// 				+ '">'
+// 				+ elementsLeft[tableArrayLeft[i]].text
+// 				+ '<br/><img src="'
+// 				+ elementsLeft[tableArrayLeft[i]].imgURL
+// 				+ '" alt=""'  // Alt tag intentionally left blank. We have the description above in text.
+// 				+ 'class="accessicon" /></td>');
+// 		}
+// 		
+// 		
+// 		// Build the form for the checkboxes from the right-hand elements.		
+// 		for(var j=0; j<tableArrayRight.length; j++){
+// 			if(elementsRight[tableArrayRight[j]].type == 'text'){
+// 				selectionForm += '<input type="checkbox" id="element'
+// 					+ tableArrayLeft[i] + tableArrayRight[j]
+// 					+ '" name="element'
+// 					+ tableArrayLeft[i]
+// 					+ '" value="element'
+// 					+ tableArrayRight[j]
+// 					+ '"><label for="element'
+// 					+ tableArrayLeft[i] + tableArrayRight[j]
+// 					+ '">'
+// 					+ elementsRight[tableArrayRight[j]].text
+// 					+ '</label><br>';
+// 					
+// 			}else if(elementsRight[tableArrayRight[j]].type == 'image'){
+// 				selectionForm += '<input type="checkbox" id="element'
+// 					+ tableArrayLeft[i] + tableArrayRight[j]
+// 					+ '" name="element'
+// 					+ tableArrayLeft[i]
+// 					+ '" value="element'
+// 					+ tableArrayRight[j]
+// 					+ '"><label for="element'
+// 					+ tableArrayLeft[i] + tableArrayRight[j]
+// 					+ '">'
+// 					+ elementsRight[tableArrayRight[j]].text
+// 					+ '<img src="'
+// 					+ elementsRight[tableArrayRight[j]].imgURL
+// 					+ '" alt="'
+// 					+ elementsRight[tableArrayRight[j]].text
+// 					+ '" class="accessicon" /></label><br>';
+// 			}
+// 		}
+// 		
+// 		selectionForm = '<td class="accesstable"><form><fieldset><legend>'
+// 			+ elementsLeft[tableArrayLeft[i]].label
+// 			+ '</legend>' 
+// 			+ selectionForm 
+// 			+ '</fieldset></form></td>';
+// 		currentRow.append(selectionForm);
+// 				
+// 	}
+// 	
+// 	// Add event listeners.
+// 	$('input:checkbox').on('click tap', function(){
+// 		handleCheck(event, this); 
+// 	});
+// 	
+// }
+// 
 function handleDrop(event, ui){
 
 	var draggedElement = $(ui.draggable);
@@ -333,7 +337,7 @@ function handleDrop(event, ui){
 	if(!existingMatch){
 		
 		// Copy the title from the left-hand element and add it to the indicator space.
-		var indicatorSpace = targetElement.find('td.drop-area');
+		var indicatorSpace = targetElement.find('div.drop-area > ul');
 		addMatch(indicatorSpace, letter, number);
 		JSProblemState.pairings.push(thisPairing);
 	}
@@ -369,7 +373,7 @@ function handleCheck(event, checkbox){
 
 function addMatch(indicatorSpace, letter, number){
 	// Add to the DOM
-	var indicator = '<p id="' + letter + '-' + number + '">' + elementsLeft[letter].label + '</p>';
+	var indicator = '<li id="' + letter + '-' + number + '">' + elementsLeft[letter].label + '</li>';
 	indicatorSpace.append(indicator);
 
 	// Give this a removal button.
@@ -415,7 +419,7 @@ function putMatchesBack(){
 		
 		// Handle things  differently for sighted vs blind/partially sighted users
 		if(sighted){
-			indicatorSpace = $('#element'+number).find('td.drop-area');
+			indicatorSpace = $('#element'+number).find('div.drop-area > ul');
 			addMatch(indicatorSpace, letter, number);
 		}else{
 			thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');
