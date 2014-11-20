@@ -54,7 +54,9 @@ function loadElementsSighted(){
 			tableTag = '<table id="element' 
 				+ tableArrayLeft[i] 
 				+ '" class="element-left image">';
-			content = '<tr><td colspan="2" class="content left-image openbig"><img src="' 
+			content = '<tr><td colspan="2" id="description'
+				+ tableArrayLeft[i] 
+				+ '" class="content left-image openbig"><img src="' 
 				+ elementsLeft[tableArrayLeft[i]].imgURL 
 				+ '" alt="'
 				+ jQuery('<p>' + elementsLeft[tableArrayLeft[i]].text + '</p>').text()  // Strip the tags from the text for alt text
@@ -73,7 +75,9 @@ function loadElementsSighted(){
 			tableTag = '<table id="element' 
 				+ tableArrayLeft[i] 
 				+ '" class="element-left text">';
-			content = '<tr><td colspan="2" class="content left-text openbig">' 
+			content = '<tr><td colspan="2" id="description'
+				+ tableArrayLeft[i] 
+				+ '" class="content left-text openbig">' 
 				+ elementsLeft[tableArrayLeft[i]].text 
 				+ '</td></tr>';
 			$('#hiddenspace').append('<div id="bigelement' 
