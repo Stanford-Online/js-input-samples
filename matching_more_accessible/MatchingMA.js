@@ -98,7 +98,7 @@ function loadElementsSighted(){
 	
 	for(var i = 0; i < tableArrayRight.length; i++){		
 	
-		label = '<tr><td class="spacer-right"></td><td class="label-right openbig">' 
+		label = '<tr><td class="spacer-right"></td><td class="label-right openbig" tabindex="0">' 
 			+ elementsRight[tableArrayRight[i]].label 
 			+ '</td></tr>';
 		dropArea = '<td class="drop-area"> </td>'
