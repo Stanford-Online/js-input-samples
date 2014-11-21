@@ -250,7 +250,11 @@ function loadElementsSighted(){
 
   function save_pairings(values, popup) {
     JSProblemState.pairings.push(values);
-    addMatch(values);
+
+    $.each(values, function(i) {
+      addMatch([values[i][0], values[0][1]]);
+    });
+
     close_popup(popup);
   }
 
