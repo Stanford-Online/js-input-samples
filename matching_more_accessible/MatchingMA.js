@@ -253,10 +253,19 @@ function loadElementsSighted(){
         console.log(JSProblemState.pairings);
         console.log(needle);
         
+        // Look through the pairings to see if 
         if (!_.isEmpty(JSProblemState.pairings)) {
+          for(var i=0; i < JSProblemState.pairings.length; i++){
+            
+            if(_.isEqual(JSProblemState.pairings[i], needle)){
+              console.log('Setting the state to checked.');
+              $('[name="'+oL+'"][value="'+oN+'"]').prop('checked', true).attr('checked', 'checked');
+            }else{
+              console.log('Setting the state to unchecked.');
+              $('[name="'+oL+'"][value="'+oN+'"]')..removeProp('checked').removeAttr('checked');
+            }
+          }
         }
-
-
 
 
 //         if (!_.isEmpty(JSProblemState.pairings)) {
