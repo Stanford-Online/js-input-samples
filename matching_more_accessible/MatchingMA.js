@@ -131,7 +131,7 @@ function loadElementsSighted(){
         + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
         + '</div>'
         + dropArea 
-        + '&nbsp;</div>';
+        + '</div>';
       $('#hiddenspace').append('<div id="bigelement' 
         + tableArrayRight[i]
         + '" class="bigelement" title="' 
@@ -162,7 +162,7 @@ function loadElementsSighted(){
         + elementsRight[tableArrayRight[i]].label 
         + '">' 
         + elementsRight[tableArrayRight[i]].text 
-        + '&nbsp;</div>');
+        + '</div>');
     }
     
     // Wrap it in a div that we can tab through using screen readers.
@@ -258,15 +258,10 @@ function loadElementsSighted(){
             console.log('checking for pairing ' + JSProblemState.pairings[i]);
             var thisbox = $('#element_'+oL+'_'+oN);
             
-            if(!thisbox.prop('checked')){
-              if(_.isEqual(JSProblemState.pairings[i], needle)){
-                console.log('Setting the state to checked.');
-                thisbox.prop('checked', true).attr('checked', 'checked');
-              }else{
-                console.log('Setting the state to unchecked.');
-                thisbox.prop('checked', false).removeAttr('checked');
-              }
-             }
+            if(_.isEqual(JSProblemState.pairings[i], needle)){
+              console.log('Setting the state to checked.');
+              thisbox.prop('checked', true).attr('checked', 'checked');
+            }
           }
         }
 
