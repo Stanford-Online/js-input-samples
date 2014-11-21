@@ -231,7 +231,7 @@ function loadElementsSighted(){
     for (var key in elementsRight) {
       tableArrayRight.push(key);
     }
-
+    
     $.each(elementsLeft, function(tableArrayLeft, i) {
       options_options += '<li><input type="checkbox" id="' + this.label + '_label" name="element' + tableArrayLeft + '" value="element' + number + '" /><label for="' + this.label + '_label" class="option-label">' + this.label + '</label></li>';
     });
@@ -250,6 +250,13 @@ function loadElementsSighted(){
 
   function save_pairings(values, popup) {
     JSProblemState.pairings.push(values);
+    
+    // Clear every pairing for this panel first, then add the ones we selected.
+    for(var i=0; i < JSProblemState.pairings.length, i++){
+      if(JSProblemState.pairings[1] == values[0][1]){
+        JSProblemState.pairings.splice(i, 1);
+      }
+    }
 
     $.each(values, function(i) {
       addMatch([values[i][0], values[0][1]]);
