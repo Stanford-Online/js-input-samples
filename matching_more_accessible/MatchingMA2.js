@@ -3,16 +3,11 @@
 // The "JSProblemState" JSON dictionary below is passed to the platform for grading and saving.
 // Pass through whatever you wish. It will get logged.
 var JSProblemState = {
-  'pairings': [], // Pairings of the form [letter, number].
-  'sighted': 'true'
+  'pairings': [] // Pairings of the form [letter, number].
 };
 
-// This one tracks whether we're working with sighted users (the default)
-// or with blind or partially sighted users (switched with link).
-var sighted = true;
-  
 // Loads the cards from the cardList variable
-function loadElementsSighted(){
+function loadElements(){
 
   var tableArrayLeft = [];
   var tableArrayRight = [];
@@ -507,72 +502,21 @@ function putMatchesBack(){
     letter = JSProblemState.pairings[i][0];
     number = JSProblemState.pairings[i][1];
     
-    // Handle things  differently for sighted vs blind/partially sighted users
-    if(sighted){
-      indicatorSpace = $('#element'+number).find('drop-area');
-      addMatch([letter, number]);
-    }else{
-      thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');
-      thisCheckbox.prop('checked', true);
-    }
+    indicatorSpace = $('#element'+number).find('drop-area');
+    addMatch([letter, number]);
   }
   
 }
-
-function setUpSpace(){
-
-  // Set up the space differently for sighted vs. screen-reader
-  var space = $('#spacewrapper');
-  var switcher = $('#switcher');
-  var instructions = $('#instructions');  
-  
-  if(sighted){
-    // Bring in the left-hand and right-hand elements in our standard space.
-    space.html('<div id="leftelements"></div><div id="rightelements"></div><div id="hiddenspace"></div>');
-    instructions.html('[Drag from left to right to match. Click to zoom.]');
-    loadElementsSighted();
-  }else{
-    // Build a view for people who are blind or partially sighted.
-    space.html('<div id="elementtable"></div>');
-    switcher.html('[Click here for sighted version.]');
-    instructions.html('[Use checkboxes in the table below to put items into categories.]');
-    loadElementsScreenReader();
-  }
-}
-
 
 $(document).ready(function(){
   
   // Called as a default for first-runs.
-  loadElementsSighted();
+  loadElements();
 
   var space = $('#spacewrapper');
   var switcher = $('#switcher');
   var instructions = $('#instructions');  
     
-  // Different spaces for blind and partially sighted learners.
-  // These will be rebuilt from the JSProblemState rather than being saved.
-  $('#switcher').on('click tap', function(event){
-    event.preventDefault();
-    if(sighted){
-      space.html('<div id="elementtable"></div>');
-      switcher.html('[Click here for sighted version.]');
-      instructions.html('[Use checkboxes in the table below to put items into categories.]');
-      sighted = false;
-      JSProblemState.sighted = 'false';
-      loadElementsScreenReader();
-    }else{
-      space.html('<div id="leftelements"></div><div id="rightelements"></div><div id="hiddenspace"></div>');
-      switcher.html('[Click here for accessible version.]');
-      instructions.html('[Drag from left to right to match. Click to zoom.]');
-      sighted = true;
-      JSProblemState.sighted = 'true';
-      loadElementsSighted();
-    }
-    putMatchesBack();
-
-  });
-  
 });
 
 
@@ -607,11 +551,7 @@ var MatchingMA2 = (function() {
     stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
     JSProblemState = JSON.parse(stateStr);
     
-    // Update the sighted variable from the state
-    sighted = (JSProblemState.sighted == 'true');
-    
     // Put the cards in the correct locations based on what the problem state says.
-    setUpSpace();
     putMatchesBack();
     
   }
