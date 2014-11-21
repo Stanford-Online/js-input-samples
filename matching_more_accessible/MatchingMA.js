@@ -319,7 +319,7 @@ function loadElementsSighted(){
     });
     
     console.log('Built the checkbox menu.');
-    $('#options_menu').append(options_menu);
+    $('#options_menu').append(options_options);
     
     console.log('Attached the menu to the popup.');
     $(parent).append(contextual_menu);
