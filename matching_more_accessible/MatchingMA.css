@@ -144,6 +144,8 @@ h3 {
 }
 
 .delete {
+  border: 0;
+  cursor: pointer;
   color: red;
   margin: 1ex;
   font-size: large;
@@ -197,12 +199,32 @@ h3 {
 
 .popup-menu {
   position: absolute;
-  width: 230px;
+  width: 300px;
   z-index: 10;
   background: #f6f6f6;
   border: 1px solid #ccc;
   padding: 10px;
+  /*top: 55px;
+  right: 0;*/
 }
+
+/*.popup-menu:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -9px;
+  right: 16px;
+  height: 16px;
+  width: 16px;
+  background: #f6f6f6;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}*/
 
 .popup-options {
   list-style: none;

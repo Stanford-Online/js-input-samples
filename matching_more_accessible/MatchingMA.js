@@ -363,7 +363,7 @@ function addMatch(pairing){
   indicatorSpace = $('#element' + pairing[1]).find('ul').append(indicator);
 
   // Give this a removal button.
-  $('#' + pairing[0] + '-' + pairing[1]).append('<span class="delete">x</span>');
+  $('#' + pairing[0] + '-' + pairing[1]).append('<button type="button" class="delete">x</button>');
   $('.delete').on('click tap', function(event){selfDelete(event)}); 
 }
 
