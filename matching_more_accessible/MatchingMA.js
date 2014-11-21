@@ -146,7 +146,7 @@ function loadElementsSighted(){
         + tableArrayRight[i]
         + '">' 
         + elementsRight[tableArrayRight[i]].text 
-        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Add</button>' 
+        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
         + '</div>'
         + dropArea
         + '</div>';
@@ -212,14 +212,75 @@ function loadElementsSighted(){
 
 
 
-  function build_menu(letter, number, parent) {
 
+  /* ----------------------------------------------
+   * fn update_selected_options(number, letter);
+   *      number = string
+   *      letter = string
+   *
+   * fn build_menu(letter, number, parent);
+   *      letter = string
+   *      number = string
+   *      parent = object
+   *
+   * fn save_pairings(values, popup);
+   *      values = array
+   *      popup = object
+   *
+   * fn close_popup(popup);
+   *      popup = object
+   * -------------------------------------------- */
+
+  function update_selected_options(number, letter) {
+    
+    console.log('Running function: update_selected_options...');
+    console.log('Looping through checkboxes in the open popup menu...');
+
+    if ($('#contextual_menu').is(':visible')) {
+      console.log('OK!');
+
+      $('input[type="checkbox"]').each(function(i) {
+        var oL = $(this).attr('name'),
+            oN = $(this).val(),
+            needle;
+
+        oLetter = oL.replace('element', '');
+        oNumber = oN.replace('element', '');
+        needle = [oLetter, oNumber];
+
+        console.log(JSProblemState.pairings);
+        console.log(needle);
+
+        if (!_.isEmpty(JSProblemState.pairings)) {
+
+          $.each(JSProblemState.pairings[0], function(i) {
+            if ($.inArray(needle, JSProblemState.pairings[i]) > -1) {
+            
+              console.log('Setting the state to checked.');
+              $(this).prop('checked', true).attr('checked', 'checked');
+            } else {
+              
+              console.log('Setting the state to unchecked.');
+              $(this).removeProp('checked').removeAttr('checked');
+            }
+          });
+        }
+      });
+    } else {
+      console.log('Can\'t find the popup menu! Aborting!');
+    }
+
+  }
+
+  function build_menu(letter, number, parent) {
+    
+    console.log('Running function: build_menu...');
     var tableArrayLeft = [], 
         tableArrayRight = [], 
         tableArray = [], 
         totalTableLength = 0, 
         elementDiv = $('#elementtable'),
-        contextual_menu = $('<div id="contextual_menu" class="popup-menu" aria-hidden="true" tabindex="-1"></div>'),
+        contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"></div>'),
         options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
         options_options = '',
         contextual_actions = '<div class="popup-actions"><button type="button" class="save-options" data-save-options-for="element"' + tableArrayLeft[i] + '>Save</button><button type="button" class="cancel">Cancel</button></div>';
@@ -235,78 +296,100 @@ function loadElementsSighted(){
     $.each(elementsLeft, function(tableArrayLeft, i) {
       options_options += '<li><input type="checkbox" id="' + this.label + '_label" name="element' + tableArrayLeft + '" value="element' + number + '" /><label for="' + this.label + '_label" class="option-label">' + this.label + '</label></li>';
     });
-    
-    var checkboxen = $('input');
-    $.each(checkboxen, function(i, ob){
-      var letter = ob.attr('name').replace('element', '');
-      var number = ob.attr('value').replace('element', '');
-      if(_.indexOf(JSProblemState.pairings, [letter, number]) > 0){
-        ob.prop('checked', true);
-      }
-    }
 
     $(options_menu).append(options_options);
+    
+    console.log('Built the checkbox menu.');
     $(contextual_menu).append(options_menu).append(contextual_actions);
+    
+    console.log('Attached the menu to the popup.');
     $(parent).append(contextual_menu);
-
-    if ($('#contextual_menu').length) {
-      $('#contextual_menu').focus();
-    }
-
-    return;
-
+    
+    console.log('Displaying the popup menu with options.');
+    update_selected_options(number, letter);
+    
+    console.log('Updating the selected options, if available.');
   }
 
   function save_pairings(values, popup) {
-    JSProblemState.pairings.push(values);
     
-    // Clear every pairing for this panel first, then add the ones we selected.
-    for(var i=0; i < JSProblemState.pairings.length; i++){
-      if(JSProblemState.pairings[1] == values[0][1]){
+    console.log('Running function: save_pairings...');
+    // JSProblemState.pairings.push(values);
+    for (var i = 0; i < JSProblemState.pairings.length; i++){
+      if (JSProblemState.pairings[1] == values[0][1]) {
         JSProblemState.pairings.splice(i, 1);
       }
     }
 
+    $.each(values, function(k, ob) {
+      JSProblemState.pairings.push(ob);
+      console.log(ob);
+    });
+    
+    console.log('Looping through selected options and adding options to bulk.');
     $.each(values, function(i) {
       addMatch([values[i][0], values[0][1]]);
     });
-
+    
+    console.log('Closing the popup after adding/updating matches.');
     close_popup(popup);
   }
 
   function close_popup(popup) {
+    
+    console.log('Running function: close_popup...');
     $(popup).remove();
+    
+    console.log('Popup removed.')
     $(popup).parent().find('button').focus();
+    
+    console.log('Focus sent back to initiating button.');
   }
 
-  $('.content').on('click keyup', '.assign-options', function() {
+  $('.content').on('click', '.assign-options', function() {
+    
+    console.log('Button clicked, assigning matches...');
     var eLetter = $(this).data('element-left'),
         eNumber = $(this).data('element-number');
-
+    
+    console.log('Creating the popup menu...');
     build_menu(eLetter, eNumber, $(this).parent());
   });
 
-  $('.content').on('click keyup', '#contextual_menu .save-options', function() {
+  $('.content').on('click', '#contextual_menu .save-options', function() {
+    
+    console.log('Button clicked, saving selections...');
     var inputs = $('#options_menu li input[type="checkbox"]'), 
         values = [];
 
-      $(inputs).each(function() {
-        if ($(this).is(':checked')) {
-          var oLetter = $(this).attr('name'),
-              oNumber = $(this).val();
+    $(inputs).each(function() {
+      
+      console.log('Looping through each checkbox to see if its selected...');
+      if ($(this).is(':checked')) {
+        
+        console.log('Found checked.');
+        var oLetter = $(this).attr('name'),
+            oNumber = $(this).val();
 
-          oLetter = oLetter.replace('element', '');
-          oNumber = oNumber.replace('element', '');
+        console.log('Replacing strings...');
+        oLetter = oLetter.replace('element', '');
+        oNumber = oNumber.replace('element', '');
+        
+        console.log('Building values array...');
+        values.push([oLetter, oNumber]);
+        
+        console.log('Values:' + values);
+      }
+    });
 
-          values.push([oLetter, oNumber]);
-        }
-      });
-
+    console.log('Saving selections.');
     save_pairings(values, $(this).parent().parent());
   });
 
-  $('.content').on('click keyup', '#contextual_menu .cancel', function() {
-    close_popup($(this).parent().parent());
+  $('.content').on('click', '#contextual_menu .cancel', function() {
+    
+    console.log('Button clicked, closing open popup menu.');
+    close_popup($('.popup-menu'));
   });
 
 }
