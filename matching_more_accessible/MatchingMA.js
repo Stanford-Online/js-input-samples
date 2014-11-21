@@ -320,7 +320,7 @@ function handleDrop(event, ui){
     
     // Copy the title from the left-hand element and add it to the indicator space.
     var indicatorSpace = targetElement.find('.drop-area');
-    addMatch(indicatorSpace, letter, number);
+    addMatch([letter, number]);
     JSProblemState.pairings.push(thisPairing);
   }
 }
@@ -353,18 +353,14 @@ function handleCheck(event, checkbox){
 }
 
 
-function addMatch(indicatorSpace, letter, number){
+function addMatch(pairing){
   // Add to the DOM
-  var indicator = '<li id="' + letter + '-' + number + '">' + elementsLeft[letter].label + '</li>';
-  indicatorSpace.find('ul').append(indicator);
+  var indicator = '<li id="' + pairing[0] + '-' + pairing[1] + '">' + elementsLeft[pairing[0]].label + '</li>';
+  indicatorSpace = $('#element' + pairing[1]).find('ul').append(indicator);
 
   // Give this a removal button.
-  $('#' + letter + '-' + number).append('<span class="delete">x</span>');
+  $('#' + pairing[0] + '-' + pairing[1]).append('<span class="delete">x</span>');
   $('.delete').on('click tap', function(event){selfDelete(event)}); 
-}
-
-function addCheck(indicatorSpace, letter, number){
-  addCheck
 }
 
 
@@ -402,7 +398,7 @@ function putMatchesBack(){
     // Handle things  differently for sighted vs blind/partially sighted users
     if(sighted){
       indicatorSpace = $('#element'+number).find('drop-area');
-      addMatch(indicatorSpace, letter, number);
+      addMatch([letter, number]);
     }else{
       thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');
       thisCheckbox.prop('checked', true);
