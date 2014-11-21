@@ -254,8 +254,6 @@ function loadElementsSighted(){
         console.log(needle);
         
         if (!_.isEmpty(JSProblemState.pairings)) {
-<<<<<<< HEAD
-=======
           for(var i=0; i < JSProblemState.pairings.length; i++){
             console.log('checking for pairing ' + JSProblemState.pairings[i]);
             var thisbox = $('#element_'+oL+'_'+oN);
@@ -270,7 +268,6 @@ function loadElementsSighted(){
               }
              }
           }
->>>>>>> 0a9fd9cd0357ca139d93303b55783a90a697bf57
         }
 
 
@@ -319,7 +316,7 @@ function loadElementsSighted(){
     }
     
     $.each(elementsLeft, function(tableArrayLeft, i) {
-      options_options += '<li><label for="element_' + tableArrayLeft + '_' + number + '" class="option-label" aria-describedby="description' + tableArrayLeft + '"><input type="checkbox" id="element_' + tableArrayLeft + '_' + number + '" name="element' + tableArrayLeft + '" value="element' + number + '" /> ' + this.label + '</label></li>';
+      options_options += '<li><input type="checkbox" id="element_' + tableArrayLeft + '_' + number + '" name="element' + tableArrayLeft + '" value="element' + number + '" /> <label for="element_' + tableArrayLeft + '_' + number + '" class="option-label" aria-describedby="description' + tableArrayLeft + '">' + this.label + '</li>';
     });
 
     $(options_menu).append(options_options);
