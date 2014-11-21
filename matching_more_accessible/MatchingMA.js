@@ -118,7 +118,6 @@ function loadElementsSighted(){
         + tableArrayRight[i]
         + '" class="element-right image bigboss">';
       content = '<div>' 
-        + dropArea 
         + '<div class="content right-image" id="contentfor' +
         + tableArrayRight[i]
         + '"><img src="' 
@@ -143,7 +142,6 @@ function loadElementsSighted(){
         + tableArrayRight[i] 
         + '" class="element-right text bigboss">';
       content = '<div>' 
-        + dropArea 
         + '<div class="content clearfix right-text" id="contentfor' +
         + tableArrayRight[i]
         + '">' 
