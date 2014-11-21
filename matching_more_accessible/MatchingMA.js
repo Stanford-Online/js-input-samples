@@ -254,6 +254,23 @@ function loadElementsSighted(){
         console.log(needle);
         
         if (!_.isEmpty(JSProblemState.pairings)) {
+<<<<<<< HEAD
+=======
+          for(var i=0; i < JSProblemState.pairings.length; i++){
+            console.log('checking for pairing ' + JSProblemState.pairings[i]);
+            var thisbox = $('#element_'+oL+'_'+oN);
+            
+            if(!thisbox.prop('checked')){
+              if(_.isEqual(JSProblemState.pairings[i], needle)){
+                console.log('Setting the state to checked.');
+                thisbox.prop('checked', true).attr('checked', 'checked');
+              }else{
+                console.log('Setting the state to unchecked.');
+                thisbox.prop('checked', false).removeAttr('checked');
+              }
+             }
+          }
+>>>>>>> 0a9fd9cd0357ca139d93303b55783a90a697bf57
         }
 
 
