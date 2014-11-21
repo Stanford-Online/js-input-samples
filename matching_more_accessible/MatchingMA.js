@@ -294,7 +294,7 @@ function loadElementsSighted(){
     }
     
     $.each(elementsLeft, function(tableArrayLeft, i) {
-      options_options += '<li><input type="checkbox" id="' + this.label + '_label" name="element' + tableArrayLeft + '" value="element' + number + '" /><label for="' + this.label + '_label" class="option-label">' + this.label + '</label></li>';
+      options_options += '<li><input type="checkbox" id="element_' + tableArrayLeft + '_' + number + '" name="element' + tableArrayLeft + '" value="element' + number + '" /><label for="element_' + tableArrayLeft + '_' + number + '" class="option-label">' + this.label + '</label></li>';
     });
 
     $(options_menu).append(options_options);
