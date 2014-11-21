@@ -131,7 +131,7 @@ function loadElementsSighted(){
         + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
         + '</div>'
         + dropArea 
-        + '&nbsp;</div>';
+        + '</div>';
       $('#hiddenspace').append('<div id="bigelement' 
         + tableArrayRight[i]
         + '" class="bigelement" title="' 
@@ -162,7 +162,7 @@ function loadElementsSighted(){
         + elementsRight[tableArrayRight[i]].label 
         + '">' 
         + elementsRight[tableArrayRight[i]].text 
-        + '&nbsp;</div>');
+        + '</div>');
     }
     
     // Wrap it in a div that we can tab through using screen readers.
