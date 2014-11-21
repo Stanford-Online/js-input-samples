@@ -210,30 +210,30 @@ function loadElementsSighted(){
 
   function build_menu(letter, number, parent) {
 
-	  var tableArrayLeft = [], 
-	      tableArrayRight = [], 
-	      tableArray = [], 
-	      totalTableLength = 0, 
-	      elementDiv = $('#elementtable'),
-	      contextual_menu = $('<div id="contextual_menu" class="popup-menu" aria-hidden="true" tabindex="-1"></div>'),
-	      options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
-	      options_options = '',
-	      contextual_actions = '<div class="popup-actions"><button type="button" class="save-options" data-save-options-for="element"' + tableArrayLeft[i] + '>Save</button><button type="button" class="cancel">Cancel</button></div>';
-	  
-	  for (var key in elementsLeft) {
-	    tableArrayLeft.push(key);
-	  }
-	  
-	  for (var key in elementsRight) {
-	    tableArrayRight.push(key);
-	  }
+    var tableArrayLeft = [], 
+        tableArrayRight = [], 
+        tableArray = [], 
+        totalTableLength = 0, 
+        elementDiv = $('#elementtable'),
+        contextual_menu = $('<div id="contextual_menu" class="popup-menu" aria-hidden="true" tabindex="-1"></div>'),
+        options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
+        options_options = '',
+        contextual_actions = '<div class="popup-actions"><button type="button" class="save-options" data-save-options-for="element"' + tableArrayLeft[i] + '>Save</button><button type="button" class="cancel">Cancel</button></div>';
+    
+    for (var key in elementsLeft) {
+      tableArrayLeft.push(key);
+    }
+    
+    for (var key in elementsRight) {
+      tableArrayRight.push(key);
+    }
 
-	  $.each(elementsLeft, function(i, j) {
-	    options_options += '<li><input type="checkbox" id="' + this.label + '_label" name="element' + letter + '" value="element' + number + '" /><label for="' + this.label + '_label" class="option-label">' + this.label + '</label></li>';
-	  });
+    $.each(elementsLeft, function(i, j) {
+      options_options += '<li><input type="checkbox" id="' + this.label + '_label" name="element' + letter + '" value="element' + number + '" /><label for="' + this.label + '_label" class="option-label">' + this.label + '</label></li>';
+    });
 
-	  $(options_menu).append(options_options);
-	  $(contextual_menu).append(options_menu).append(contextual_actions);
+    $(options_menu).append(options_options);
+    $(contextual_menu).append(options_menu).append(contextual_actions);
     $(parent).append(contextual_menu);
 
     if ($('#contextual_menu').length) {
@@ -242,7 +242,7 @@ function loadElementsSighted(){
 
     return;
 
-	}
+  }
 
   function save_pairings(values) {
     // Process the values array and do what you normally do
