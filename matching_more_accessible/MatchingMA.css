@@ -1,178 +1,235 @@
 body {
-	font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
+  font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
 }
 
 table.accesstable {
-	border-collapse: collapse;
+  border-collapse: collapse;
 }
 
 .accesstable {
-	border: 1px solid #999;
+  border: 1px solid #999;
 }
 
 #spacewrapper {
-	height: 500px;
-	width: 750px;
+  height: 500px;
+  width: 750px;
 }
 
 #switch {
-	float: right;
-	font-size: small;
+  float: right;
+  font-size: small;
 }
 
 #switcher {
-	color: #000;
-	text-decoration: none;
+  color: #000;
+  text-decoration: none;
 }
 
 #instructions {
-	font-size: small;
+  font-size: small;
 }
 
 #leftelements {
     display: inline-block;
     vertical-align: top;
-	float: left;
-	
-	width: 350px;
-	height: 500px;
-	overflow-y:auto;
-	
-	margin: 1px;
-	border: none;
-	padding: 2px;
-	
+  float: left;
+  
+  width: 350px;
+  height: 500px;
+  overflow-y:auto;
+  
+  margin: 1px;
+  border: none;
+  padding: 2px;
+  
 }
 
 #rightelements {
     display: inline-block;
     vertical-align: top;
-	float: left;
-	
-	width: 350px;
-	height: 500px;
-	overflow-y:auto;
-	
-	margin: 1px;
-	border: none;
-	padding: 2px;
+  float: left;
+  
+  width: 350px;
+  height: 500px;
+  overflow-y:auto;
+  
+  margin: 1px;
+  border: none;
+  padding: 2px;
 }
 
 #hiddenspace {
-	display: none;
+  display: none;
 }
 
 .element-right {
-	border-collapse: collapse;
-	margin: 5px;
+  border-collapse: collapse;
+  margin: 5px;
 }
 
 .element-left {
-	float: right;
-	border-collapse: collapse;
-	margin: 5px;
+  float: right;
+  border-collapse: collapse;
+  margin: 5px;
 }
 
 
 .label-left {
     background-color: #CCC;
-	background: linear-gradient(to top, #ccc 0%,#fafafa 100%);
-	box-shadow: inset 1px 1px 5px #ddd, 0 0 2px #000;
+  background: linear-gradient(to top, #ccc 0%,#fafafa 100%);
+  box-shadow: inset 1px 1px 5px #ddd, 0 0 2px #000;
 
-	min-width: 80px;
-	text-align: right;
-	padding-right: 10px;
+  min-width: 80px;
+  text-align: right;
+  padding-right: 10px;
 
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .spacer-left {
-	width: 80px;
+  width: 80px;
 }
 
 .content {
-	width: 320px;
-	padding: 5px;
-	border: 1px solid #999;
-	background-color: #fff;
+  position: relative;
+  width: 320px;
+  padding: 5px;
+  border: 1px solid #999;
+  background-color: #fff;
 }
 
-.left-text {	
-	text-align: left;
+.left-text {  
+  text-align: left;
 }
 
-.left-image {	
-	text-align: center;
+.left-image { 
+  text-align: center;
 }
 
 
 .label-right {
     background-color: #CCC;
-	background: linear-gradient(to top, #ddd 0%,#fafafa 100%);
-	box-shadow: inset 1px 1px 5px #ddd, 0 0 2px #000;
-	
-	min-width: 80px;
-	text-align: left;
-	padding-left: 10px;
+  background: linear-gradient(to top, #ddd 0%,#fafafa 100%);
+  box-shadow: inset 1px 1px 5px #ddd, 0 0 2px #000;
+  
+  min-width: 80px;
+  text-align: left;
+  padding-left: 10px;
 
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .right-text {
-	text-align: left;
+  text-align: left;
 }
 
 .right-image {
-	text-align: center;
+  text-align: center;
 }
 
 .spacer-right {
-	width: 80px;
+  width: 80px;
 }
 
 
 .drop-area {
-	background-color: #eee;
-	box-shadow: inset 1px 1px 8px #666;
-	
-	width: 80px;
-	text-align: left;
-	padding-left: 10px;
+  background-color: #eee;
+  box-shadow: inset 1px 1px 8px #666;
+  
+  width: 80px;
+  text-align: left;
+  padding-left: 10px;
 
-	border-top-left-radius: 8px;
-	border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .drophighlight {
-	border: 3px inset #666;
+  border: 3px inset #666;
 }
 
 .delete {
-	color: red;
-	margin: 1ex;
-	font-size: large;
+  color: red;
+  margin: 1ex;
+  font-size: large;
 }
 
 .icon {
-	width: 100px;
+  width: 100px;
 }
 
 .accessicon {
-	width: 200px;
+  width: 200px;
 }
 
-.bigelement {
-	display: none;
-}
-
-.match-indicator {
-	list-style-type: none;
-	padding: 0;
+.bigelement{
+  display: none;
 }
 
 .ui-widget-overlay {
-	background: #000;
+  background: #000;
 }
 
+
+
+
+
+
+
+.assign-options {
+  border: 1px solid blue;
+  background: white;
+  color: blue;
+  float: right;
+}
+
+.save-options {
+  border: 1px solid green;
+  background: white;
+  color: green;
+}
+
+.cancel {
+  border: 1px solid transparent;
+  background: white;
+}
+
+.popup-menu {
+  position: absolute;
+  width: 230px;
+  z-index: 10;
+  background: #f6f6f6;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.popup-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 90%;
+}
+
+.popup-options li {
+  padding: 5px 0;
+}
+
+.popup-options li label {
+  font-weight: 700;
+}
+
+.popup-options li input[type="checkbox"] {
+
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
