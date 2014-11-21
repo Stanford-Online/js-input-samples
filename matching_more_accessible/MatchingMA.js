@@ -44,9 +44,9 @@ function loadElementsSighted(){
   
   for(var i = 0; i < tableArrayLeft.length; i++){
   
-    label = '<div><div class="label-left openbig"><h3>'
+    label = '<div><div class="label-left openbig"><h3 tabindex="0">'
       + elementsLeft[tableArrayLeft[i]].label 
-      + ' <img src="tiny_magnifying_glass.png" class="openbig" />'
+      + ' <img src="tiny_magnifying_glass.png" tabindex="0" alt=", click to enlarge" class="openbig" />'
       + '</h3></div></div>';
   
     // Handle image vs text
@@ -102,9 +102,9 @@ function loadElementsSighted(){
     label = '<div>'
       + '<div class="label-right" id="labelfor' +
       + tableArrayRight[i]
-      + '"><h3>' 
+      + '"><h3 tabindex="0">' 
       + elementsRight[tableArrayRight[i]].label 
-      + ' <img src="tiny_magnifying_glass.png" class="openbig" />'
+      + ' <img src="tiny_magnifying_glass.png" tabindex="0" alt=", click to enlarge" class="openbig" />'
       + '</h3></div></div>';
     dropArea = '<div class="drop-area">'
       + '<ul class="match-indicator" id="listfor'
