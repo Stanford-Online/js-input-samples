@@ -304,7 +304,7 @@ function handleDrop(event, ui){
   if(!existingMatch){
     
     // Copy the title from the left-hand element and add it to the indicator space.
-    var indicatorSpace = targetElement.find('td.drop-area');
+    var indicatorSpace = targetElement.find('drop-area');
     addMatch(indicatorSpace, letter, number);
     JSProblemState.pairings.push(thisPairing);
   }
@@ -386,7 +386,7 @@ function putMatchesBack(){
     
     // Handle things  differently for sighted vs blind/partially sighted users
     if(sighted){
-      indicatorSpace = $('#element'+number).find('td.drop-area');
+      indicatorSpace = $('#element'+number).find('drop-area');
       addMatch(indicatorSpace, letter, number);
     }else{
       thisCheckbox = $('#row'+letter).find('input[value="element' + number + '"]');
