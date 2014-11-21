@@ -296,6 +296,7 @@ function handleDrop(event, ui){
   for(var i = 0; i < JSProblemState.pairings.length; i++){
     if(_.isEqual(JSProblemState.pairings[i], thisPairing)){  // Uses underscore.js
       existingMatch = true;
+      console.log('existing match');
       break;
     }
   }
@@ -304,7 +305,7 @@ function handleDrop(event, ui){
   if(!existingMatch){
     
     // Copy the title from the left-hand element and add it to the indicator space.
-    var indicatorSpace = targetElement.find('drop-area');
+    var indicatorSpace = targetElement.find('.drop-area');
     addMatch(indicatorSpace, letter, number);
     JSProblemState.pairings.push(thisPairing);
   }
@@ -340,8 +341,8 @@ function handleCheck(event, checkbox){
 
 function addMatch(indicatorSpace, letter, number){
   // Add to the DOM
-  var indicator = '<p id="' + letter + '-' + number + '">' + elementsLeft[letter].label + '</p>';
-  indicatorSpace.append(indicator);
+  var indicator = '<li id="' + letter + '-' + number + '">' + elementsLeft[letter].label + '</li>';
+  indicatorSpace.find('ul').append(indicator);
 
   // Give this a removal button.
   $('#' + letter + '-' + number).append('<span class="delete">x</span>');
@@ -455,7 +456,7 @@ $(document).ready(function(){
 
 
 // This wrapper function is necessary.
-var MatchingMA = (function() {
+var MatchingMA2 = (function() {
 
   // REQUIRED --- DO NOT REMOVE/CHANGE!!
   var channel;
