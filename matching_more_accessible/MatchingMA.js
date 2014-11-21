@@ -128,7 +128,7 @@ function loadElementsSighted(){
         + '" alt="'
         + jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
         + '" class="icon" />'
-        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
+        + '<button type="button" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
         + '</div>'
         + dropArea 
         + '</div>';
@@ -303,10 +303,8 @@ function loadElementsSighted(){
         tableArray = [], 
         totalTableLength = 0, 
         elementDiv = $('#elementtable'),
-        contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"></div>'),
-        options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
-        options_options = '',
-        contextual_actions = '<div class="popup-actions"><button type="button" class="save-options" data-save-options-for="element"' + tableArrayLeft[i] + '>Save</button><button type="button" class="cancel">Cancel</button></div>';
+        contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"><ol id="options_menu" class="popup-options"></ol><div class="popup-actions"><button type="button" class="save-options" data-save-options-for="element"' + tableArrayLeft[i] + '>Save</button><button type="button" class="cancel">Cancel</button></div></div>'),
+        options_options = '';
  
     for (var key in elementsLeft) {
       tableArrayLeft.push(key);
@@ -319,18 +317,16 @@ function loadElementsSighted(){
     $.each(elementsLeft, function(tableArrayLeft, i) {
       options_options += '<li><input type="checkbox" id="element_' + tableArrayLeft + '_' + number + '" name="element' + tableArrayLeft + '" value="element' + number + '" /> <label for="element_' + tableArrayLeft + '_' + number + '" class="option-label" aria-describedby="description' + tableArrayLeft + '">' + this.label + '</li>';
     });
-
-    $(options_menu).append(options_options);
     
     console.log('Built the checkbox menu.');
-    $(contextual_menu).append(options_menu).append(contextual_actions);
+    $('#options_menu').append(options_menu);
     
     console.log('Attached the menu to the popup.');
     $(parent).append(contextual_menu);
     
     console.log('Displaying the popup menu with options.');
     update_selected_options(number, letter);
-    $('#contextual_menu').focus();
+    // $('#contextual_menu').focus();
     
     console.log('Updating the selected options, if available.');
   }
