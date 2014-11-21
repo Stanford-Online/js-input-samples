@@ -2,12 +2,10 @@ body {
   font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
 }
 
-table.accesstable {
-  border-collapse: collapse;
-}
-
-.accesstable {
-  border: 1px solid #999;
+h3 {
+	font-size: medium;
+	margin: 1px;
+	margin: 1px;
 }
 
 #spacewrapper {
@@ -30,8 +28,8 @@ table.accesstable {
 }
 
 #leftelements {
-    display: inline-block;
-    vertical-align: top;
+  display: inline-block;
+  vertical-align: top;
   float: left;
   
   width: 350px;
@@ -45,8 +43,8 @@ table.accesstable {
 }
 
 #rightelements {
-    display: inline-block;
-    vertical-align: top;
+  display: inline-block;
+  vertical-align: top;
   float: left;
   
   width: 350px;
@@ -79,7 +77,6 @@ table.accesstable {
   background: linear-gradient(to top, #ccc 0%,#fafafa 100%);
   box-shadow: inset 1px 1px 5px #ddd, 0 0 2px #000;
 
-  min-width: 80px;
   text-align: right;
   padding-right: 10px;
 
@@ -87,24 +84,23 @@ table.accesstable {
   border-top-right-radius: 8px;
 }
 
-.spacer-left {
-  width: 80px;
-}
-
 .content {
   position: relative;
-  width: 320px;
+  width: 314px;
   padding: 5px;
   border: 1px solid #999;
   background-color: #fff;
+  display: inline-block;
 }
 
 .left-text {  
   text-align: left;
+  display: inline-block;
 }
 
 .left-image { 
   text-align: center;
+  display: inline-block;
 }
 
 
@@ -113,7 +109,6 @@ table.accesstable {
   background: linear-gradient(to top, #ddd 0%,#fafafa 100%);
   box-shadow: inset 1px 1px 5px #ddd, 0 0 2px #000;
   
-  min-width: 80px;
   text-align: left;
   padding-left: 10px;
 
@@ -123,14 +118,12 @@ table.accesstable {
 
 .right-text {
   text-align: left;
+  display: inline-block;
 }
 
 .right-image {
   text-align: center;
-}
-
-.spacer-right {
-  width: 80px;
+  display: inline-block;
 }
 
 
@@ -138,11 +131,11 @@ table.accesstable {
   background-color: #eee;
   box-shadow: inset 1px 1px 8px #666;
   
-  width: 80px;
   text-align: left;
   padding-left: 10px;
+  min-height: 20px;
 
-  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
 }
 
@@ -166,6 +159,12 @@ table.accesstable {
 
 .bigelement{
   display: none;
+}
+
+.match-indicator {
+  list-style-type: none;
+  padding-left: 10px;
+  margin: 0;
 }
 
 .ui-widget-overlay {
