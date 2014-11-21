@@ -279,7 +279,7 @@ function loadElementsSighted(){
         tableArray = [], 
         totalTableLength = 0, 
         elementDiv = $('#elementtable'),
-        contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"></div>'),
+        contextual_menu = $('<div id="contextual_menu" class="popup-menu"></div>'),
         options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
         options_options = '',
         contextual_actions = '<div class="popup-actions"><button type="button" class="save-options" data-save-options-for="element"' + tableArrayLeft[i] + '>Save</button><button type="button" class="cancel">Cancel</button></div>';

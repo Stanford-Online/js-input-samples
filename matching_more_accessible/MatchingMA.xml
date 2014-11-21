@@ -8,6 +8,8 @@ You will not need it if you are using this code for other purposes.
 <script type="text/javascript">
 $(document).ready(function(){
 	console.log('outer ready');
+	var newtitle = $('h2.problem-header').text();
+	$('iframe').attr('title', newtitle);
 });
 
 // Logs a javascript object.
