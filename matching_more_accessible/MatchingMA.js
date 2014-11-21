@@ -291,9 +291,11 @@ function loadElementsSighted(){
 
   function build_menu(letter, number, parent) {
 
-    console.log('Closing open menus.')
-    // Hacky for now, but you'll want to check any open containers for changed checkboxes and save them before closing.
-    $('#contextual_menu').remove();
+    if ($('#contextual_menu').length) {
+      console.log('Closing open menus.')
+      // Hacky for now, but you'll want to check any open containers for changed checkboxes and save them before closing.
+      $('#contextual_menu').remove();
+    }
     
     console.log('Running function: build_menu...');
     var tableArrayLeft = [], 
