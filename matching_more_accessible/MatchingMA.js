@@ -102,11 +102,14 @@ function loadElementsSighted(){
     label = '<div>'
       + '<div class="label-right" id="labelfor' +
       + tableArrayRight[i]
-      + '"><h3 tabindex="0">' 
+      + '"><h3 tabindex="0">'
+      + '<span class="sr">Category</span>' 
       + elementsRight[tableArrayRight[i]].label 
       + ' <img src="tiny_magnifying_glass.png" tabindex="0" alt=", click to enlarge" class="openbig" />'
       + '</h3></div></div>';
-    dropArea = '<div class="drop-area">'
+    dropArea = '<div class="drop-area" role="region" aria-label="Matched items for category '
+      + elementsRight[tableArrayRight[i]].label 
+      + '">'
       + '<ul class="match-indicator" id="listfor'
       + tableArrayRight[i]
       + '"></ul></div>'
@@ -312,8 +315,10 @@ function loadElementsSighted(){
     console.log('Running function: save_pairings...');
     // JSProblemState.pairings.push(values);
     for (var i = 0; i < JSProblemState.pairings.length; i++){
-      if (JSProblemState.pairings[1] == values[0][1]) {
-        JSProblemState.pairings.splice(i, 1);
+      if(!_.isEmpty(values)){
+        if (JSProblemState.pairings[1] == values[0][1]) {
+          JSProblemState.pairings.splice(i, 1);
+        }
       }
     }
 
@@ -458,7 +463,7 @@ function addMatch(pairing){
   indicatorSpace = $('#element' + pairing[1]).find('ul').append(indicator);
 
   // Give this a removal button.
-  $('#' + pairing[0] + '-' + pairing[1]).append('<button type="button" class="delete">x</button>');
+  $('#' + pairing[0] + '-' + pairing[1]).append('<button type="button" class="delete" aria-label="remove match">x</button>');
   $('.delete').on('click tap', function(event){selfDelete(event)}); 
 }
 
@@ -516,7 +521,6 @@ function setUpSpace(){
   if(sighted){
     // Bring in the left-hand and right-hand elements in our standard space.
     space.html('<div id="leftelements"></div><div id="rightelements"></div><div id="hiddenspace"></div>');
-    switcher.html('[Click here for accessible version.]');
     instructions.html('[Drag from left to right to match. Click to zoom.]');
     loadElementsSighted();
   }else{
