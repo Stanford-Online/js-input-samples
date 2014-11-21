@@ -258,15 +258,11 @@ function loadElementsSighted(){
             console.log('checking for pairing ' + JSProblemState.pairings[i]);
             var thisbox = $('#element_'+oL+'_'+oN);
             
-            if(!thisbox.prop('checked')){
               if(_.isEqual(JSProblemState.pairings[i], needle)){
                 console.log('Setting the state to checked.');
                 thisbox.prop('checked', true).attr('checked', 'checked');
-              }else{
-                console.log('Setting the state to unchecked.');
-                thisbox.prop('checked', false).removeAttr('checked');
               }
-             }
+            }
           }
         }
 
