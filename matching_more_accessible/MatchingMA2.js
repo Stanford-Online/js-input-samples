@@ -6,6 +6,7 @@ var JSProblemState = {
   'pairings': [] // Pairings of the form [letter, number].
 };
 
+
 // Loads the cards from the cardList variable
 function loadElements(){
 
@@ -332,7 +333,7 @@ function loadElements(){
     
     console.log('Looping through selected options and adding options to bulk.');
     $.each(values, function(i) {
-      addMatch([values[i][0], values[0][1]]);
+      addMatchToDOM([values[i][0], values[0][1]]);
     });
     
     console.log('Closing the popup after adding/updating matches.');
@@ -399,7 +400,6 @@ function loadElements(){
 }
 
 
-
 function handleDrop(event, ui){
 
   var draggedElement = $(ui.draggable);
@@ -427,40 +427,13 @@ function handleDrop(event, ui){
     
     // Copy the title from the left-hand element and add it to the indicator space.
     var indicatorSpace = targetElement.find('.drop-area');
-    addMatch([letter, number]);
+    addMatchToDOM([letter, number]);
     JSProblemState.pairings.push(thisPairing);
   }
 }
 
-function handleCheck(event, checkbox){
 
-  // Check for existing match in the problem state.
-  var leftID = $(checkbox).attr('name');
-  var letter = leftID.replace('element', '');
-  var rightID = $(checkbox).attr('value');
-  var number = rightID.replace('element', '');
-  var thisPairing = [letter,number];
-
-  var existingMatch = false;
-  
-  // If there's an existing match, remove it.
-  for(var i = 0; i < JSProblemState.pairings.length; i++){
-    if(_.isEqual(JSProblemState.pairings[i], thisPairing)){  // Uses underscore.js
-      existingMatch = true;
-      JSProblemState.pairings.splice(i, 1);  // Removes just that item.
-      break;
-    }
-  }
-  
-  // If there is no existing match, add this one to the state.
-  if(!existingMatch){
-    JSProblemState.pairings.push(thisPairing);
-  }
-
-}
-
-
-function addMatch(pairing){
+function addMatchToDOM(pairing){
   // Add to the DOM
   var indicator = '<li id="' + pairing[0] + '-' + pairing[1] + '">' + elementsLeft[pairing[0]].label + '</li>';
   indicatorSpace = $('#element' + pairing[1]).find('ul').append(indicator);
@@ -491,6 +464,7 @@ function selfDelete(event){
 
 }
 
+
 function putMatchesBack(){
 
   var letter;
@@ -503,10 +477,11 @@ function putMatchesBack(){
     number = JSProblemState.pairings[i][1];
     
     indicatorSpace = $('#element'+number).find('drop-area');
-    addMatch([letter, number]);
+    addMatchToDOM([letter, number]);
   }
   
 }
+
 
 $(document).ready(function(){
   
