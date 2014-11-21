@@ -287,7 +287,7 @@ function loadElementsSighted(){
         tableArray = [], 
         totalTableLength = 0, 
         elementDiv = $('#elementtable'),
-        contextual_menu = $('<div id="contextual_menu" class="popup-menu"></div>'),
+        contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"></div>'),
         options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
         options_options = '',
         contextual_actions = '<div class="popup-actions"><button type="button" class="save-options" data-save-options-for="element"' + tableArrayLeft[i] + '>Save</button><button type="button" class="cancel">Cancel</button></div>';
@@ -314,6 +314,7 @@ function loadElementsSighted(){
     
     console.log('Displaying the popup menu with options.');
     update_selected_options(number, letter);
+    $('#contextual_menu').focus();
     
     console.log('Updating the selected options, if available.');
   }
@@ -323,7 +324,7 @@ function loadElementsSighted(){
     console.log('Running function: save_pairings...');
     // JSProblemState.pairings.push(values);
     for (var i = 0; i < JSProblemState.pairings.length; i++){
-      if(!_.isEmpty(values)){
+      if (!_.isEmpty(values)){
         if (JSProblemState.pairings[1] == values[0][1]) {
           JSProblemState.pairings.splice(i, 1);
         }
