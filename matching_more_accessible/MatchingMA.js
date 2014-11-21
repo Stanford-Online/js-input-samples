@@ -144,7 +144,7 @@ function loadElementsSighted(){
         + tableArrayRight[i]
         + '">' 
         + elementsRight[tableArrayRight[i]].text 
-        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-right="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Add</button>' 
+        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Add</button>' 
         + '</div></div>';
       $('#hiddenspace').append('<div id="bigelement' 
         + tableArrayRight[i]
@@ -219,7 +219,7 @@ function loadElementsSighted(){
         options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
         options_options = '',
         contextual_actions = '<div class="popup-actions"><button type="button" class="save-options" data-save-options-for="element"' + tableArrayLeft[i] + '>Save</button><button type="button" class="cancel">Cancel</button></div>';
-    
+ 
     for (var key in elementsLeft) {
       tableArrayLeft.push(key);
     }
@@ -228,8 +228,8 @@ function loadElementsSighted(){
       tableArrayRight.push(key);
     }
 
-    $.each(elementsLeft, function(i, j) {
-      options_options += '<li><input type="checkbox" id="' + this.label + '_label" name="element' + letter + '" value="element' + number + '" /><label for="' + this.label + '_label" class="option-label">' + this.label + '</label></li>';
+    $.each(elementsLeft, function(tableArrayLeft, i) {
+      options_options += '<li><input type="checkbox" id="' + this.label + '_label" name="element' + tableArrayLeft + '" value="element' + number + '" /><label for="' + this.label + '_label" class="option-label">' + this.label + '</label></li>';
     });
 
     $(options_menu).append(options_options);
@@ -244,11 +244,10 @@ function loadElementsSighted(){
 
   }
 
-  function save_pairings(values) {
-    // Process the values array and do what you normally do
-    // ...
-    // JSProblemState.pairings.push...
-    $(this).parent().parent().remove();
+  function save_pairings(values, popup) {
+    JSProblemState.pairings.push(values);
+    addMatch(values);
+    close_popup(popup);
   }
 
   function close_popup(popup) {
@@ -257,14 +256,29 @@ function loadElementsSighted(){
   }
 
   $('.content').on('click keyup', '.assign-options', function() {
-    var eLeft = $(this).data('element-left'),
-        eRight = $(this).data('element-right');
+    var eLetter = $(this).data('element-left'),
+        eNumber = $(this).data('element-number');
 
-    build_menu(eLeft, eRight, $(this).parent());
+    build_menu(eLetter, eNumber, $(this).parent());
   });
 
   $('.content').on('click keyup', '#contextual_menu .save-options', function() {
-    save_pairings($(this).parent().parent().find());
+    var inputs = $('#options_menu li input[type="checkbox"]'), 
+        values = [];
+
+      $(inputs).each(function() {
+        if ($(this).is(':checked')) {
+          var oLetter = $(this).attr('name'),
+              oNumber = $(this).val();
+
+          oLetter = oLetter.replace('element', '');
+          oNumber = oNumber.replace('element', '');
+
+          values.push([oLetter, oNumber]);
+        }
+      });
+
+    save_pairings(values, $(this).parent().parent());
   });
 
   $('.content').on('click keyup', '#contextual_menu .cancel', function() {
