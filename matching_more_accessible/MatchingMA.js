@@ -160,13 +160,9 @@ function loadElementsSighted(){
     }
     
     // Wrap it in a div that we can tab through using screen readers.
-    thisElement = '<div tabindex="0" id="forreader' 
+    thisElement = '<div id="forreader' 
       + tableArrayRight[i]
-      + '" aria-labelledby="'
-      + 'labelfor' + tableArrayRight[i] + ' contentfor' + tableArrayRight[i]
-      + '" aria-describedby="listfor'
-      + tableArrayRight[i]
-      + '" aria-haspopup="true">' 
+      + '">' 
       + tableTag + label + content + '</div>' 
       + '</div>';
     
