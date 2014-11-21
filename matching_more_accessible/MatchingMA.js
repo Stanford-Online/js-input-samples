@@ -138,7 +138,9 @@ function loadElementsSighted(){
         + elementsRight[tableArrayRight[i]].imgURL 
         + '" alt="'
         + jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
-        + '" />&nbsp;</div>');
+        + '" />'
+        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
+        + '&nbsp;</div>');
     }
     if(elementsRight[tableArrayRight[i]].type == 'text'){
       tableTag = '<div role="presentation" id="element' 
@@ -249,21 +251,27 @@ function loadElementsSighted(){
 
         console.log(JSProblemState.pairings);
         console.log(needle);
-
+        
         if (!_.isEmpty(JSProblemState.pairings)) {
-
-          $.each(JSProblemState.pairings[0], function(i) {
-            if ($.inArray(needle, JSProblemState.pairings[i]) > -1) {
-            
-              console.log('Setting the state to checked.');
-              $(this).prop('checked', true).attr('checked', 'checked');
-            } else {
-              
-              console.log('Setting the state to unchecked.');
-              $(this).removeProp('checked').removeAttr('checked');
-            }
-          });
         }
+
+
+
+
+//         if (!_.isEmpty(JSProblemState.pairings)) {
+// 
+//           $.each(JSProblemState.pairings[0], function(i) {
+//             if ($.inArray(needle, JSProblemState.pairings[i]) > -1) {
+//             
+//               console.log('Setting the state to checked.');
+//               $(this).prop('checked', true).attr('checked', 'checked');
+//             } else {
+//               
+//               console.log('Setting the state to unchecked.');
+//               $(this).removeProp('checked').removeAttr('checked');
+//             }
+//           });
+//         }
       });
     } else {
       console.log('Can\'t find the popup menu! Aborting!');
