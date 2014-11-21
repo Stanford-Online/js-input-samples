@@ -333,13 +333,13 @@ function loadElementsSighted(){
     });
     
     console.log('Closing the popup after adding/updating matches.');
-    close_popup(popup);
+    close_popup();
   }
 
   function close_popup(popup) {
     
     console.log('Running function: close_popup...');
-    $(popup).remove();
+    $('#contextual_menu').remove();
     
     console.log('Popup removed.')
     $(popup).parent().find('button').focus();
