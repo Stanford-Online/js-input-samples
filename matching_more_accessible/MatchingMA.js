@@ -256,7 +256,7 @@ function loadElementsSighted(){
         if (!_.isEmpty(JSProblemState.pairings)) {
           for(var i=0; i < JSProblemState.pairings.length; i++){
             console.log('checking for pairing ' + JSProblemState.pairings[i]);
-            var thisbox = $('#element_'+oL+'_'+oN);
+            var thisbox = $('#element_'+oLetter+'_'+oNumber);
             
             if(_.isEqual(JSProblemState.pairings[i], needle)){
               console.log('Setting the state to checked.');
