@@ -300,7 +300,7 @@ function loadElementsSighted(){
     }
     
     $.each(elementsLeft, function(tableArrayLeft, i) {
-      options_options += '<li><label for="element_' + tableArrayLeft + '_' + number + '" class="option-label" aria-describedby="description' + tableArrayLeft + '"><input type="checkbox" id="element_' + tableArrayLeft + '_' + number + '" name="element' + tableArrayLeft + '" value="element' + number + '" /> ' + this.label + '</label></li>';
+      options_options += '<li><label for="element_' + tableArrayLeft + '_' + number + '" class="option-label"><input type="checkbox" id="element_' + tableArrayLeft + '_' + number + '" name="element' + tableArrayLeft + '" value="element' + number + '" aria-describedby="description' + tableArrayLeft + '" /> ' + this.label + '</label></li>';
     });
 
     $(options_menu).append(options_options);
