@@ -127,9 +127,11 @@ function loadElementsSighted(){
         + elementsRight[tableArrayRight[i]].imgURL 
         + '" alt="'
         + jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
-        + '" class="icon" /></div>'
+        + '" class="icon" />'
+        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
+        + '</div>'
         + dropArea 
-        + '</div>';
+        + '&nbsp;</div>';
       $('#hiddenspace').append('<div id="bigelement' 
         + tableArrayRight[i]
         + '" class="bigelement" title="' 
@@ -139,8 +141,7 @@ function loadElementsSighted(){
         + '" alt="'
         + jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
         + '" />'
-        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
-        + '&nbsp;</div>');
+        + '</div>');
     }
     if(elementsRight[tableArrayRight[i]].type == 'text'){
       tableTag = '<div role="presentation" id="element' 
