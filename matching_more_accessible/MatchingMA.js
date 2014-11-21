@@ -253,16 +253,18 @@ function loadElementsSighted(){
         console.log(JSProblemState.pairings);
         console.log(needle);
         
-        // Look through the pairings to see if 
+        // Look through the pairings and check the appropriate boxen
         if (!_.isEmpty(JSProblemState.pairings)) {
           for(var i=0; i < JSProblemState.pairings.length; i++){
+            console.log('checking for pairing ' + JSProblemState.pairings[i]);
+            var thisbox = $('#element_'+oL+'_'+oN);
             
             if(_.isEqual(JSProblemState.pairings[i], needle)){
               console.log('Setting the state to checked.');
-              $('[name="'+oL+'"][value="'+oN+'"]').prop('checked', true).attr('checked', 'checked');
+              thisbox.prop('checked', true).attr('checked', 'checked');
             }else{
               console.log('Setting the state to unchecked.');
-              $('[name="'+oL+'"][value="'+oN+'"]')..removeProp('checked').removeAttr('checked');
+              thisbox.prop('checked', false).removeAttr('checked');
             }
           }
         }
