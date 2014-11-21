@@ -235,6 +235,15 @@ function loadElementsSighted(){
     $.each(elementsLeft, function(tableArrayLeft, i) {
       options_options += '<li><input type="checkbox" id="' + this.label + '_label" name="element' + tableArrayLeft + '" value="element' + number + '" /><label for="' + this.label + '_label" class="option-label">' + this.label + '</label></li>';
     });
+    
+    var checkboxen = $('input');
+    $.each(checkboxen, function(i, ob){
+      var letter = ob.attr('name').replace('element', '');
+      var number = ob.attr('value').replace('element', '');
+      if(_.indexOf(JSProblemState.pairings, [letter, number]) > 0){
+        ob.prop('checked', true);
+      }
+    }
 
     $(options_menu).append(options_options);
     $(contextual_menu).append(options_menu).append(contextual_actions);
@@ -252,7 +261,7 @@ function loadElementsSighted(){
     JSProblemState.pairings.push(values);
     
     // Clear every pairing for this panel first, then add the ones we selected.
-    for(var i=0; i < JSProblemState.pairings.length, i++){
+    for(var i=0; i < JSProblemState.pairings.length; i++){
       if(JSProblemState.pairings[1] == values[0][1]){
         JSProblemState.pairings.splice(i, 1);
       }
