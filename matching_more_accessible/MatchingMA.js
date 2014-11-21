@@ -265,23 +265,6 @@ function loadElementsSighted(){
           }
         }
 
-
-
-
-//         if (!_.isEmpty(JSProblemState.pairings)) {
-// 
-//           $.each(JSProblemState.pairings[0], function(i) {
-//             if ($.inArray(needle, JSProblemState.pairings[i]) > -1) {
-//             
-//               console.log('Setting the state to checked.');
-//               $(this).prop('checked', true).attr('checked', 'checked');
-//             } else {
-//               
-//               console.log('Setting the state to unchecked.');
-//               $(this).removeProp('checked').removeAttr('checked');
-//             }
-//           });
-//         }
       });
     } else {
       console.log('Can\'t find the popup menu! Aborting!');
