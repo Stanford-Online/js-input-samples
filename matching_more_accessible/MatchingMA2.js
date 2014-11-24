@@ -231,16 +231,19 @@ function build_menu(number, parent) {
 		$('#contextual_menu').remove();
 	}
 	
+	var tableArrayLeft = [];
+	
+	// Creating pieces for the menu
 	console.log('Running function: build_menu...');
-	var tableArrayLeft = [], 
-		contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"></div>'),
+	var contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"></div>'),
 		options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
 		options_options = '',
 		contextual_actions = '<div class="popup-actions">'
 			+ '<button type="button" class="save-options">Save</button>'
 			+ '<button type="button" class="cancel">Cancel</button>'
 			+ '</div>';
-
+	
+	// Build an array of keys and iterate through them to make the menu.
 	for (var key in elementsLeft) {
 		tableArrayLeft.push(key);
 	}
@@ -258,17 +261,18 @@ function build_menu(number, parent) {
 			+ elementsLeft[value].label 
 			+ '</label></li>';
 	});
-
-	$(options_menu).append(options_options);
-	
 	console.log('Built the checkbox menu.');
-	$(contextual_menu).append(options_menu).append(contextual_actions);
 	
-	console.log('Attached the menu to the popup.');
+	// Add the menu to the page.
+	$(options_menu).append(options_options);
+	$(contextual_menu).append(options_menu).append(contextual_actions);
 	$(parent).append(contextual_menu);
+	console.log('Attached the menu to the popup.');
 	
 	console.log('Displaying the popup menu with options.');
 	update_selected_options(number);
+	
+	// For in case we decide to handle focus manually.
 	// $('#contextual_menu').focus();
 	
 	console.log('Updating the selected options, if available.');
@@ -315,7 +319,7 @@ function build_menu(number, parent) {
 }
 
 
-// This function checks the appropriate boxes on the menu, to show which pairings exist.
+// This function checks the appropriate boxes on the pop-up menu, to show which pairings exist.
 function update_selected_options(number) {
 	
 	console.log('Running function: update_selected_options...');
@@ -324,7 +328,7 @@ function update_selected_options(number) {
 	if ($('#contextual_menu').is(':visible')) {
 		console.log('OK!');
 
-		$('input[type="checkbox"]').each(function(j) {
+		$('#contextual_menu input[type="checkbox"]').each(function(j) {
 
 			var oL = $(this).attr('name');
 			var oLetter = oL.replace('element', '');
