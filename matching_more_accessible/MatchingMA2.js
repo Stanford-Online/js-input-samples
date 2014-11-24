@@ -209,6 +209,8 @@ function loadElements(){
 	});
 
 
+	// When someone clicks on the button to make selections, open the menu so they can.
+	// We're also manually handling focus to some extent for this whole maneuver.
 	$('.content').on('click', '.assign-options', function() {
 		
 		console.log('Button clicked, assigning matches...');
@@ -217,7 +219,62 @@ function loadElements(){
 		console.log('Creating the popup menu...');
 		build_menu(eNumber, $(this).parent());
 	});
+	
+}
 
+
+function build_menu(number, parent) {
+
+	if ($('#contextual_menu').length) {
+		console.log('Closing open menus.')
+		// Hacky for now, but you'll want to check any open containers for changed checkboxes and save them before closing.
+		$('#contextual_menu').remove();
+	}
+	
+	console.log('Running function: build_menu...');
+	var tableArrayLeft = [], 
+		contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"></div>'),
+		options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
+		options_options = '',
+		contextual_actions = '<div class="popup-actions">'
+			+ '<button type="button" class="save-options">Save</button>'
+			+ '<button type="button" class="cancel">Cancel</button>'
+			+ '</div>';
+
+	for (var key in elementsLeft) {
+		tableArrayLeft.push(key);
+	}
+	
+	$.each(tableArrayLeft, function(i, value) {
+		options_options += '<li><label for="element_' 
+			+ value + '_' + number 
+			+ '" class="option-label">'
+			+ '<input type="checkbox" '
+			+ 'id="element_' + value + '_' + number 
+			+ '" name="element' + value
+			+ '" value="element' + number 
+			+ '" aria-describedby="description' + value 
+			+ '" /> ' 
+			+ elementsLeft[value].label 
+			+ '</label></li>';
+	});
+
+	$(options_menu).append(options_options);
+	
+	console.log('Built the checkbox menu.');
+	$(contextual_menu).append(options_menu).append(contextual_actions);
+	
+	console.log('Attached the menu to the popup.');
+	$(parent).append(contextual_menu);
+	
+	console.log('Displaying the popup menu with options.');
+	update_selected_options(number);
+	// $('#contextual_menu').focus();
+	
+	console.log('Updating the selected options, if available.');
+
+	// Let's add some event handlers for the menu.
+	// If someone saves what they've done with the menu, handle the checkboxes appropriately.
 	$('.content').on('click', '#contextual_menu .save-options', function() {
 		
 		console.log('Button clicked, saving selections...');
@@ -247,52 +304,14 @@ function loadElements(){
 		console.log('Saving selections.');
 		save_pairings(values, $(this).parent().parent());
 	});
-
+	
+	// If they cancel the menu, ignore everything they did with it.
 	$('.content').on('click', '#contextual_menu .cancel', function() {
 		
 		console.log('Button clicked, closing open popup menu.');
 		close_popup($('.popup-menu'));
 	});
 
-}
-
-
-function build_menu(number, parent) {
-
-	if ($('#contextual_menu').length) {
-		console.log('Closing open menus.')
-		// Hacky for now, but you'll want to check any open containers for changed checkboxes and save them before closing.
-		$('#contextual_menu').remove();
-	}
-	
-	console.log('Running function: build_menu...');
-	var tableArrayLeft = [], 
-		contextual_menu = $('<div id="contextual_menu" class="popup-menu" tabindex="-1"></div>'),
-		options_menu = $('<ol id="options_menu" class="popup-options"></ol>'), 
-		options_options = '',
-		contextual_actions = '<div class="popup-actions"><button type="button" class="save-options">Save</button><button type="button" class="cancel">Cancel</button></div>';
-
-	for (var key in elementsLeft) {
-		tableArrayLeft.push(key);
-	}
-	
-	$.each(elementsLeft, function(tableArrayLeft, i) {
-		options_options += '<li><label for="element_' + tableArrayLeft + '_' + number + '" class="option-label"><input type="checkbox" id="element_' + tableArrayLeft + '_' + number + '" name="element' + tableArrayLeft + '" value="element' + number + '" aria-describedby="description' + tableArrayLeft + '" /> ' + this.label + '</label></li>';
-	});
-
-	$(options_menu).append(options_options);
-	
-	console.log('Built the checkbox menu.');
-	$(contextual_menu).append(options_menu).append(contextual_actions);
-	
-	console.log('Attached the menu to the popup.');
-	$(parent).append(contextual_menu);
-	
-	console.log('Displaying the popup menu with options.');
-	update_selected_options(number);
-	// $('#contextual_menu').focus();
-	
-	console.log('Updating the selected options, if available.');
 }
 
 
