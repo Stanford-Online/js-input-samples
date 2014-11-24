@@ -124,7 +124,7 @@ function loadElements(){
         + '" alt="'
         + jQuery('<p>' + elementsRight[tableArrayRight[i]].text + '</p>').text()  // Strip the tags from the text for alt text
         + '" class="icon" />'
-        + '<button type="button" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
+        + '<button type="button" class="assign-options" data-element-number="' + tableArrayRight[i] + '">Make selections</button>' 
         + '</div>'
         + dropArea 
         + '</div>';
@@ -148,7 +148,7 @@ function loadElements(){
         + tableArrayRight[i]
         + '">' 
         + elementsRight[tableArrayRight[i]].text 
-        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '" data-element-left="' + tableArrayLeft[i] + '">Make selections</button>' 
+        + '<button type="button" aria-haspopup="true" aria-controls="contextual_menu" class="assign-options" data-element-number="' + tableArrayRight[i] + '">Make selections</button>' 
         + '</div>'
         + dropArea
         + '</div>';
@@ -212,12 +212,10 @@ function loadElements(){
 
 
   /* ----------------------------------------------
-   * fn update_selected_options(number, letter);
+   * fn update_selected_options(number);
    *      number = string
-   *      letter = string
    *
-   * fn build_menu(letter, number, parent);
-   *      letter = string
+   * fn build_menu(number, parent);
    *      number = string
    *      parent = object
    *
@@ -228,8 +226,10 @@ function loadElements(){
    * fn close_popup(popup);
    *      popup = object
    * -------------------------------------------- */
-
-  function update_selected_options(number, letter) {
+  
+  
+  // This function checks the appropriate boxes on the menu, to show which pairings exist.
+  function update_selected_options(number) {
     
     console.log('Running function: update_selected_options...');
     console.log('Looping through checkboxes in the open popup menu...');
@@ -239,11 +239,10 @@ function loadElements(){
 
       $('input[type="checkbox"]').each(function(i) {
         var oL = $(this).attr('name'),
-            oN = $(this).val(),
             needle;
 
-        oLetter = oL.replace('element', '');
-        oNumber = oN.replace('element', '');
+        var oLetter = oL.replace('element', '');
+        var oNumber = number;
         needle = [oLetter, oNumber];
 
         console.log(JSProblemState.pairings);
@@ -268,7 +267,7 @@ function loadElements(){
 
   }
 
-  function build_menu(letter, number, parent) {
+  function build_menu(number, parent) {
 
     if ($('#contextual_menu').length) {
       console.log('Closing open menus.')
@@ -308,7 +307,7 @@ function loadElements(){
     $(parent).append(contextual_menu);
     
     console.log('Displaying the popup menu with options.');
-    update_selected_options(number, letter);
+    update_selected_options(number);
     // $('#contextual_menu').focus();
     
     console.log('Updating the selected options, if available.');
@@ -354,11 +353,10 @@ function loadElements(){
   $('.content').on('click', '.assign-options', function() {
     
     console.log('Button clicked, assigning matches...');
-    var eLetter = $(this).data('element-left'),
-        eNumber = $(this).data('element-number');
+    var eNumber = $(this).data('element-number');
     
     console.log('Creating the popup menu...');
-    build_menu(eLetter, eNumber, $(this).parent());
+    build_menu(eNumber, $(this).parent());
   });
 
   $('.content').on('click', '#contextual_menu .save-options', function() {
