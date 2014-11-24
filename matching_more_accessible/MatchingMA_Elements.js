@@ -6,27 +6,27 @@
 
 var elementsRight = {
 	'1': {
-		'label': 'Metal',
+		'label': 'Heavy Metal',
 		'type': 'text',
-		'text': 'Heavy Metal',
+		'text': 'Loud rock music featuring guitars, drums, and strong vocals',
 		'imgURL': ''
 	},
 	'2': {
-		'label': 'Classical',
+		'label': 'Classical Music',
 		'type': 'text',
-		'text': 'Classical music',
+		'text': 'A wide variety of older European music featuring piano and orchestra',
 		'imgURL': ''
 	},
 	'3': {
 		'label': 'Jazz',
 		'type': 'image',
-		'text': 'Jazz music and improvisation',
+		'text': 'Small-ensemble pieces with piano, brass, and drums, centering around improvisation',
 		'imgURL': 'Armstrong.jpg'
 	},
 	'4': {
 		'label': 'Techno',
 		'type': 'text',
-		'text': 'Techno, house, and other heavy electronica',
+		'text': 'House, chiptunes, and other heavy electronica',
 		'imgURL': ''
 	},
 	'5': {
