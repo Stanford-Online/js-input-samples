@@ -277,37 +277,44 @@ function build_menu(number, parent) {
 	
 	console.log('Updating the selected options, if available.');
 
+
 	// Let's add some event handlers for the menu.
 	// If someone saves what they've done with the menu, handle the checkboxes appropriately.
 	$('.content').on('click', '#contextual_menu .save-options', function() {
 		
 		console.log('Button clicked, saving selections...');
-		var inputs = $('#options_menu li input[type="checkbox"]'), 
-				values = [];
+		var inputs = $('#options_menu li input[type="checkbox"]');
+		var checkboxes = [];
+		var checked = []
+		var thisLetter = '';
 
-		$(inputs).each(function() {
+		$(inputs).each(function(i) {
 			
 			console.log('Looping through each checkbox to see if its selected...');
+			
 			if ($(this).is(':checked')) {
-				
 				console.log('Found checked.');
-				var oLetter = $(this).attr('name'),
-						oNumber = $(this).val();
-
-				console.log('Replacing strings...');
-				oLetter = oLetter.replace('element', '');
-				oNumber = oNumber.replace('element', '');
-				
-				console.log('Building values array...');
-				values.push([oLetter, oNumber]);
-				
-				console.log('Values:' + values);
+				checked.push(true);
+			}else{
+				checked.push(false);
 			}
-		});
+			
+			var oLetter = $(this).attr('name'),
+				oNumber = $(this).val();
 
+			oLetter = oLetter.replace('element', '');
+			thisLetter = oLetter;
+			oNumber = oNumber.replace('element', '');
+			
+			checkboxes.push([oLetter, oNumber]);
+
+		});
+		
+		console.log(checkboxes, checked);
 		console.log('Saving selections.');
-		save_pairings(values, $(this).parent().parent());
+		save_pairings(checkboxes, checked, thisLetter);
 	});
+	
 	
 	// If they cancel the menu, ignore everything they did with it.
 	$('.content').on('click', '#contextual_menu .cancel', function() {
@@ -327,17 +334,19 @@ function update_selected_options(number) {
 
 	if ($('#contextual_menu').is(':visible')) {
 		console.log('OK!');
-
+		
+		// Go through each checkbox to compare it to the problem state
 		$('#contextual_menu input[type="checkbox"]').each(function(j) {
 
 			var oL = $(this).attr('name');
 			var oLetter = oL.replace('element', '');
-			var oNumber = number;
+			var oNumber = number.toString();
 			var needle = [oLetter, oNumber];
 
 			console.log(JSProblemState.pairings);
 			console.log(needle);
 			
+			// Go through each pairing in the problem state and compare against the pop-up.
 			if (!_.isEmpty(JSProblemState.pairings)) {
 				for(var i=0; i < JSProblemState.pairings.length; i++){
 					console.log('checking for pairing ' + JSProblemState.pairings[i]);
@@ -357,31 +366,55 @@ function update_selected_options(number) {
 
 }
 
-function save_pairings(values, popup) {
+function save_pairings(checkboxes, checked, letter) {
 	
 	console.log('Running function: save_pairings...');
-	// JSProblemState.pairings.push(values);
-	for (var i = 0; i < JSProblemState.pairings.length; i++){
-		if (!_.isEmpty(values)){
-			if (JSProblemState.pairings[1] == values[0][1]) {
-				JSProblemState.pairings.splice(i, 1);
+	
+	// Javascript is dumb about array comparison.
+	// We're flattening the checkboxes and the JSProblemState pairings into arrays of strings for testing.
+	
+	var tempBoxes = checkboxes.slice();
+	var tempPairings = JSProblemState.pairings.slice();
+	
+	for(var i = 0; i < checkboxes.length; i++){ tempBoxes[i] = tempBoxes[i].toString(); }
+	for(var i = 0; i < JSProblemState.pairings.length; i++){ tempPairings[i] = tempPairings[i].toString(); }
+	
+	// Loop through the checkboxes from this pop-up.
+	for(var i = 0; i < checkboxes.length; i++){
+		
+		// Get the index for this checkbox within the pairings.
+		var indexOfPairing = _.indexOf(tempPairings, tempBoxes[i]);
+		console.log(checkboxes[i] + ' is number ' + indexOfPairing);
+		
+		// If we find this pairing in the list...
+		if(indexOfPairing >= 0){
+
+			// If it's checked, do nothing. It's already on the list.
+			
+			// If it's unchecked and it's currently on the pairing list, 
+			//  remove it from the problem state and the DOM.
+			if(!checked[i]){
+				JSProblemState.pairings.splice(indexOfPairing, 1);
+				$('#' + checkboxes[i][0] + '-' + checkboxes[i][1]).remove()
 			}
 		}
+		
+		// If we don't find this pairing in the list...
+		else{
+			// If it's checked, add it.
+			if(checked[i]){
+				addMatchToDOM(checkboxes[i]);
+				JSProblemState.pairings.push(checkboxes[i]);
+			}
+			// If not checked, ignore it - we don't need to remove anything.
+		}
 	}
-
-	$.each(values, function(k, ob) {
-		JSProblemState.pairings.push(ob);
-		console.log(ob);
-	});
 	
-	console.log('Looping through selected options and adding options to bulk.');
-	$.each(values, function(i) {
-		addMatchToDOM([values[i][0], values[0][1]]);
-	});
-	
+	// Then we're done.
 	console.log('Closing the popup after adding/updating matches.');
 	close_popup();
 }
+
 
 function close_popup(popup) {
 	
