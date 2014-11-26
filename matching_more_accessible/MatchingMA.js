@@ -223,6 +223,7 @@ function loadElements(){
 }
 
 
+// Creates the contextual menu for accessible access.
 function build_menu(number, parent) {
 
 	if ($('#contextual_menu').length) {
@@ -321,6 +322,7 @@ function build_menu(number, parent) {
 		
 		console.log('Button clicked, closing open popup menu.');
 		close_popup($('.popup-menu'));
+		
 	});
 	
 }
@@ -370,12 +372,14 @@ function save_pairings(checkboxes, checked, letter) {
 	
 	console.log('Running function: save_pairings...');
 	
-	// Javascript is dumb about array comparison.
-	// We're flattening the checkboxes and the JSProblemState pairings into arrays of strings for testing.
+	// Javascript is dumb about array comparison. Therefore:
 	
+	// Slice to copy the array, because equals is a reference for arrays.
 	var tempBoxes = checkboxes.slice();
 	var tempPairings = JSProblemState.pairings.slice();
 	
+	// We're flattening the checkboxes and the JSProblemState pairings into
+	// arrays of strings instead of arrays of arrays, for testing against one another.
 	for(var i = 0; i < checkboxes.length; i++){ tempBoxes[i] = tempBoxes[i].toString(); }
 	for(var i = 0; i < JSProblemState.pairings.length; i++){ tempPairings[i] = tempPairings[i].toString(); }
 	
@@ -416,19 +420,18 @@ function save_pairings(checkboxes, checked, letter) {
 }
 
 
+// Called after you save or cancel from the pop-up menu
 function close_popup(popup) {
 	
-	console.log('Running function: close_popup...');
 	$('#contextual_menu').remove();
-	
 	console.log('Popup removed.')
+
 	$(popup).parent().find('button').focus();
-	
 	console.log('Focus sent back to initiating button.');
 }
 
 
-
+// Called when you drop the draggable element into the right-hand side.
 function handleDrop(event, ui){
 
 	var draggedElement = $(ui.draggable);
@@ -460,6 +463,7 @@ function handleDrop(event, ui){
 		JSProblemState.pairings.push(thisPairing);
 	}
 }
+
 
 // Takes care of adding a pairing to the DOM. Doesn't touch the problem state, just handles display.
 function addMatchToDOM(pairing){
@@ -493,7 +497,7 @@ function selfDelete(event){
 
 }
 
-
+// Called by setState and nowhere else, to put things back how they were.
 function putMatchesBack(){
 
 	var letter;
