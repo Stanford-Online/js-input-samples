@@ -461,15 +461,15 @@ function handleDrop(event, ui){
 	}
 }
 
-
+// Takes care of adding a pairing to the DOM. Doesn't touch the problem state, just handles display.
 function addMatchToDOM(pairing){
-	// Add to the DOM
+
 	var indicator = '<li id="' + pairing[0] + '-' + pairing[1] + '">' + elementsLeft[pairing[0]].label + '</li>';
 	indicatorSpace = $('#element' + pairing[1]).find('ul').append(indicator);
 
 	// Give this a removal button.
 	$('#' + pairing[0] + '-' + pairing[1]).append('<button type="button" class="delete" aria-label="remove match">x</button>');
-	$('.delete').on('click tap', function(event){selfDelete(event)}); 
+	$('.delete').on( 'click tap', function(event){ selfDelete(event) } ); 
 }
 
 
