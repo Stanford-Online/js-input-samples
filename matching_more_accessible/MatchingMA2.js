@@ -322,7 +322,7 @@ function build_menu(number, parent) {
 		console.log('Button clicked, closing open popup menu.');
 		close_popup($('.popup-menu'));
 	});
-
+	
 }
 
 
@@ -521,6 +521,13 @@ $(document).ready(function(){
 	var switcher = $('#switcher');
 	var instructions = $('#instructions');	
 		
+	// If the user hits escape while a pop-up menu is open, close it.
+	$(document).keyup(function(e) {
+		if ($('#contextual_menu').is(':visible')) {
+			if (e.keyCode == 27) { $('.cancel').click(); }   // 27 is esc
+		}
+	});	
+
 });
 
 
