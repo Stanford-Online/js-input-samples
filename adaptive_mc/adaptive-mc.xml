@@ -1,0 +1,46 @@
+<problem display_name="webGLDemo">
+<script type="loncapa/python">
+<![CDATA[
+import json
+def answercheck(e, ans):
+
+  parsed = json.loads(ans)
+  answer = json.loads(parsed['answer'])
+  answer = int(float(answer['value']))
+  
+  if answer == 7:
+    return True
+  else:
+    return False
+]]>
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+// Logs a javascript object.
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.blue_monkey.mathcing_problem", ThatThing);
+
+}
+
+</script>
+
+<p>
+This is an adaptive multiple choice problem.
+</p>
+<customresponse cfn="answercheck">
+  <jsinput gradefn="AdaptiveMC.getGrade"
+    get_statefn="AdaptiveMC.getState"
+    set_statefn="AdaptiveMC.setState"
+    width="800"
+    height="600"
+    html_file="/static/adaptive-mc.html"/>
+</customresponse>
+</problem>
