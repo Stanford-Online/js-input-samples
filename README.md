@@ -8,6 +8,7 @@
 - "[Card Sorting](https://github.com/Stanford-Online/js-input-samples/tree/master/cardsorting)": A card-sorting exercise. Used to in cognitive science to measure expertise in a particular field.
 - "[Accessible Matching](https://github.com/Stanford-Online/js-input-samples/tree/master/matching_accessible)": A standard matching-type problem as seen in a myriad of classroom quizzes. Designed to be usable on screen readers as well as by sighted users.
 - "[Drop File](https://github.com/Stanford-Online/js-input-samples/tree/master/dropfile)": A bare-bones problem that uses Javascript to check a file and see whether it's an image or text. Constructed as an example of how someone might create a file-processing problem.
+- "[Adaptive MC]((https://github.com/Stanford-Online/js-input-samples/tree/master/adaptive_mc))": Creates a set of resources where the path depends on a student's answers to MC questions. Still under construction.
 
 ## Deprecated Projects ##
 - "[Matching](https://github.com/Stanford-Online/js-input-samples/tree/master/deprecated/matching)": A standard matching-type problem as seen in a myriad of classroom quizzes. Replaced by the [Accessible Matching](https://github.com/Stanford-Online/js-input-samples/tree/master/matching_accessible) problem.
