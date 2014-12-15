@@ -67,12 +67,19 @@ $(document).ready(function(){
 		if(item[x].type == "MC") {
 			console.log('making MC');
 			//appends a form with radio buttons to the probcontainer div
-			$("#probcontainer").append("<form id='" + x + "' alt='"+ item[x].html.alt +"'>" + item[x].html.stem+"<br>");
+			$("#probcontainer").append("<form id='" + x + "'>");
 			for(j = 0; j < item[x].html.choices.length; j++){
-			    $("#" + x).append("<input name = 'problem" + x + "' value = '" + item[x].html.choices[j] + "' type = 'radio'>" + item[x].html.choices[j] + "</br>");
+			    $("#" + x).append("<input name = 'problem" + x 
+			    	+ "' value = '" + item[x].html.choices[j] 
+			    	+ "' id = 'input" + x + "-" + j
+			    	+ "' type = 'radio'>" 
+			    	+ "<label for='input" + x + "-" + j
+			    	+ "'>" + item[x].html.choices[j] + "</label>"
+			    	+ "</br>");
 			};
 			$("#probcontainer").append("</form>");
 			$("#" + x).wrap("<div class='sneaky' id='div" + x + "'></div>");
+			$("#" + x).before("<p>" + item[x].html.stem + "</p>");
 		};
 
 		//NOTE: for non-MC object types, logic (e.g., what happens when "Continue" is pressed) is compiled in this function
