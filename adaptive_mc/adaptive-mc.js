@@ -42,7 +42,7 @@ $(document).ready(function(){
 		var destination = objects[probNumber].logic[key];
 
 		//keeps the user at the same object, if the destination object and current object are the same
-		if(destination != probNumber && destination >=0){
+		if(destination != probNumber && destination >= 0){
 			//current object slides offscreen, form is reset
 			$("#div" + probNumber).hide("slide",1000);
 			$(this).removeAttr("checked");
@@ -82,11 +82,17 @@ $(document).ready(function(){
 			$("#" + x).before("<p>" + item[x].html.stem + "</p>");
 		};
 
-		//NOTE: for non-MC object types, logic (e.g., what happens when "Continue" is pressed) is compiled in this function
-		//formats image object type
+		// NOTE: for non-MC object types, logic (e.g., what happens when "Continue" is pressed) 
+		// is compiled in this function
+
+		// formats image object type
 		if(item[x].type == "image"){
 			console.log('making image');
-			$("#probcontainer").append("<img src = '" + item[x].html.src + "' height = '"+ item[x].html.height +"' width = '"+ item[x].html.width +"' alt='"+ item[x].html.alt +"' id = '" + x + "'>");
+			$("#probcontainer").append("<img src = '" + item[x].html.src 
+				+ "' height = '" + item[x].html.height 
+				+ "' width = '" + item[x].html.width 
+				+ "' alt='"+ item[x].html.alt 
+				+ "' id = '" + x + "'>");
 			$("#" + x).wrap("<div class='sneaky' id='div" + x + "'></div>");
 			$("#" + x).after("<br/>");
 			if(item[x].logic != 'end'){
@@ -119,7 +125,7 @@ $(document).ready(function(){
 		//formats text object type
 		if(item[x].type == "text"){
 			console.log('making text');
-			$("#probcontainer").append("<p id='"+x+"'>"+item[x].html.text+"</p>");
+			$("#probcontainer").append("<p id='" + x + "'>" + item[x].html.text + "</p>");
 			$("#" + x).wrap("<div class='sneaky' id='div" + x + "'></div>");
 			$("#" + x).after("<br/>");
 			if(item[x].logic != 'end'){
