@@ -23,6 +23,7 @@ $(document).ready(function(){
 function logThatThing(ThatThing){
 
 	// Log it to the console just to verify it's working
+	console.log('Log That Thing!');
 	console.log(JSON.stringify(ThatThing));
 	
 	// Send it to the official edX logamajig!

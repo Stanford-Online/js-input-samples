@@ -3,7 +3,8 @@
 
 //tracker variable changes to the destination object number as the user moves throughout the problem set (initially set to 0, the first object)
 var tracker = {
-	'value': '0'
+	'value': '0',
+	'history': []
 };
 
 var loadTime;
@@ -30,19 +31,28 @@ $(document).ready(function(){
 
 		//sets variable key to the value of the selected choice
 		var key = $(this).attr('value');
+
 		//determines the problem number (i.e., if selected choice's input's name is "problem1", probNumber is 1--these start at 0 by default)
 		var probNumber = $(this).attr('name').replace('problem','');
+		// Add this to our user history for logging purposes.
+		tracker.history.push(parseInt(probNumber));
+
+
 		//finds the key's logic in probNumber's object, which is the destination
 		var destination = objects[probNumber].logic[key];
+
 		//keeps the user at the same object, if the destination object and current object are the same
 		if(destination != probNumber && destination >=0){
 			//current object slides offscreen, form is reset
 			$("#div" + probNumber).hide("slide",1000);
 			$(this).removeAttr("checked");
+
 			//destination object slides onscreen
 			$("#div" + destination).delay(1000).show("slide",{direction:"right"},1000);
+
 			//tracker variable is updated to show progress through problem set
 			tracker.value = destination;
+
 			//shows "Continue" button for object types without input (all but MC questions)
 			if(objects[destination].type == "video" || objects[destination].type == "image" || objects[destination].type == "text" && objects[destination].logic != 'end'){
 				$("#button"+destination).delay(1500).show("highlight", 100);
@@ -76,17 +86,7 @@ $(document).ready(function(){
 				$("#div" + x).append("<button type='button' id='button"+x+"'>Continue</button>");
 				$("#button"+x).css("position", "absolute");
 				$("#button"+x).css("top", item[x].html.height + 10);
-				$("#button"+x).click(function(){
-					if(item[x].logic >=0){
-						$("#div"+x).hide("slide",1000);
-						$("#div"+item[x].logic).delay(1000).show("slide",{direction:"right"},1000);
-						tracker.value = item[x].logic;
-						console.log('from image to item ' + item[x].logic);
-// 						if(item[x].type == "video" || item[x].type == "image" || item[x].type == "text"){
-// 							$("#button"+item[x].logic).delay(1500).show("highlight", 100);
-// 						}
-					}
-				});
+				$("#button"+x).click(function(){ buttonClick(item, x, 'image') });
 			}
 		};
 		
@@ -101,17 +101,7 @@ $(document).ready(function(){
 				$("#div" + x).append("<button type='button' id='button"+x+"'>Continue</button>");
 				$("#button"+x).css("position", "absolute");
 				$("#button"+x).css("top", item[x].html.height + 10);
-				$("#button"+x).click(function(){
-					if(item[x].logic >=0){
-						$("#div"+x).hide("slide",1000);
-						$("#div"+item[x].logic).delay(1000).show("slide",{direction:"right"},1000);
-						tracker.value = item[x].logic;
-						console.log('from video to item ' + item[x].logic);
-// 						if(item[x].type == "video" || item[x].type == "image" || item[x].type == "text"){
-// 							$("#button"+item[x].logic).delay(1500).show("highlight", 100);
-// 						}
-					}
-				});
+				$("#button"+x).click(function(){ buttonClick(item, x, 'video') });
 			}
 		};
 		
@@ -123,23 +113,23 @@ $(document).ready(function(){
 			$("#" + x).after("<br/>");
 			if(item[x].logic != 'end'){
 				$("#div" + x).append("<button type='button' id='button"+x+"'>Continue</button>");
-				$("#button"+x).click(function(){
-					if(item[x].logic >=0){
-						$("#div"+x).hide("slide",1000);
-						$("#div"+item[x].logic).delay(1000).show("slide",{direction:"right"},1000);
-						tracker.value = item[x].logic;
-						console.log('from text to item ' + item[x].logic);
-// 						if(item[x].type == "video" || item[x].type == "image" || item[x].type == "text"){
-// 							$("#button"+item[x].logic).delay(1500).show("highlight", 100);
-// 						}
-					}
-				})
+				$("#button"+x).click(function(){ buttonClick(item, x, 'text') });
 			}
 		}
 	};
 	
 
 });
+
+function buttonClick(item, x, type){
+	if(item[x].logic >=0){
+		tracker.history.push(x);
+		$("#div"+x).hide("slide",1000);
+		$("#div"+item[x].logic).delay(1000).show("slide",{direction:"right"},1000);
+		tracker.value = item[x].logic;
+		console.log('from ' + type + ' to item ' + item[x].logic);
+	}
+}
 
 //this function loads the object to which var tracker was last assigned
 function loadProgress(x){
@@ -188,6 +178,10 @@ var AdaptiveMC = (function() {
 		console.log('setting state');
 		stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
 		tracker = JSON.parse(stateStr);
+		
+		// Intentionally clearing the history - we've already logged the last one.
+		tracker.history = [];
+		
 		console.log(tracker);
 
 		clearTimeout(loadTime);
@@ -206,7 +200,7 @@ var AdaptiveMC = (function() {
 
 		// Log the problem state.
 		// This is called from the parent window's Javascript so that we can write to the official edX logs.
-		 parent.logThatThing(tracker.value);
+		 parent.logThatThing(tracker);
 
 		// Return the whole problem state.
 		return JSON.stringify(tracker);
