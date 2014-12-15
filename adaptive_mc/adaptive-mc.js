@@ -1,3 +1,5 @@
+// Global array "objects" is defined in a separate file, adaptive-example.js, which is called by the HTML file.
+
 
 //tracker variable changes to the destination object number as the user moves throughout the problem set (initially set to 0, the first object)
 var tracker = {
@@ -21,14 +23,6 @@ $(document).ready(function(){
 	
 	$("#probcontainer").append("<div id = 'loading'>Loading...</div>");
 	loadTime = setTimeout(function(){ loadProgress(0); }, 2000);
-
-// 	if(tracker.value != 0){
-//     	loadProgress(tracker.value);
-//     	console.log('tracker value: ' + tracker.value);
-//     }else{
-//     	loadProgress(0);
-//     	console.log('tracker value: zero');
-//     }
 
 	//listens for user to click on a MC choice
 	$("input").click(function(){ 
@@ -196,13 +190,6 @@ var AdaptiveMC = (function() {
 		tracker = JSON.parse(stateStr);
 		console.log(tracker);
 
-
-		/******************************************
-		* THIS IS THE PART WE FIXED
-		* IT WORKS NOW.
-		* RIGHT BELOW HERE, THIS PART.
-		*******************************************/
-		
 		clearTimeout(loadTime);
 		
 		// Call up object
