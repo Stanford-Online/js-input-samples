@@ -101,7 +101,11 @@ $(document).ready(function(){
 		if(item[x].type == "video"){
 			console.log('making video');
 
-			$("#probcontainer").append("<iframe id='" + x + "' width='"+item[x].html.width+"' height='"+item[x].html.height+"'src='" + item[x].html.src + "' alt='"+ item[x].html.alt +"' frameborder='0' allowfullscreen>");
+			$("#probcontainer").append("<iframe id='" + x 
+				+ "' width='" + item[x].html.width 
+				+ "' height='" + item[x].html.height 
+				+ "' src='" + item[x].html.src 
+				+ "' frameborder='0' allowfullscreen>");
 			$("#" + x).wrap("<div class='sneaky' id='div" + x + "'></div>");
 			$("#" + x).after("<br/>");
 			if(item[x].logic != 'end'){
