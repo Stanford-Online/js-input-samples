@@ -1,4 +1,4 @@
-// Global array "objects" is defined in a separate file, adaptive-example.js, which is called by the HTML file.
+// A global array named "objects" is defined in a separate file, adaptive-example.js, which is called by the HTML file.
 
 
 //tracker variable changes to the destination object number as the user moves throughout the problem set (initially set to 0, the first object)
@@ -20,8 +20,8 @@ $(document).ready(function(){
         makeItem(objects, i);
     }
 
-	//calls loadProgress function (below); shows only the user's current object, depending on where they left off
-	
+	// Calls loadProgress function (below); shows only the user's current object, depending on where they left off
+	// "Loading" screen covers the fact that we're waiting to see if setState fires.
 	$("#probcontainer").append("<div id = 'loading'>Loading...</div>");
 	loadTime = setTimeout(function(){ loadProgress(0); }, 2000);
 
@@ -138,31 +138,34 @@ $(document).ready(function(){
 
 });
 
+// This function handles button clicks on text, image, and video elements.
 function buttonClick(item, x, type){
+
+	// Slide off the existing one, slide on the new one, and update the tracker and history.
 	if(item[x].logic >=0){
-		tracker.history.push(x);
+
 		$("#div"+x).hide("slide",1000);
 		$("#div"+item[x].logic).delay(1000).show("slide",{direction:"right"},1000);
+
+		tracker.history.push(x);
 		tracker.value = item[x].logic;
+
 		console.log('from ' + type + ' to item ' + item[x].logic);
 	}
 }
 
-//this function loads the object to which var tracker was last assigned
+// This function loads the object to which var tracker was last assigned
 function loadProgress(x){
 	console.log('loading progress');
 	
-	// Get rid of the existing one before we show the new one.
-	// FIXED THIS TOO.
+	// Hide the existing one, show the new one.
 	var vis = $('#probcontainer div:visible');
 	vis.hide();
+
 	var newone = $("#div"+x);
 	console.log( newone );
-	
 	newone.show();
-	if(objects[x].type == "video" || objects[x].type == "image" || objects[x].type == "text"){
-		$("#button"+x).show();
-	};
+
 };
 
 // This wrapper function is necessary.
