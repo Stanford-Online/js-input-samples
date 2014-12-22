@@ -34,7 +34,10 @@ function logThatThing(ThatThing){
 </script>
 
 <p>
-This is an adaptive multiple choice problem.
+This is an adaptive multiple choice problem. Each choice you make will send you to a new resource or question.
+</p>
+<p>
+When you are completely done with the entire sequence, scroll down and press "Check" to receive your points. You can also press "Reset" to start over from the beginning.
 </p>
 <customresponse cfn="answercheck">
   <jsinput gradefn="AdaptiveMC.getGrade"
