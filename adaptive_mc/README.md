@@ -25,4 +25,14 @@ coming
 
 #### Files: ####
 
-coming
+Inside you will find many pieces used to create this problem:
+
+- `jschannel.js`: the javascript file that allows javascript-type problems to work at all. You should not need to change this. I didn't make this one.
+- `jquery.ui.touch-punch.min.js`: [Touch Punch](https://github.com/furf/jquery-ui-touch-punch), an awesome JQuery extension that maps touch events into mouse events. Used for mobile compatibility. Should not need to alter.
+- `adaptive-example.js`: this contains an example adaptive problem. The "object" array has several examples of problems, text, video, and images that you can adapt to create your own problem.
+- `adaptiveExample.pdf`: this is a visual map of the problem created in the adaptive-example.js file.
+- `adaptive-mc.css`: the css file that makes things look pretty (or as close as I could get them). You should not need to change this.
+- `adaptive-mc.html`: the HTML file that will be iframed into the page. You will need to change this if you have more than one adaptive problem in your course.
+- `adaptive-mc.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating `if answer == 7:` to be the actual final step you want to grade as correct, and filling it with your own instruction text.
+- `adaptive-mc.js`: the javascript file that does the majority of the work. You should not need to change this.
+
