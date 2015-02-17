@@ -300,12 +300,15 @@ function handleDrop(event, ui){
 	var number = targetID.replace('element', '');
 	var thisPairing = [letter,number];
 	
+	console.log(letter + ' dropped on ' + number);
+	
 	var existingMatch = false;
 
 	// If these elements are already matched, we're done.
 	for(var i = 0; i < JSProblemState.pairings.length; i++){
 		if(_.isEqual(JSProblemState.pairings[i], thisPairing)){  // Uses underscore.js
 			existingMatch = true;
+			console.log('existing match found for ' + letter + ' ' + number);
 			break;
 		}
 	}
@@ -315,8 +318,8 @@ function handleDrop(event, ui){
 		
 		// Copy the title from the left-hand element and add it to the indicator space.
 		var indicatorSpace = targetElement.find('td.drop-area');
-		addMatch(indicatorSpace, letter, number);
 		JSProblemState.pairings.push(thisPairing);
+		addMatch(indicatorSpace, letter, number);
 	}
 }
 
@@ -328,6 +331,8 @@ function handleCheck(event, checkbox){
 	var rightID = $(checkbox).attr('value');
 	var number = rightID.replace('element', '');
 	var thisPairing = [letter,number];
+	
+	console.log('Checkbox ' + letter + ', ' + number + ' ticked');
 
 	var existingMatch = false;
 	
@@ -352,34 +357,56 @@ function addMatch(indicatorSpace, letter, number){
 	// Add to the DOM
 	var indicator = '<p id="' + letter + '-' + number + '">' + elementsLeft[letter].label + '</p>';
 	indicatorSpace.append(indicator);
+	
+	console.log('Added Match for ' + letter + ' ' + number);
+	console.log(JSProblemState.pairings);
 
 	// Give this a removal button.
-	$('#' + letter + '-' + number).append('<span class="delete">x</span>');
-	$('.delete').on('click tap', function(event){selfDelete(event)});	
-}
+	$('#' + letter + '-' + number).append('<span id="delete' + letter + '-' + number + '" class="delete">[-]</span>');
+	$('#delete' + letter + '-' + number).on('click tap', function(event){selfDelete(event)});	
 
-function addCheck(indicatorSpace, letter, number){
-	addCheck
+	// Once in a while this makes the whole damn right-hand side hide. Let's refresh it just in case.
+	$('#rightelements').hide().show(0);
 }
 
 
 // Callback function for the self-delete button on match indicators
 function selfDelete(event){
 
-	var target = $(event.target).parent();
+	var toDelete = $(event.target).parent();
 
-	var targetID = target.attr('id').split('-'); // Letter before hyphen, number after.
+	var targetID = toDelete.attr('id').split('-'); // Letter before hyphen, number after.
 	var letter = targetID[0];	
 	var number = targetID[1];
 	
 	var thisPairing = [letter, number];
 	
 	// Remove the group from JSProblemState
-	var exIndex = _.indexOf(JSProblemState.pairings, thisPairing);
-	JSProblemState.pairings.splice(exIndex, 1);
+	// Actually finding the damn thing is not easy.
+
+	var target = thisPairing.toString();
+	var exIndex;
+	for(var i=0; i<JSProblemState.pairings.length; i++) {
+		exIndex = i;
+		if(target === JSProblemState.pairings[i].toString()){
+			console.log('Pairing ' + target + ' found at index ' + i);
+			break;
+		}
+	}
+	
+	if(exIndex >= JSProblemState.pairings.length) { exIndex = -1; }
+	if(exIndex >= 0 ) { JSProblemState.pairings.splice(exIndex, 1); }
+	
+	
+	//var exIndex = _.indexOf(JSProblemState.pairings, thisPairing);
 	
 	// Remove the indicator from the DOM
-	target.remove();
+	toDelete.hide(300, function(){ toDelete.remove(); });
+	// Once in a while this makes the whole damn right-hand side hide. Let's refresh it just in case.
+	$('#rightelements').hide().show(0);
+	
+	console.log('Removed ' + thisPairing + ' from index ' + exIndex);
+	console.log(JSProblemState.pairings);
 
 }
 
