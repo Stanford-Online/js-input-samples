@@ -6,8 +6,9 @@ var JSProblemState = {
 	'pairings': [] // Pairings of the form [letter, number].
 };
 
-
-// Loads the cards from the cardList variable
+/**
+ * Loads the cards from the cardList global variable
+ */
 function loadElements(){
 
 	var tableArrayLeft = [];
@@ -223,7 +224,12 @@ function loadElements(){
 }
 
 
-// Creates the contextual menu for accessible access.
+/**
+ * Creates the contextual menu for accessible access.
+ * 
+ * @param {number} number The identifier for the right-hand element in the match.
+ * @param {jQuery} parent The right-hand element where we'll place the menu.
+ */
 function build_menu(number, parent) {
 
 	if ($('#contextual_menu').length) {
@@ -304,7 +310,6 @@ function build_menu(number, parent) {
 				oNumber = $(this).val();
 
 			oLetter = oLetter.replace('element', '');
-			thisLetter = oLetter;
 			oNumber = oNumber.replace('element', '');
 			
 			checkboxes.push([oLetter, oNumber]);
@@ -313,7 +318,7 @@ function build_menu(number, parent) {
 		
 		console.log(checkboxes, checked);
 		console.log('Saving selections.');
-		save_pairings(checkboxes, checked, thisLetter);
+		save_pairings(checkboxes, checked);
 	});
 	
 	
@@ -328,7 +333,11 @@ function build_menu(number, parent) {
 }
 
 
-// This function checks the appropriate boxes on the pop-up menu, to show which pairings exist.
+/**
+ * Checks the appropriate boxes on the pop-up menu, to show which pairings exist.
+ * 
+ * @param {number} number The identifier for the right-hand element in the match.
+ */
 function update_selected_options(number) {
 	
 	console.log('Running function: update_selected_options...');
@@ -368,9 +377,19 @@ function update_selected_options(number) {
 
 }
 
-function save_pairings(checkboxes, checked, letter) {
+/**
+ * Checks the appropriate boxes on the pop-up menu, to show which pairings exist.
+ * 
+ * @param {array} checkboxes An array of arrays: the checkboxes in this menu
+ * @param {array} checked Whether those boxes are in fact checked
+ */
+function save_pairings(checkboxes, checked) {
 	
 	console.log('Running function: save_pairings...');
+	
+	
+	// The trouble I'm having is probably in the loop below.
+	
 	
 	// Loop through the checkboxes from this pop-up.
 	for(var i = 0; i < checkboxes.length; i++){
@@ -405,22 +424,32 @@ function save_pairings(checkboxes, checked, letter) {
 	
 	// Then we're done.
 	console.log('Closing the popup after adding/updating matches.');
-	close_popup();
+	close_popup($('.popup-menu'));
 }
 
 
-// Called after you save or cancel from the pop-up menu
+/**
+ * Closes the popup menu. Called after you save or cancel from the pop-up menu
+ * 
+ * @param {jQuery} the pop-up menu
+ */
 function close_popup(popup) {
 	
-	$('#contextual_menu').remove();
-	console.log('Popup removed.')
-
 	$(popup).parent().find('button').focus();
 	console.log('Focus sent back to initiating button.');
+
+	$('#contextual_menu').remove();
+	console.log('Popup removed.')
 }
 
 
-// Called when you drop the draggable element into the right-hand side.
+/**
+ * Called when you drop the draggable element into the right-hand side.
+ * Adds a match to the problem state and displays that match, if it isn't there already.
+ * 
+ * @param {event} event jQuery standard
+ * @param {ui} ui jQuery standard
+ */
 function handleDrop(event, ui){
 
 	var draggedElement = $(ui.draggable);
@@ -456,7 +485,11 @@ function handleDrop(event, ui){
 }
 
 
-// Takes care of adding a pairing to the DOM. Doesn't touch the problem state, just handles display.
+/**
+ * Takes care of adding a pairing to the DOM. Doesn't touch the problem state, just handles display.
+ * 
+ * @param {array} pairing letter-number in ['A','1'] format.
+ */
 function addMatchToDOM(pairing){
 
 	var indicator = '<li id="' + pairing[0] + '-' + pairing[1] + '">' + elementsLeft[pairing[0]].label + '</li>';
@@ -474,7 +507,12 @@ function addMatchToDOM(pairing){
 }
 
 
-// Callback function for the self-delete button on match indicators
+/**
+ * Callback function for the self-delete button on match indicators.
+ * Removes it from the DOM and the problem state.
+ * 
+ * @param {event} jQuery standard
+ */
 function selfDelete(event){
 
 	var toDelete = $(event.target).parent();
@@ -518,7 +556,13 @@ function putMatchesBack(){
 	
 }
 
-// Needle is an array; Haystack is an array of arrays.
+/**
+ * Finds an array within an array of arrays and returns its location
+ * 
+ * @param {array} needle Any array
+ * @param {array} haystack An array of arrays
+ * @return {number} The index of the needle, or a negative error code if it can't be found
+ */
 function findSubArray(needle, haystack){
 
 	if(haystack.length === 0){ return -2; }
