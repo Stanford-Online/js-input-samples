@@ -291,7 +291,7 @@ function build_menu(number, parent) {
 
 		$(inputs).each(function(i) {
 			
-			console.log('Looping through each checkbox to see if its selected...');
+			console.log('Looping through each checkbox to see if it\'s selected...');
 			
 			if ($(this).is(':checked')) {
 				console.log('Found checked.');
@@ -354,7 +354,7 @@ function update_selected_options(number) {
 					console.log('checking for pairing ' + JSProblemState.pairings[i]);
 					var thisbox = $('#element_'+oLetter+'_'+oNumber);
 					
-					if(findSubArray(thisPairing, JSProblemState.pairings) >= 0 ){
+					if(_.isEqual(JSProblemState.pairings[i], needle)){
 						console.log('Setting the state to checked.');
 						thisbox.prop('checked', true).attr('checked', 'checked');
 					}
@@ -372,22 +372,11 @@ function save_pairings(checkboxes, checked, letter) {
 	
 	console.log('Running function: save_pairings...');
 	
-	// Javascript is dumb about array comparison. Therefore:
-	
-	// Slice to copy the array, because equals is a reference for arrays.
-	var tempBoxes = checkboxes.slice();
-	var tempPairings = JSProblemState.pairings.slice();
-	
-	// We're flattening the checkboxes and the JSProblemState pairings into
-	// arrays of strings instead of arrays of arrays, for testing against one another.
-	for(var i = 0; i < checkboxes.length; i++){ tempBoxes[i] = tempBoxes[i].toString(); }
-	for(var i = 0; i < JSProblemState.pairings.length; i++){ tempPairings[i] = tempPairings[i].toString(); }
-	
 	// Loop through the checkboxes from this pop-up.
 	for(var i = 0; i < checkboxes.length; i++){
 		
 		// Get the index for this checkbox within the pairings.
-		var indexOfPairing = indexOf(tempPairings, tempBoxes[i]);
+		var indexOfPairing = findSubArray(checkboxes[i], JSProblemState.pairings);
 		console.log(checkboxes[i] + ' is number ' + indexOfPairing);
 		
 		// If we find this pairing in the list...
@@ -529,7 +518,10 @@ function putMatchesBack(){
 	
 }
 
+// Needle is an array; Haystack is an array of arrays.
 function findSubArray(needle, haystack){
+
+	if(haystack.length === 0){ return -2; }
 	
 	var target = needle.toString();
 	var index;
@@ -541,7 +533,7 @@ function findSubArray(needle, haystack){
 		}
 	}
 	
-	if(index >= haystack.length) { index = -1; }
+	if(index > haystack.length) { index = -1; }
 	
 	return index;	
 	
