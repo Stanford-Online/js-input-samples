@@ -387,10 +387,6 @@ function save_pairings(checkboxes, checked) {
 	
 	console.log('Running function: save_pairings...');
 	
-	
-	// The trouble I'm having is probably in the loop below.
-	
-	
 	// Loop through the checkboxes from this pop-up.
 	for(var i = 0; i < checkboxes.length; i++){
 		
@@ -404,7 +400,7 @@ function save_pairings(checkboxes, checked) {
 			// If it's checked, do nothing. It's already on the list.
 			
 			// If it's unchecked and it's currently on the pairing list, 
-			//  remove it from the problem state and the DOM.
+			// remove it from the problem state and the DOM.
 			if(!checked[i]){
 				JSProblemState.pairings.splice(indexOfPairing, 1);
 				$('#' + checkboxes[i][0] + '-' + checkboxes[i][1]).remove()
@@ -568,10 +564,10 @@ function findSubArray(needle, haystack){
 	if(haystack.length === 0){ return -2; }
 	
 	var target = needle.toString();
-	var index;
+	var index = -3;
 	for(var i=0; i<haystack.length; i++) {
-		index = i;
 		if(target === haystack[i].toString()){
+			index = i;
 			console.log('Pairing ' + target + ' found at index ' + i);
 			break;
 		}
