@@ -398,8 +398,6 @@ function selfDelete(event){
 	if(exIndex >= 0 ) { JSProblemState.pairings.splice(exIndex, 1); }
 	
 	
-	//var exIndex = _.indexOf(JSProblemState.pairings, thisPairing);
-	
 	// Remove the indicator from the DOM
 	toDelete.hide(300, function(){ toDelete.remove(); });
 	// Once in a while this makes the whole damn right-hand side hide. Let's refresh it just in case.
