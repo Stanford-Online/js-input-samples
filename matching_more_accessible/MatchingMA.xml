@@ -30,19 +30,27 @@ function logThatThing(ThatThing){
 import json
 
 def answercheck(e, ans):
-
-  right_answer = [['A','2'],['B','4'],['C','3'],['D','1'],['D','2']]
+  
+  right_answer = []
+  right_answer.append( [['A','2'],['B','4'],['C','3'],['D','1'],['D','2']] )
+  right_answer.append( [['A','2'],['B','4'],['C','3'],['D','1']] )
 
   parsed = json.loads(ans)
   answer = json.loads(parsed['answer'])
-  
   answer_sort = sorted(answer['pairings'])
-  right_answer_sort = sorted(right_answer)
   
-  if answer_sort == right_answer_sort:
-    return True
-  else:
-    return False
+  is_right = False
+  
+  for right_answer_n in right_answer:
+    right_answer_sort = sorted(right_answer_n)
+  
+    if answer_sort == right_answer_sort:
+      is_right = True
+      break
+    else:
+      is_right = False
+
+  return is_right
   
 </script>
 

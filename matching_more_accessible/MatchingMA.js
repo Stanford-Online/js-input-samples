@@ -354,7 +354,7 @@ function update_selected_options(number) {
 					console.log('checking for pairing ' + JSProblemState.pairings[i]);
 					var thisbox = $('#element_'+oLetter+'_'+oNumber);
 					
-					if(_.isEqual(JSProblemState.pairings[i], needle)){
+					if(findSubArray(thisPairing, JSProblemState.pairings) >= 0 ){
 						console.log('Setting the state to checked.');
 						thisbox.prop('checked', true).attr('checked', 'checked');
 					}
@@ -387,7 +387,7 @@ function save_pairings(checkboxes, checked, letter) {
 	for(var i = 0; i < checkboxes.length; i++){
 		
 		// Get the index for this checkbox within the pairings.
-		var indexOfPairing = _.indexOf(tempPairings, tempBoxes[i]);
+		var indexOfPairing = indexOf(tempPairings, tempBoxes[i]);
 		console.log(checkboxes[i] + ' is number ' + indexOfPairing);
 		
 		// If we find this pairing in the list...
@@ -443,13 +443,15 @@ function handleDrop(event, ui){
 	var number = targetID.replace('element', '');
 	var thisPairing = [letter,number];
 	
+	console.log(letter + ' dropped on ' + number);
+	
 	var existingMatch = false;
 
 	// If these elements are already matched, we're done.
 	for(var i = 0; i < JSProblemState.pairings.length; i++){
 		if(_.isEqual(JSProblemState.pairings[i], thisPairing)){	// Uses underscore.js
 			existingMatch = true;
-			console.log('existing match');
+			console.log('existing match found for ' + letter + ' ' + number);
 			break;
 		}
 	}
@@ -459,8 +461,8 @@ function handleDrop(event, ui){
 		
 		// Copy the title from the left-hand element and add it to the indicator space.
 		var indicatorSpace = targetElement.find('.drop-area');
-		addMatchToDOM([letter, number]);
 		JSProblemState.pairings.push(thisPairing);
+		addMatchToDOM([letter, number]);
 	}
 }
 
@@ -471,29 +473,41 @@ function addMatchToDOM(pairing){
 	var indicator = '<li id="' + pairing[0] + '-' + pairing[1] + '">' + elementsLeft[pairing[0]].label + '</li>';
 	indicatorSpace = $('#element' + pairing[1]).find('ul').append(indicator);
 
+	console.log('Added Match for ' + pairing[0] + ' ' + pairing[1]);
+	console.log(JSProblemState.pairings);
+
 	// Give this a removal button.
-	$('#' + pairing[0] + '-' + pairing[1]).append('<button type="button" class="delete" aria-label="remove match">x</button>');
-	$('.delete').on( 'click tap', function(event){ selfDelete(event) } ); 
+	$('#' + pairing[0] + '-' + pairing[1]).append('<button type="button" class="delete" id="delete' + pairing[0] + '-' + pairing[1] + '" aria-label="remove match">[-]</button>');
+	$('#delete' + pairing[0] + '-' + pairing[1]).on( 'click tap', function(event){ selfDelete(event) } ); 
+
+	// Once in a while this makes the whole damn right-hand side hide. Let's refresh it just in case.
+	$('#rightelements').hide().show(0);
 }
 
 
 // Callback function for the self-delete button on match indicators
 function selfDelete(event){
 
-	var target = $(event.target).parent();
+	var toDelete = $(event.target).parent();
 
-	var targetID = target.attr('id').split('-'); // Letter before hyphen, number after.
-	var letter = targetID[0]; 
+	var targetID = toDelete.attr('id').split('-'); // Letter before hyphen, number after.
+	var letter = targetID[0];	
 	var number = targetID[1];
 	
 	var thisPairing = [letter, number];
 	
 	// Remove the group from JSProblemState
-	var exIndex = _.indexOf(JSProblemState.pairings, thisPairing);
-	JSProblemState.pairings.splice(exIndex, 1);
+	// Actually finding the damn thing is not easy.
+	var location = findSubArray(thisPairing, JSProblemState.pairings);
+	if(location >= 0 ) { JSProblemState.pairings.splice(location, 1); }
 	
 	// Remove the indicator from the DOM
-	target.remove();
+	toDelete.hide(300, function(){ toDelete.remove(); });
+	// Once in a while this makes the whole damn right-hand side hide. Let's refresh it just in case.
+	$('#rightelements').hide().show(0);
+	
+	console.log('Removed ' + thisPairing + ' from index ' + location);
+	console.log(JSProblemState.pairings);
 
 }
 
@@ -512,6 +526,24 @@ function putMatchesBack(){
 		indicatorSpace = $('#element'+number).find('drop-area');
 		addMatchToDOM([letter, number]);
 	}
+	
+}
+
+function findSubArray(needle, haystack){
+	
+	var target = needle.toString();
+	var index;
+	for(var i=0; i<haystack.length; i++) {
+		index = i;
+		if(target === haystack[i].toString()){
+			console.log('Pairing ' + target + ' found at index ' + i);
+			break;
+		}
+	}
+	
+	if(index >= haystack.length) { index = -1; }
+	
+	return index;	
 	
 }
 

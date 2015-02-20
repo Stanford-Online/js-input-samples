@@ -147,7 +147,7 @@ h3 {
 .delete {
   border: 0;
   cursor: pointer;
-  color: red;
+  color: blue;
   margin: 1ex;
   font-size: large;
 }
