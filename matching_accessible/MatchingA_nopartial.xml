@@ -1,0 +1,67 @@
+<problem>
+
+<!-- 
+This file is used to make the problem work within the edX system. 
+You will not need it if you are using this code for other purposes.
+ -->
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+// Logs a javascript object.
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.public_demo.matching_problem", ThatThing);
+
+}
+
+</script>
+	
+<script type="loncapa/python">
+
+import json
+
+def answercheck(e, ans):
+  
+  right_answer = []
+  right_answer.append( [['A','2'],['B','4'],['C','3'],['D','1'],['D','2']] )
+  right_answer.append( [['A','2'],['B','4'],['C','3'],['D','1']] )
+
+  parsed = json.loads(ans)
+  answer = json.loads(parsed['answer'])
+  answer_sort = sorted(answer['pairings'])
+  
+  is_right = False
+  
+  for right_answer_n in right_answer:
+    right_answer_sort = sorted(right_answer_n)
+  
+    if answer_sort == right_answer_sort:
+      is_right = True
+      break
+    else:
+      is_right = False
+
+  return is_right
+  
+</script>
+
+
+<p>This is a matching exercise. Drag the elements on the left into the ones on the right to create a match. You can match items with more than one other item, but you should choose the best match if you can. Click on the items for a better view if you need it.</p>
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="MatchingA.getGrade"
+    get_statefn="MatchingA.getState"
+    set_statefn="MatchingA.setState"
+    width="780"
+    height="550"
+    html_file="/static/MatchingA.html"
+    sop="false"/>
+</customresponse>
+</problem>
