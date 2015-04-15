@@ -1,9 +1,9 @@
 ### Matching, Accessible ###
 
 #### Overview ####
-This implements a standard matching exercise of the "draw the lines to match things on the left with things on the right" sort (though without actually drawing lines). It handles both text and images, and does one-to-one and many-to-many matching. The correct answer is hidden from students via python in the problem XML.
+This implements a standard matching exercise of the "draw the lines to match things on the left with things on the right" sort (though without actually drawing lines). It handles both text and images, and does one-to-one and many-to-many matching. The correct answer is hidden from students via python in the problem XML. Partial credit is assigned by default: users get +1 point for each correct match and -1 points for each incorrect match (scaled to the number of points in the problem). The problem as a whole is marked correct if the score is over 0.
 
-In addition, this problem has a version that is accessible to blind and partially sighted users who are employing a screen reader. 
+In addition, this problem has a version that is accessible to blind and partially sighted users who are employing a screen reader.
 
 Student state is recorded via Logger.log() when a grade is calculated, but not at other times.
 
@@ -35,7 +35,8 @@ Inside you will find many pieces used to create this problem:
 - `MatchingA.js`: the javascript file that does the majority of the work and allows you to drag items around and stuff. You should not need to change this.
 - `MatchingA.css`: the css file that makes things look pretty (or as close as I could get them). You should not need to change this.
 - `MatchingA.html`: the HTML file that will be iframed into the page. You should not need to change this unless you have more than one matching problem in your course.
-- `MatchingA.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating `right\_answer` to be the actual right answer you want, and filling it with your own instruction text.
+- `MatchingA.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating `right\_answer` to be the actual right answer you want, and filling it with your own instruction text. You can also turn partial credit and feedback off if you prefer; just set them to False.
+- `MatchingA_nopartial.xml`: the old version of the XML without the partial credit code, for people running antique versions of edX.
 - `MatchingA\_Elements.js`: holds the pregenerated group names. You will need to update this to have the items you want.
 - And several image files that you will need to replace with your own. 
 
