@@ -53,8 +53,6 @@ def answercheck(e, ans):
       currentpoints.append(0)
       wrong_answers.append(0)
       
-      # Fix this part.
-      # It's the most important part.
       for item in answer:
         does_match = False
         for target in right_answer_n:
@@ -72,7 +70,12 @@ def answercheck(e, ans):
   
     final_grade = round(max(scores), 2)
     final_index = scores.index(final_grade)
-    message = str(currentpoints[final_index]) + ' correct out of ' + str(maxpoints[final_index]) + ', ' + str(wrong_answers[final_index]) + ' wrong.'
+    message = str(currentpoints[final_index]) 
+    message += ' correct out of ' 
+    message += str(maxpoints[final_index]) 
+    message += ', ' 
+    message += str(wrong_answers[final_index]) 
+    message += ' wrong.'
     
     if feedback:
       if final_grade > 0:
