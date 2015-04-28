@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="jschannel.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="jquery.ui.touch-punch.min.js"></script> <!-- Mobile compatibility -->
+	<script src="jschannel.js"></script>
+	<script src="guesser.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/start/jquery-ui.css">
+	<link rel="stylesheet" href="guesser.css">
+</head>
+<body>
+
+<form id="input-form" action="" method="POST"></form>
+
+<div id="boundingbox">
+<p>
+<span class="alignleft">
+	<label for="leftbound">Left Bound:</label> 
+	<input id="leftbound" form="input-form"></input>
+	<input id="lefttypebox" form="input-form" type="checkbox" name="lefttype" value="openclose" checked="checked"></input>
+	<label for="lefttypebox" class="leftopenclose">Closed</label>
+	<span class="sr" aria-live="polite" role="status">Lower endpoint is <span  class="leftopenclose">Closed</span></span>
+
+</span>
+<span class="alignright">
+	<label for="rightbound">Right Bound:</label>
+	<input id="rightbound" form="input-form"></input>
+	<input id="righttypebox" form="input-form" type="checkbox" name="righttype" value="openclose" checked="checked"></input>
+	<label for="righttypebox" class="rightopenclose">Closed</label>
+	<span class="sr" aria-live="polite" role="status">Upper endpoint is <span  class="rightopenclose">Closed</span></span>
+</span>
+</p>
+<div id="spacer"></div>
+<div id="rangeselector"></div>
+<div id="rangelabel">
+	<span id="location1"></span>
+	<span id="location2"></span>
+	<span id="location3"></span>
+	<span id="location4"></span>
+	<span id="location5"></span>
+</div>
+<div id="errors" aria-live="polite"></div>
+</div>
+
+</body>
+</html>

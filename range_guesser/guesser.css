@@ -1,0 +1,56 @@
+.sr {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.alignleft {
+	float: left;
+}
+
+.alignright {
+	float: right;
+}
+
+#boundingbox {
+	width: 800px;
+}
+
+#spacer {
+	clear: both;
+	height: 10px;
+}
+
+#errors {
+	color: #A60;
+}
+
+#rangelabel {
+	position: relative;
+}
+
+#location1 {
+	position: absolute;
+	left: 0px;
+}
+#location2 {
+	position: absolute;
+	left: 200px;
+}
+#location3 {
+	position: absolute;
+	left: 400px;
+}
+#location4 {
+	position: absolute;
+	left: 600px;
+}
+#location5 {
+	position: absolute;
+	left: 800px;
+}
