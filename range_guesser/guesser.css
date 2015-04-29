@@ -1,3 +1,7 @@
+body {
+	font-family: 'Open Sans', Verdana, Geneva, sans-serif, sans-serif;
+}
+
 .sr {
   border: 0;
   clip: rect(1px 1px 1px 1px);
@@ -24,7 +28,7 @@
 
 #spacer {
 	clear: both;
-	height: 10px;
+	height: 16px;
 }
 
 #errors {

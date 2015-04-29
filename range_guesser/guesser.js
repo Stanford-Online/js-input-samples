@@ -58,8 +58,9 @@ $(document).ready(function(){
 	
 	var leftopen;
 	var rightopen;
+	var slidestep = sigFigs((farright - farleft) / 200, 3);
 	
-	if(show_open_close != 'true'){
+	if(show_open_close.toLowerCase() != 'true'){
 		$('.for-numerical').remove();
 	}
 	
@@ -67,7 +68,7 @@ $(document).ready(function(){
 		range: true,
 		min: farleft,
 		max: farright,
-		step: (farright - farleft) / 1000,
+		step: slidestep,
 		values: [ JSPState.lowerguess, JSPState.upperguess ],
 		slide: function(event, ui) {
 			updateDisplay();
@@ -81,26 +82,28 @@ $(document).ready(function(){
 	$('#leftbound').on('change', function(ui){
 		JSPState.lowerguess = parseInt(ui.target.value);
 		JSPState.upperguess = parseInt($('#rightbound').val());
-		if(JSPState.lowerguess<= JSPState.upperguess){
+		if(JSPState.lowerguess <= JSPState.upperguess){
 			$('#rangeselector').slider('values', 0, JSPState.lowerguess);
 			$('#errors').text('');
 		}else{
-			$('#rangeselector').slider('values', 0, JSPState.upperguess - 1);
-			$('#leftbound').val(JSPState.upperguess - 1);
-			$('#errors').text('Left bound too high - reset to ' + (JSPState.upperguess - 1));
+			var newupper = sigFigs(JSPState.upperguess - slidestep, 3);
+			$('#rangeselector').slider('values', 0, newupper);
+			$('#leftbound').val(newupper);
+			$('#errors').text('Lower bound too high - reset to ' + newupper);
 		}
 	});
 	
 	$('#rightbound').on('change', function(ui){
-		JSPState.lowerguess= parseInt($('#leftbound').val());
+		JSPState.lowerguess = parseInt($('#leftbound').val());
 		JSPState.upperguess = parseInt(ui.target.value);
 		if(JSPState.upperguess >= JSPState.lowerguess){
 			$('#rangeselector').slider('values', 1, JSPState.upperguess);
 			$('#errors').text('');
 		}else{
-			$('#rangeselector').slider('values', 1, JSPState.lowerguess+ 1);
-			$('#rightbound').val(JSPState.lowerguess+ 1);
-			$('#errors').text('Right bound too low - reset to ' + (JSPState.lowerguess+ 1));
+			var newlower = sigFigs(JSPState.lowerguess + slidestep, 3);
+			$('#rangeselector').slider('values', 1, newlower);
+			$('#rightbound').val(newlower);
+			$('#errors').text('Upper bound too low - reset to ' + newlower);
 		}
 	});
 	

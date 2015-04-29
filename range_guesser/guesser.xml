@@ -5,6 +5,148 @@ This file is used to make the problem work within the edX system.
 You will not need it if you are using this code for other purposes.
  -->
 
+<!-- This part below is where the problem author puts in the answer. -->
+
+<script type="loncapa/python">
+<![CDATA[
+
+import json
+
+########## Course Author Section #########
+## Change whatever you need to in here. ##
+##########################################
+
+# These are REQUIRED for all problems.
+problem_type = 'interval'  # Set to 'interval' or a 'number'
+show_open_close = True     # Do we ask for open/closed interval?
+feedback = True            # Do we tell people how close they were?
+
+# Only for number-guessing:
+correct_number = 10            # The right answer
+tolerance = [2, 4, 6]          # How close do they have to be? [correct, near, far]
+brackets = [1, 0.5, 0.25, 0]   # Scores for various range brackets
+
+# Only for interval-guessing:
+correct_interval = [38515,62434]         # Please put the lower value on the left.
+interval_type = ['closed', 'closed']     # Are endpoints 'open' or 'closed'?
+interval_tolerance = 'linear'                     # Options: 'linear', 'strict', or 'generous'
+type_penalty = 0.1                       # Points off if open/closed incorrect
+
+######## End Course Author Section #########
+## Don't change anything below this line. ##
+############################################
+
+
+# Set the outer bounds for the slider
+if problem_type == 'interval':
+  range = correct_interval[1] - correct_interval[0]
+  lowerlimit = correct_interval[0] - 2 * range * (random.random() + 1)
+  upperlimit = correct_interval[1] + 2 * range * (random.random() + 1)
+else:
+  range = tolerance[2]
+  lowerlimit = correct_number - 2 * range * (random.random() + 1)
+  upperlimit = correct_number + 2 * range * (random.random() + 1)
+
+
+def answercheck(e, ans):
+    
+  # Get the student's answer.
+  parsed = json.loads(ans)
+  answer = json.loads(parsed['answer'])
+  guess_upper = answer['upperguess']
+  guess_lower = answer['lowerguess']
+  guess_upper_closed = answer['upperclosed']
+  guess_lower_closed = answer['lowerclosed']
+  
+  # Now begins the grading.
+  isOK = False
+  message = ''
+  final_grade = 0
+  
+  if problem_type == 'interval':
+    if guess_upper < correct_interval[0]:
+      # No points if there's no overlap.
+      message = 'Answer not in selected range.'
+    elif guess_lower > correct_interval[1]:
+      # Same here.
+      message = 'Answer not in selected range.'
+    else:
+      # Points based on percentage overlap.
+      endpoints = []
+      endpoints.append(correct_interval[0])
+      endpoints.append(correct_interval[1])
+      endpoints.append(guess_upper)
+      endpoints.append(guess_lower)
+      endpoints.sort()
+      
+      overlap = endpoints[2] - endpoints[1]
+      bigrange = max(correct_interval[1] - correct_interval[0], guess_upper - guess_lower)
+      final_grade = float(overlap) / float(bigrange)
+      
+      message = str(int(round(final_grade, 2) * 100)) + '% overlap.'
+
+      if interval_tolerance == 'strict':
+        final_grade = final_grade * final_grade
+      elif interval_tolerance == 'generous':
+        final_grade = math.sqrt(final_grade)
+      
+      # Round up to the nearest tenth.
+      final_grade = math.ceil(final_grade*10.0) / 10.0
+      
+      if show_open_close:
+        if(guess_lower_closed != True and interval_type[0] == 'closed'):
+          final_grade = final_grade - type_penalty
+          message += ' Lower endpoint is wrong.'
+        if(guess_lower_closed == True and interval_type[0] != 'closed'):
+          final_grade = final_grade - type_penalty
+          message += ' Lower endpoint is wrong.'
+        if(guess_upper_closed != True and interval_type[1] == 'closed'):
+          final_grade = final_grade - type_penalty
+          message += ' Upper endpoint is wrong.'
+        if(guess_upper_closed == True and interval_type[1] != 'closed'):
+          final_grade = final_grade - type_penalty
+          message += ' Upper endpoint is wrong.'
+      
+      isOK = True
+
+  else:
+    
+    farthest = max(abs(correct_number - guess_upper), abs(correct_number - guess_lower))
+    
+    if farthest < tolerance[0]:
+      final_grade = brackets[0]
+      isOK = True
+      message = 'Close enough! Actual answer: ' + str(correct_number)
+    elif farthest < tolerance[1]:
+      final_grade = brackets[1]
+      isOK = True
+      message = 'Close. You are off by ' + str(farthest)
+    elif farthest < tolerance[2]:
+      final_grade = brackets[2]
+      isOK = True
+      message = 'Not very close. You are off by ' + str(farthest)
+    else:
+      final_grade = brackets[3]
+      message = 'Your range is too large to get points.'
+    
+    if guess_upper > correct_number and guess_lower < correct_number:
+      message += ' The answer is within your range.'
+    else:
+      message += ' The answer is outside your range.'
+    
+  if not feedback:
+    message = ''
+  
+  return {
+    'input_list': [
+        { 'ok': isOK, 'msg': message, 'grade_decimal': final_grade},
+    ]
+  }
+
+
+]]>
+</script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	console.log('outer ready');
@@ -23,125 +165,11 @@ function logThatThing(ThatThing){
 
 </script>
 
-<!-- This part below is where the problem author puts in the answer. -->
-
-<script type="loncapa/python">
-<![CDATA[
-
-import json
-
-problem_type = 'interval' # Are we guessing an 'interval' or a 'number'?
-show_open_close = 'true'
-feedback = 'true'
-
-# Answers for number-guessing:
-correct_number = 10
-tolerance = [1, 3, 6]
-brackets = [1, 0.5, 0.25, 0]  # Scores for various range brackets
-
-# Answers for interval-guessing:
-correct_interval = [38515,62434]  # Please put the lower value on the left.
-interval_type = ['closed', 'closed']
-tolerance = 'linear'  # Options: 'linear', 'strict', 'generous'
-type_penalty = 0.1
-
-
-# Set the outer bounds for the slider
-if problem_type == 'interval':
-  range = correct_interval[1] - correct_interval[0]
-else:
-  range = tolerance[2]
-lowerlimit = correct_interval[0] - 2 * range * (random.random() + 1)
-upperlimit = correct_interval[1] + 2 * range * (random.random() + 1)
-
-
-
-def answercheck(e, ans):
-    
-  # Get the student's answer.
-  parsed = json.loads(ans)
-  answer = json.loads(parsed['answer'])
-  guess_upper = answer['upperguess']
-  guess_lower = answer['lowerguess']
-  guess_upper_closed = answer['upperclosed']
-  guess_lower_closed = answer['lowerclosed']
-  
-  # Now begins the grading.
-  isok = False
-  message = ''
-  final_grade = 0
-  
-  if problem_type == 'interval':
-    if guess_upper < correct_interval[0]:
-      message = 'Answer not in selected range.'
-    elif guess_lower > correct_interval[1]:
-      message = 'Answer not in selected range.'
-    else:
-      endpoints = []
-      endpoints.append(correct_interval[0])
-      endpoints.append(correct_interval[1])
-      endpoints.append(guess_upper)
-      endpoints.append(guess_lower)
-      endpoints.sort()
-      
-      overlap = endpoints[2] - endpoints[1]
-      bigrange = max(correct_interval[1] - correct_interval[0], guess_upper - guess_lower)
-      final_grade = float(overlap) / float(bigrange)
-      
-      message = str(int(round(final_grade, 2) * 100)) + '% overlap.'
-
-      if tolerance == 'strict':
-        final_grade = final_grade * final_grade
-      elif tolerance == 'generous':
-        final_grade = math.sqrt(final_grade)
-      
-      final_grade = math.ceil(final_grade*10.0) / 10.0
-      if(guess_upper_closed != 'true' and interval_type[1] == 'closed'):
-        final_grade = final_grade - type_penalty
-      if(guess_upper_closed == 'true' and interval_type[1] != 'closed'):
-        final_grade = final_grade - type_penalty
-      if(guess_lower_closed != 'true' and interval_type[0] == 'closed'):
-        final_grade = final_grade - type_penalty
-      if(guess_lower_closed == 'true' and interval_type[0] != 'closed'):
-        final_grade = final_grade - type_penalty
-      
-      isok = True
-
-  else:
-    
-    farthest = max(abs(correct_number - guess_upper), abs(correct_number - guess_lower))
-    
-    if farthest < tolerance[0]:
-      final_grade = brackets[0]
-      isok = True
-      message = 'Close enough! Actual answer: ' + str(correct_number)
-    elif farthest < tolerance[1]:
-      final_grade = brackets[1]
-      isok = True
-      message = 'Close. You are off by ' + str(farthest)
-    elif farthest < tolerance[2]:
-      final_grade = brackets[2]
-      isok = True
-      message = 'Not very close. You are off by ' + str(farthest)
-    else:
-      final_grade = brackets[3]
-    
-    if guess_upper > correct_number and guess_lower < correct_number:
-      message += ' The answer is within your range.'
-    
-  if feedback != 'true':
-    message = ''
-  
-  return {
-    'input_list': [
-        { 'ok': isok, 'msg': message, 'grade_decimal': final_grade},
-    ]
-  }    
-
-]]>
-</script>
+<!-- Here's where you put in your problem description. -->
 
 <p>What is the range in dollars for the middle quintile of US household income? (Answer: $38,515/year to $62,434/year, Census Bureau 2011)</p>
+
+<!-- Don't remove this piece below. -->
 
 <p class="sr" aria-hidden="true">
 <span id="lowerlimit">$lowerlimit</span>
@@ -149,12 +177,14 @@ def answercheck(e, ans):
 <span id="openclose">$show_open_close</span>
 </p>
 
+<!-- You can use this same set of files for every guesser problem in your course. -->
+
 <customresponse cfn="answercheck">
   <jsinput gradefn="guesser.getGrade"
     get_statefn="guesser.getState"
     set_statefn="guesser.setState"
     width="800"
-    height="150"
+    height="120"
     html_file="/static/guesser.html"
     sop="false"/>
 </customresponse>
