@@ -1,11 +1,44 @@
-// The "JSProblemState" JSON dictionary below is passed to the platform for grading and saving.
+// The "JSPState" JSON dictionary below is passed to the platform for grading and saving.
 // Pass through whatever you wish. It will get logged.
-var JSProblemState = {
-	'upper': 1,
-	'lower': -1,
-	'upperclosed': true,
-	'lowerclosed': true
+var JSPState = {
+	'lowerguess': 'unset',
+	'upperguess': 'unset',
+	'lowerclosed': true,
+	'upperclosed': true
 };
+
+function sigFigs(number, digits){
+	if(number == 0) {
+		return(number);
+	}
+	var d = Math.ceil( Math.log(number < 0 ? -number: number) / Math.LN10 );
+	var power = digits - d;
+	
+	var magnitude = Math.pow(10, power);
+	var shifted = Math.round(number * magnitude)
+	return shifted/magnitude;
+}
+
+function putBackGuesses(){
+	$( '#leftbound' ).val( sigFigs(JSPState.lowerguess, 3) );
+	$('#rangeselector').slider('values', 0, JSPState.lowerguess);
+	
+	$( '#rightbound' ).val( sigFigs(JSPState.upperguess, 3) );
+	$('#rangeselector').slider('values', 1, JSPState.upperguess);
+	
+	if(!JSPState.lowerclosed){
+		$('.leftopenclose').text('Open');
+		$('#lefttypebox').prop('checked', false);
+	}
+	if(!JSPState.upperclosed){
+		$('.rightopenclose').text('Open');
+		$('#righttypebox').prop('checked', false);
+	}
+	console.log('guesses put back');
+	console.log(JSPState);
+
+}
+
 
 $(document).ready(function(){
 
@@ -15,20 +48,18 @@ $(document).ready(function(){
 	var farright = parseFloat(parent.$('#upperlimit').text());
 	var show_open_close = parent.$('#openclose').text();
 	
-	JSProblemState['lower'] = farleft;
-	JSProblemState['upper'] = farright;
-	console.log(JSProblemState);
-
-	console.log('working');
+	console.log('inner ready');
 	
-	var leftstart = farleft + Math.random() * (farright - farleft) / 2
-	var rightstart = farright - Math.random() * (farright - farleft) / 2
-	var leftbound;
-	var rightbound;
+	// If we don't already have upper and lower guesses, make some up.
+	if(JSPState.lowerguess == 'unset' || JSPState.lowerguess == 'unset'){
+		JSPState.lowerguess= farleft + Math.random() * (farright - farleft) / 2
+		JSPState.upperguess = farright - Math.random() * (farright - farleft) / 2
+	}
+	
 	var leftopen;
 	var rightopen;
 	
-	if(show_open_close == 'true'){
+	if(show_open_close != 'true'){
 		$('.for-numerical').remove();
 	}
 	
@@ -37,7 +68,7 @@ $(document).ready(function(){
 		min: farleft,
 		max: farright,
 		step: (farright - farleft) / 1000,
-		values: [ leftstart, rightstart ],
+		values: [ JSPState.lowerguess, JSPState.upperguess ],
 		slide: function(event, ui) {
 			updateDisplay();
 			$('#errors').text('');
@@ -48,55 +79,61 @@ $(document).ready(function(){
 	});
 	
 	$('#leftbound').on('change', function(ui){
-		rightbound = parseInt($('#rightbound').val());
-		leftbound = parseInt(ui.target.value);
-		if(leftbound <= rightbound){
-			$('#rangeselector').slider('values', 0, ui.target.value);
+		JSPState.lowerguess = parseInt(ui.target.value);
+		JSPState.upperguess = parseInt($('#rightbound').val());
+		if(JSPState.lowerguess<= JSPState.upperguess){
+			$('#rangeselector').slider('values', 0, JSPState.lowerguess);
 			$('#errors').text('');
 		}else{
-			$('#rangeselector').slider('values', 0, rightbound - 1);
-			$('#leftbound').val(rightbound - 1);
-			$('#errors').text('Left bound too high - reset to ' + (rightbound - 1));
+			$('#rangeselector').slider('values', 0, JSPState.upperguess - 1);
+			$('#leftbound').val(JSPState.upperguess - 1);
+			$('#errors').text('Left bound too high - reset to ' + (JSPState.upperguess - 1));
 		}
 	});
 	
 	$('#rightbound').on('change', function(ui){
-		rightbound = parseInt(ui.target.value);
-		leftbound = parseInt($('#leftbound').val());
-		if(rightbound >= leftbound){
-			$('#rangeselector').slider('values', 1, ui.target.value);
+		JSPState.lowerguess= parseInt($('#leftbound').val());
+		JSPState.upperguess = parseInt(ui.target.value);
+		if(JSPState.upperguess >= JSPState.lowerguess){
+			$('#rangeselector').slider('values', 1, JSPState.upperguess);
 			$('#errors').text('');
 		}else{
-			$('#rangeselector').slider('values', 1, leftbound + 1);
-			$('#rightbound').val(leftbound + 1);
-			$('#errors').text('Right bound too low - reset to ' + (leftbound + 1));
+			$('#rangeselector').slider('values', 1, JSPState.lowerguess+ 1);
+			$('#rightbound').val(JSPState.lowerguess+ 1);
+			$('#errors').text('Right bound too low - reset to ' + (JSPState.lowerguess+ 1));
 		}
 	});
 	
     $('#lefttypebox').on('change', function(ui){
-		leftopen = !leftopen;
-		if(leftopen){
-			$('.leftopenclose').text('Open');
-		}else{
+    	JSPState.lowerclosed = !JSPState.lowerclosed
+		if(JSPState.lowerclosed){
 			$('.leftopenclose').text('Closed');
-		}
-	});
-	
-	$('#righttypebox').on('change', function(ui){
-		rightopen = !rightopen;
-		if(rightopen){
-			$('.rightopenclose').text('Open');
 		}else{
-			$('.rightopenclose').text('Closed');
+			$('.leftopenclose').text('Open');
 		}
 	});
 	
+    $('#righttypebox').on('change', function(ui){
+    	JSPState.upperclosed = !JSPState.upperclosed
+		if(JSPState.upperclosed){
+			$('.rightopenclose').text('Closed');
+		}else{
+			$('.rightopenclose').text('Open');
+		}
+	});
+		
 	
 	function updateDisplay(){
 		var lowerchoice = $( '#rangeselector' ).slider( 'values', 0 );
 		var upperchoice = $( '#rangeselector' ).slider( 'values', 1 );
-	    $( '#leftbound' ).val( sigFigs(lowerchoice, 3) );
-    	$( '#rightbound' ).val( sigFigs(upperchoice, 3) );
+		lowerchoice = sigFigs(lowerchoice, 3);
+		upperchoice = sigFigs(upperchoice, 3);
+		
+	    $( '#leftbound' ).val(lowerchoice);
+    	$( '#rightbound' ).val(upperchoice);
+    	JSPState.lowerguess = lowerchoice;
+    	JSPState.upperguess = upperchoice;
+    	
     }
     
 	function updateLabels(){
@@ -120,18 +157,6 @@ $(document).ready(function(){
 		$('#location5').text(label5);
     }
     
-    function sigFigs(number, digits){
-    	if(number == 0) {
-    		return(number);
-    	}
-    	var d = Math.ceil( Math.log(number < 0 ? -number: number) / Math.LN10 );
-    	var power = digits - d;
-    	
-    	var magnitude = Math.pow(10, power);
-    	var shifted = Math.round(number * magnitude)
-    	return shifted/magnitude;
-    }
-
 	if($('#lefttypebox').is(':checked')){
 		leftopen = false;
 	}else{
@@ -173,13 +198,15 @@ var guesser = (function() {
 	// getState() and setState() are required by the problem type.
 	function getState(){
 		console.log('getting state');
-		return JSON.stringify(JSProblemState);
+		return JSON.stringify(JSPState);
 	}
 
 	function setState() {
 		console.log('setting state');
 		stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
-		JSProblemState = JSON.parse(stateStr);
+		JSPState = JSON.parse(stateStr);
+		
+		putBackGuesses();
 	}
 
 	function getGrade() {
@@ -187,10 +214,10 @@ var guesser = (function() {
 		
 		// Log the problem state. 
 		// This is called from the parent window's Javascript so that we can write to the official edX logs. 
-		parent.logThatThing(JSProblemState);
+		parent.logThatThing(JSPState);
 
 		// Return the whole problem state.
-		return JSON.stringify(JSProblemState);
+		return JSON.stringify(JSPState);
 	}
 	
 	// REQUIRED --- DO NOT REMOVE/CHANGE!!
