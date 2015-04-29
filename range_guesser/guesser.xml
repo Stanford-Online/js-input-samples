@@ -1,0 +1,91 @@
+<problem>
+
+<!-- 
+This file is used to make the problem work within the edX system. 
+You will not need it if you are using this code for other purposes.
+ -->
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+// Logs a javascript object.
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.public_demo.range_guesser", ThatThing);
+
+}
+
+</script>
+
+<!-- This part below is where the problem author puts in the answer. -->
+
+<script type="loncapa/python">
+
+import json
+
+problem_type = 'interval' # Are we guessing an 'interval' or a 'number'?
+show_open_close = 'true'
+feedback = 'true'
+
+# Answers for number-guessing:
+correct_number = 10
+tolerance = [1,3,6]
+
+# Answers for interval-guessing:
+correct_interval = [38515,62434]
+interval_type = ['closed', 'closed']
+tolerance = 'linear'  # Options: 'linear', 'strict', 'generous'
+type_penalty = 0.1
+
+
+# Set the outer bounds for the slider
+if problem_type == 'interval':
+  range = correct_interval[1] - correct_interval[0]
+else:
+  range = tolerance[2]
+lowerlimit = correct_interval[0] - 2 * range * (random.random() + 1)
+upperlimit = correct_interval[1] + 2 * range * (random.random() + 1)
+
+
+
+def answercheck(e, ans):
+    
+  # Get the student's answer.
+  parsed = json.loads(ans)
+  answer = json.loads(parsed['answer'])
+  answer_upper = answer['upper']
+  answer_lower = answer['lower']
+  answer_upper_closed = answer['upperclosed']
+  answer_lower_closed = answer['lowerclosed']
+  
+  # Now begins the grading.
+  credit = 0
+  
+  return False
+       
+</script>
+
+<p>What is the range in dollars for the middle quintile of US household income? (Answer: $38,515/year to $62,434/year, Census Bureau 2011)</p>
+
+<p class="sr" aria-hidden="true">
+<span id="lowerlimit">$lowerlimit</span>
+<span id="upperlimit">$upperlimit</span>
+<span id="openclose">$show_open_close</span>
+</p>
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="guesser.getGrade"
+    get_statefn="guesser.getState"
+    set_statefn="guesser.setState"
+    width="780"
+    height="150"
+    html_file="/static/guesser.html"
+    sop="false"/>
+</customresponse>
+</problem>

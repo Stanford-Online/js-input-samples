@@ -18,7 +18,8 @@
 }
 
 #boundingbox {
-	width: 800px;
+	margin-left: 5px;
+	width: 740px;
 }
 
 #spacer {
@@ -36,21 +37,21 @@
 
 #location1 {
 	position: absolute;
-	left: 0px;
+	left: -5px;
 }
 #location2 {
 	position: absolute;
-	left: 200px;
+	left: 180px;
 }
 #location3 {
 	position: absolute;
-	left: 400px;
+	left: 360px;
 }
 #location4 {
 	position: absolute;
-	left: 600px;
+	left: 540px;
 }
 #location5 {
 	position: absolute;
-	left: 800px;
+	left: 720px;
 }

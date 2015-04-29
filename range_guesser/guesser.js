@@ -1,15 +1,36 @@
+// The "JSProblemState" JSON dictionary below is passed to the platform for grading and saving.
+// Pass through whatever you wish. It will get logged.
+var JSProblemState = {
+	'upper': 1,
+	'lower': -1,
+	'upperclosed': true,
+	'lowerclosed': true
+};
+
 $(document).ready(function(){
+
+	// Read python-randomized items from the parent frame.
+	// If this doesn't work, might need to delay it. :(
+	var farleft = parseFloat(parent.$('#lowerlimit').text());
+	var farright = parseFloat(parent.$('#upperlimit').text());
+	var show_open_close = parent.$('#openclose').text();
+	
+	JSProblemState['lower'] = farleft;
+	JSProblemState['upper'] = farright;
+	console.log(JSProblemState);
 
 	console.log('working');
 	
-	var farleft = 1/3;
-	var farright = 2/3;
 	var leftstart = farleft + Math.random() * (farright - farleft) / 2
 	var rightstart = farright - Math.random() * (farright - farleft) / 2
 	var leftbound;
 	var rightbound;
 	var leftopen;
 	var rightopen;
+	
+	if(show_open_close == 'true'){
+		$('.for-numerical').remove();
+	}
 	
 	$( '#rangeselector' ).slider({
 		range: true,
@@ -29,7 +50,6 @@ $(document).ready(function(){
 	$('#leftbound').on('change', function(ui){
 		rightbound = parseInt($('#rightbound').val());
 		leftbound = parseInt(ui.target.value);
-		console.log(leftbound, rightbound);
 		if(leftbound <= rightbound){
 			$('#rangeselector').slider('values', 0, ui.target.value);
 			$('#errors').text('');
@@ -43,7 +63,6 @@ $(document).ready(function(){
 	$('#rightbound').on('change', function(ui){
 		rightbound = parseInt(ui.target.value);
 		leftbound = parseInt($('#leftbound').val());
-		console.log(leftbound, rightbound);
 		if(rightbound >= leftbound){
 			$('#rangeselector').slider('values', 1, ui.target.value);
 			$('#errors').text('');
@@ -74,8 +93,10 @@ $(document).ready(function(){
 	
 	
 	function updateDisplay(){
-	    $( '#leftbound' ).val( $( '#rangeselector' ).slider( 'values', 0 ) );
-    	$( '#rightbound' ).val( $( '#rangeselector' ).slider( 'values', 1 ) );
+		var lowerchoice = $( '#rangeselector' ).slider( 'values', 0 );
+		var upperchoice = $( '#rangeselector' ).slider( 'values', 1 );
+	    $( '#leftbound' ).val( sigFigs(lowerchoice, 3) );
+    	$( '#rightbound' ).val( sigFigs(upperchoice, 3) );
     }
     
 	function updateLabels(){
@@ -123,11 +144,60 @@ $(document).ready(function(){
 		rightopen = true;
 	}
 	
-	console.log('Left bound open: ' + leftopen + ', Right bound open: ' + rightopen);
-	
-	
 	
     updateDisplay();
 
 
 });
+
+
+// This wrapper function is necessary.
+var guesser = (function() {
+
+	// REQUIRED --- DO NOT REMOVE/CHANGE!!
+	var channel;
+
+	// REQUIRED --- DO NOT REMOVE/CHANGE!!
+	if (window.parent !== window) {
+		channel = Channel.build({
+			window: window.parent,
+			origin: "*",
+			scope: "JSInput"
+		});
+		channel.bind("getGrade", getGrade);
+		channel.bind("getState", getState);
+		channel.bind("setState", setState);
+
+	}
+	
+	// getState() and setState() are required by the problem type.
+	function getState(){
+		console.log('getting state');
+		return JSON.stringify(JSProblemState);
+	}
+
+	function setState() {
+		console.log('setting state');
+		stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
+		JSProblemState = JSON.parse(stateStr);
+	}
+
+	function getGrade() {
+		console.log('getting grade');
+		
+		// Log the problem state. 
+		// This is called from the parent window's Javascript so that we can write to the official edX logs. 
+		parent.logThatThing(JSProblemState);
+
+		// Return the whole problem state.
+		return JSON.stringify(JSProblemState);
+	}
+	
+	// REQUIRED --- DO NOT REMOVE/CHANGE!!
+	return {
+		getState: getState,
+		setState: setState,
+		getGrade: getGrade
+	};
+
+}());
