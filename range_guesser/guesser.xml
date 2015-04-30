@@ -1,11 +1,9 @@
 <problem>
 
-<!-- 
-This file is used to make the problem work within the edX system. 
-You will not need it if you are using this code for other purposes.
+<!-- You will need to change things in three places: the Course Author section 
+     in the python code below, the Problem Description Section in the HTML
+     farther down, and the solution at the very bottom of this page.
  -->
-
-<!-- This part below is where the problem author puts in the answer. -->
 
 <script type="loncapa/python">
 <![CDATA[
@@ -29,7 +27,7 @@ brackets = [1, 0.5, 0.25, 0]   # Scores for various range brackets
 # Only for interval-guessing:
 correct_interval = [38515,62434]         # Please put the lower value on the left.
 interval_type = ['closed', 'closed']     # Are endpoints 'open' or 'closed'?
-interval_tolerance = 'linear'                     # Options: 'linear', 'strict', or 'generous'
+interval_tolerance = 'linear'            # Options: 'linear', 'strict', or 'generous'
 type_penalty = 0.1                       # Points off if open/closed incorrect
 
 ######## End Course Author Section #########
@@ -83,7 +81,7 @@ def answercheck(e, ans):
       bigrange = max(correct_interval[1] - correct_interval[0], guess_upper - guess_lower)
       final_grade = float(overlap) / float(bigrange)
       
-      message = str(int(round(final_grade, 2) * 100)) + '% overlap.'
+      message = str(int(round(final_grade, 2) * 100)) + '% overlap with correct answer.'
 
       if interval_tolerance == 'strict':
         final_grade = final_grade * final_grade
@@ -147,6 +145,8 @@ def answercheck(e, ans):
 ]]>
 </script>
 
+<!-- You don't need to alter this script. -->
+
 <script type="text/javascript">
 $(document).ready(function(){
 	console.log('outer ready');
@@ -162,14 +162,18 @@ function logThatThing(ThatThing){
 	Logger.log("harvardx.public_demo.range_guesser", ThatThing);
 
 }
-
 </script>
 
-<!-- Here's where you put in your problem description. -->
 
-<p>What is the range in dollars for the middle quintile of US household income? (Answer: $38,515/year to $62,434/year, Census Bureau 2011)</p>
+<!--    Problem Description Section     -->
+<!-- You should ask your question here. -->
 
-<!-- Don't remove this piece below. -->
+<p>What is the range in dollars for the middle quintile of US household income? </p>
+
+
+<!-- End Problem Description Section -->
+<!-- Don't remove the things below.  -->
+
 
 <p class="sr" aria-hidden="true">
 <span id="lowerlimit">$lowerlimit</span>
@@ -177,7 +181,8 @@ function logThatThing(ThatThing){
 <span id="openclose">$show_open_close</span>
 </p>
 
-<!-- You can use this same set of files for every guesser problem in your course. -->
+<!-- You can use this same set of files for every guesser problem in your course,
+     so you probably don't need to change what's below. -->
 
 <customresponse cfn="answercheck">
   <jsinput gradefn="guesser.getGrade"
@@ -188,4 +193,15 @@ function logThatThing(ThatThing){
     html_file="/static/guesser.html"
     sop="false"/>
 </customresponse>
+
+<!-- You should include an explanation below for when students click "Show Answer" -->
+
+<solution>
+<div class="detailed-solution">
+<p>Explanation</p>
+<p>Answer: $38,515/year to $62,434/year. Source: US Census Bureau, 2011</p>
+</div>
+</solution>
+
+
 </problem>

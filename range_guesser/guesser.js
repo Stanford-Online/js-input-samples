@@ -42,6 +42,10 @@ function putBackGuesses(){
 
 $(document).ready(function(){
 
+	// Give the iframe a useful description for screen readers.
+	console.log(window.name);
+	parent.$('iframe[name=' + window.name + ']').attr('title', 'Estimation Problem Frame');
+	
 	// Read python-randomized items from the parent frame.
 	// If this doesn't work, might need to delay it. :(
 	var farleft = parseFloat(parent.$('#lowerlimit').text());
