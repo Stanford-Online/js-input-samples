@@ -4,9 +4,11 @@ var JSPState = {
 	'lowerguess': 'unset',
 	'upperguess': 'unset',
 	'lowerclosed': true,
-	'upperclosed': true
+	'upperclosed': true,
+	'timeproblem': false
 };
 
+// Returns a number rounded to a given number of significant figures.
 function sigFigs(number, digits){
 	if(number == 0) {
 		return(number);
@@ -19,13 +21,25 @@ function sigFigs(number, digits){
 	return shifted/magnitude;
 }
 
+// Sets up the visual field after reloading.
 function putBackGuesses(){
-	$( '#leftbound' ).val( sigFigs(JSPState.lowerguess, 3) );
-	$('#rangeselector').slider('values', 0, JSPState.lowerguess);
 	
-	$( '#rightbound' ).val( sigFigs(JSPState.upperguess, 3) );
-	$('#rangeselector').slider('values', 1, JSPState.upperguess);
+	// Set the values of the sliders and textboxes.
+	if(JSPState.timeproblem){
+		$( '#leftbound' ).val( timeToHMS(JSPState.lowerguess) );
+		$('#rangeselector').slider('values', 0, JSPState.lowerguess);
 	
+		$( '#rightbound' ).val( timeToHMS(JSPState.upperguess) );
+		$('#rangeselector').slider('values', 1, JSPState.upperguess);
+	}else{
+		$( '#leftbound' ).val( timeToHMS(JSPState.lowerguess) );
+		$('#rangeselector').slider('values', 0, JSPState.lowerguess);
+	
+		$( '#rightbound' ).val( timeToHMS(JSPState.upperguess) );
+		$('#rangeselector').slider('values', 1, JSPState.upperguess);
+	}
+	
+	// Put the checkboxes into their proper state.
 	if(!JSPState.lowerclosed){
 		$('.leftopenclose').text('Open');
 		$('#lefttypebox').prop('checked', false);
@@ -39,11 +53,40 @@ function putBackGuesses(){
 
 }
 
+// Converts seconds to hh:mm:ss format for time-based problems
+function timeToHMS(time){
+	var hours;
+	var minutes;
+	var seconds;
+	var timestring = '';
+	
+	time = Math.floor(time);
+	hours = Math.floor(time / 3600);
+	minutes = Math.floor((time/60) % 60);
+	seconds = Math.floor(time % 60);
+	
+	if(minutes < 10){
+		minutes = '0' + minutes;
+	}
+	if(seconds < 10){
+		seconds = '0' + seconds;
+	}
+	
+	timestring = '0:' + seconds;
+	if(minutes > 0){
+		timestring = minutes + ':' + seconds;
+	}
+	if(hours > 0){
+		timestring = hours + ':' + minutes + ':' + seconds;
+	}
+	
+	return timestring;
+}
+
 
 $(document).ready(function(){
 
 	// Give the iframe a useful description for screen readers.
-	console.log(window.name);
 	parent.$('iframe[name=' + window.name + ']').attr('title', 'Estimation Problem Frame');
 	
 	// Read python-randomized items from the parent frame.
@@ -51,23 +94,31 @@ $(document).ready(function(){
 	var farleft = parseFloat(parent.$('#lowerlimit').text());
 	var farright = parseFloat(parent.$('#upperlimit').text());
 	var show_open_close = parent.$('#openclose').text();
+	var is_time_problem = parent.$('#istimequestion').text();
 	
 	console.log('inner ready');
 	
 	// If we don't already have upper and lower guesses, make some up.
 	if(JSPState.lowerguess == 'unset' || JSPState.lowerguess == 'unset'){
-		JSPState.lowerguess= farleft + Math.random() * (farright - farleft) / 2
+		JSPState.lowerguess = farleft + Math.random() * (farright - farleft) / 2
 		JSPState.upperguess = farright - Math.random() * (farright - farleft) / 2
 	}
 	
-	var leftopen;
-	var rightopen;
 	var slidestep = sigFigs((farright - farleft) / 200, 3);
 	
 	if(show_open_close.toLowerCase() != 'true'){
 		$('.for-numerical').remove();
 	}
 	
+	JSPState.timeproblem = (is_time_problem.toLowerCase() == 'true');
+	
+	// If this is a time-based problem, set up the range differently.
+	if(is_time_problem){
+		farleft = 0.0;
+		farright = parseFloat(parent.$('#maxtime').text());
+	}
+	
+	// Set up the slider for selecting a range.
 	$( '#rangeselector' ).slider({
 		range: true,
 		min: farleft,
@@ -82,6 +133,9 @@ $(document).ready(function(){
 			updateLabels();
 		}
 	});
+	
+	
+	// Below are all the listeners for the numerical entry boxes and checkboxes.
 	
 	$('#leftbound').on('change', function(ui){
 		JSPState.lowerguess = parseInt(ui.target.value);
@@ -131,15 +185,28 @@ $(document).ready(function(){
 		
 	
 	function updateDisplay(){
+
 		var lowerchoice = $( '#rangeselector' ).slider( 'values', 0 );
 		var upperchoice = $( '#rangeselector' ).slider( 'values', 1 );
-		lowerchoice = sigFigs(lowerchoice, 3);
-		upperchoice = sigFigs(upperchoice, 3);
+
+		if(JSPState.timeproblem){
+			lowerchoice = timeToHMS(lowerchoice);
+			upperchoice = timeToHMS(upperchoice);
 		
-	    $( '#leftbound' ).val(lowerchoice);
-    	$( '#rightbound' ).val(upperchoice);
-    	JSPState.lowerguess = lowerchoice;
-    	JSPState.upperguess = upperchoice;
+		    $( '#leftbound' ).val(lowerchoice);
+	    	$( '#rightbound' ).val(upperchoice);
+	    	JSPState.lowerguess = lowerchoice;
+	    	JSPState.upperguess = upperchoice;
+
+		}else{
+			lowerchoice = sigFigs(lowerchoice, 3);
+			upperchoice = sigFigs(upperchoice, 3);
+		
+		    $( '#leftbound' ).val(lowerchoice);
+	    	$( '#rightbound' ).val(upperchoice);
+	    	JSPState.lowerguess = lowerchoice;
+	    	JSPState.upperguess = upperchoice;
+	    }
     	
     }
     
@@ -150,12 +217,20 @@ $(document).ready(function(){
 		var label3 = (farleft + farright) / 2;
 		var label4 = (farleft + 3*farright) / 4;
 		var label5 = farright;
-
-		label1 = sigFigs(label1, 2)
-		label2 = sigFigs(label2, 2)
-		label3 = sigFigs(label3, 2)
-		label4 = sigFigs(label4, 2)
-		label5 = sigFigs(label5, 2)
+		
+		if(JSPState.timeproblem){
+			label1 = timeToHMS(label1);
+			label2 = timeToHMS(label2);
+			label3 = timeToHMS(label3);
+			label4 = timeToHMS(label4);
+			label5 = timeToHMS(label5);
+		}else{
+			label1 = sigFigs(label1, 2);
+			label2 = sigFigs(label2, 2);
+			label3 = sigFigs(label3, 2);
+			label4 = sigFigs(label4, 2);
+			label5 = sigFigs(label5, 2);
+		}
 		
 		$('#location1').text(label1);
 		$('#location2').text(label2);
@@ -165,15 +240,15 @@ $(document).ready(function(){
     }
     
 	if($('#lefttypebox').is(':checked')){
-		leftopen = false;
+		JSPState.lowerclosed = true;
 	}else{
-		leftopen = true;
+		JSPState.lowerclosed = false;
 	}
 	
 	if($('#righttypebox').is(':checked')){
-		rightopen = false;
+		JSPState.upperclosed = true;
 	}else{
-		rightopen = true;
+		JSPState.upperclosed = false;
 	}
 	
 	
