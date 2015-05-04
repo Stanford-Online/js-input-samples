@@ -179,8 +179,7 @@ $(document).ready(function(){
 			JSPState.upperguess = parseFloat($('#rightbound').val());
 		}
 		
-		console.log(JSPState.lowerguess, JSPState.upperguess);
-		
+		// Throw an error and fix if the lower bound is over the upper bound.
 		if(JSPState.lowerguess <= JSPState.upperguess){
 			$('#rangeselector').slider('values', 0, JSPState.lowerguess);
 			$('#errors').text('');
@@ -195,8 +194,6 @@ $(document).ready(function(){
 	// Watch for changes in the upper bound's textbox. 
 	$('#rightbound').on('change', function(ui){
 
-		console.log(ui.target.value);
-
 		if(JSPState.timeproblem){
 			JSPState.lowerguess = parseFloat(hmsToTime($('#leftbound').val()));
 			JSPState.upperguess = parseFloat(hmsToTime(ui.target.value));
@@ -205,8 +202,7 @@ $(document).ready(function(){
 			JSPState.upperguess = parseFloat(ui.target.value);
 		}
 		
-		console.log(JSPState.lowerguess, JSPState.upperguess);
-		
+		// Throw an error and fix if the upper bound is less than the lower bound.
 		if(JSPState.upperguess >= JSPState.lowerguess){
 			$('#rangeselector').slider('values', 1, JSPState.upperguess);
 			$('#errors').text('');
@@ -218,6 +214,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	// Watch for the lower open/closed checkbox.
     $('#lefttypebox').on('change', function(ui){
     	JSPState.lowerclosed = !JSPState.lowerclosed
 		if(JSPState.lowerclosed){
@@ -227,6 +224,7 @@ $(document).ready(function(){
 		}
 	});
 	
+	// Watch for the upper open/closed checkbox.
     $('#righttypebox').on('change', function(ui){
     	JSPState.upperclosed = !JSPState.upperclosed
 		if(JSPState.upperclosed){
@@ -236,12 +234,15 @@ $(document).ready(function(){
 		}
 	});
 		
-	
+	// Only called when the slider is created or moved.
 	function updateDisplay(){
 
 		var lowerchoice = $( '#rangeselector' ).slider( 'values', 0 );
 		var upperchoice = $( '#rangeselector' ).slider( 'values', 1 );
-
+		
+		// The switch in order between these two branches is important.
+		// Time problems need the guesses set *before* we turn the times
+		// into human-readable formats.
 		if(JSPState.timeproblem){
 	    	JSPState.lowerguess = lowerchoice;
 	    	JSPState.upperguess = upperchoice;
@@ -265,6 +266,7 @@ $(document).ready(function(){
     	
     }
     
+    // Only called when the slider is created.
 	function updateLabels(){
 		
 		var label1 = farleft;
@@ -306,9 +308,7 @@ $(document).ready(function(){
 		JSPState.upperclosed = false;
 	}
 	
-	
     updateDisplay();
-
 
 });
 
