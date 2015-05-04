@@ -1,5 +1,5 @@
 // The "JSPState" JSON dictionary below is passed to the platform for grading and saving.
-// Pass through whatever you wish. It will get logged.
+// It gets logged.
 var JSPState = {
 	'lowerguess': 'unset',
 	'upperguess': 'unset',
@@ -7,6 +7,7 @@ var JSPState = {
 	'upperclosed': true,
 	'timeproblem': false
 };
+
 
 // Returns a number rounded to a given number of significant figures.
 function sigFigs(number, digits){
@@ -20,6 +21,7 @@ function sigFigs(number, digits){
 	var shifted = Math.round(number * magnitude)
 	return shifted/magnitude;
 }
+
 
 // Sets up the visual field after reloading.
 function putBackGuesses(){
@@ -53,6 +55,7 @@ function putBackGuesses(){
 
 }
 
+
 // Converts seconds to hh:mm:ss format for time-based problems
 function timeToHMS(time){
 	var hours;
@@ -83,6 +86,7 @@ function timeToHMS(time){
 	return timestring;
 }
 
+// Converts hh:mm:ss to a number of seconds for time-based problems
 function hmsToTime(hms){
 
 
@@ -105,13 +109,14 @@ function hmsToTime(hms){
 	return time;
 }
 
+
 $(document).ready(function(){
 
 	// Give the iframe a useful description for screen readers.
 	parent.$('iframe[name=' + window.name + ']').attr('title', 'Estimation Problem Frame');
 	
 	// Read python-randomized items from the parent frame.
-	// If this doesn't work, might need to delay it. :(
+	// If this doesn't work, might need to delay it until the parent frame is done loading.
 	var farleft = parseFloat(parent.$('#lowerlimit').text());
 	var farright = parseFloat(parent.$('#upperlimit').text());
 	var show_open_close = parent.$('#openclose').text();
@@ -119,25 +124,31 @@ $(document).ready(function(){
 	
 	console.log('inner ready');
 	
+	
 	// If we don't already have upper and lower guesses, make some up.
 	if(JSPState.lowerguess == 'unset' || JSPState.lowerguess == 'unset'){
 		JSPState.lowerguess = farleft + Math.random() * (farright - farleft) / 2
 		JSPState.upperguess = farright - Math.random() * (farright - farleft) / 2
 	}
 	
+	// What's the interval for our slider?
 	var slidestep = sigFigs((farright - farleft) / 200, 3);
 	
+	// Is this a time-based problem?
+	JSPState.timeproblem = (is_time_problem.toLowerCase() == 'true');
+	
+
+	// Take out the open/closed interval checkboxes if we don't need them.
 	if(show_open_close.toLowerCase() != 'true'){
 		$('.for-numerical').remove();
 	}
-	
-	JSPState.timeproblem = (is_time_problem.toLowerCase() == 'true');
 	
 	// If this is a time-based problem, set up the range differently.
 	if(JSPState.timeproblem){
 		farleft = 0.0;
 		farright = parseFloat(parent.$('#maxtime').text());
 	}
+	
 	
 	// Set up the slider for selecting a range.
 	$( '#rangeselector' ).slider({
@@ -157,15 +168,15 @@ $(document).ready(function(){
 	
 	
 	// Below are all the listeners for the numerical entry boxes and checkboxes.
-	
+	// Watch for changes in the lower bound's textbox. 
 	$('#leftbound').on('change', function(ui){
 		
 		if(JSPState.timeproblem){
-			JSPState.lowerguess = parseInt(hmsToTime(ui.target.value));
-			JSPState.upperguess = parseInt(hmsToTime($('#rightbound').val()));
+			JSPState.lowerguess = parseFloat(hmsToTime(ui.target.value));
+			JSPState.upperguess = parseFloat(hmsToTime($('#rightbound').val()));
 		}else{
-			JSPState.lowerguess = parseInt(ui.target.value);
-			JSPState.upperguess = parseInt($('#rightbound').val());
+			JSPState.lowerguess = parseFloat(ui.target.value);
+			JSPState.upperguess = parseFloat($('#rightbound').val());
 		}
 		
 		console.log(JSPState.lowerguess, JSPState.upperguess);
@@ -181,16 +192,17 @@ $(document).ready(function(){
 		}
 	});
 	
+	// Watch for changes in the upper bound's textbox. 
 	$('#rightbound').on('change', function(ui){
 
 		console.log(ui.target.value);
 
 		if(JSPState.timeproblem){
-			JSPState.lowerguess = parseInt(hmsToTime($('#leftbound').val()));
-			JSPState.upperguess = parseInt(hmsToTime(ui.target.value));
+			JSPState.lowerguess = parseFloat(hmsToTime($('#leftbound').val()));
+			JSPState.upperguess = parseFloat(hmsToTime(ui.target.value));
 		}else{
-			JSPState.lowerguess = parseInt($('#leftbound').val());
-			JSPState.upperguess = parseInt(ui.target.value);
+			JSPState.lowerguess = parseFloat($('#leftbound').val());
+			JSPState.upperguess = parseFloat(ui.target.value);
 		}
 		
 		console.log(JSPState.lowerguess, JSPState.upperguess);
