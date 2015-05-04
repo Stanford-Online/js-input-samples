@@ -18,7 +18,7 @@ import json
 problem_type = 'interval'  # Set to 'interval' or a 'number'
 show_open_close = False    # Do we ask for open/closed interval?
 feedback = True            # Do we tell people how close they were?
-is_time_question = True    # Should we convert these numbers to times (min:sec)?
+is_time_question = False   # Should we convert these numbers to times (min:sec)?
                            # If this is set True, course authors still use seconds.
 
 # Only for number-guessing:
@@ -27,7 +27,7 @@ tolerance = [2, 4, 6]          # How close do they have to be? [correct, near, f
 brackets = [1, 0.5, 0.25, 0]   # Scores for various range brackets
 
 # Only for interval-guessing:
-correct_interval = [40,80]               # Please put the lower value on the left.
+correct_interval = [38515,62434]               # Please put the lower value on the left.
 interval_type = ['closed', 'closed']     # Are endpoints 'open' or 'closed'?
 interval_tolerance = 'generous'          # Options: 'linear', 'strict', or 'generous'
 type_penalty = 0.0                       # Points off if open/closed incorrect
