@@ -15,7 +15,7 @@ import json
 ##########################################
 
 # These are REQUIRED for all problems.
-problem_type = 'interval'  # Set to 'interval' or a 'number'
+problem_type = 'interval'  # Set to 'interval' or 'number'
 show_open_close = False    # Do we ask for open/closed interval?
 feedback = True            # Do we tell people how close they were?
 is_time_question = False   # Should we convert these numbers to times (min:sec)?
