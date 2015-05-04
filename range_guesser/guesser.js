@@ -32,10 +32,10 @@ function putBackGuesses(){
 		$( '#rightbound' ).val( timeToHMS(JSPState.upperguess) );
 		$('#rangeselector').slider('values', 1, JSPState.upperguess);
 	}else{
-		$( '#leftbound' ).val( timeToHMS(JSPState.lowerguess) );
+		$( '#leftbound' ).val( sigFigs(JSPState.lowerguess, 3) );
 		$('#rangeselector').slider('values', 0, JSPState.lowerguess);
 	
-		$( '#rightbound' ).val( timeToHMS(JSPState.upperguess) );
+		$( '#rightbound' ).val( sigFigs(JSPState.upperguess, 3) );
 		$('#rangeselector').slider('values', 1, JSPState.upperguess);
 	}
 	
@@ -83,6 +83,27 @@ function timeToHMS(time){
 	return timestring;
 }
 
+function hmsToTime(hms){
+
+
+	hms = hms.toString();
+
+	var hmsArray = hms.split(':');
+	var time = 0;
+	
+	if(hmsArray.length == 3){
+		time = 3600*parseInt(hmsArray[0]) + 60*parseInt(hmsArray[1]) + parseInt(hmsArray[2]);
+	}
+	else if(hmsArray.length == 2){
+		time = 60*parseInt(hmsArray[0]) + parseInt(hmsArray[1]);
+	}
+	
+	else if(hmsArray.length == 1){
+		time = parseInt(hmsArray[0]);
+	}
+	
+	return time;
+}
 
 $(document).ready(function(){
 
@@ -113,7 +134,7 @@ $(document).ready(function(){
 	JSPState.timeproblem = (is_time_problem.toLowerCase() == 'true');
 	
 	// If this is a time-based problem, set up the range differently.
-	if(is_time_problem){
+	if(JSPState.timeproblem){
 		farleft = 0.0;
 		farright = parseFloat(parent.$('#maxtime').text());
 	}
@@ -138,8 +159,17 @@ $(document).ready(function(){
 	// Below are all the listeners for the numerical entry boxes and checkboxes.
 	
 	$('#leftbound').on('change', function(ui){
-		JSPState.lowerguess = parseInt(ui.target.value);
-		JSPState.upperguess = parseInt($('#rightbound').val());
+		
+		if(JSPState.timeproblem){
+			JSPState.lowerguess = parseInt(hmsToTime(ui.target.value));
+			JSPState.upperguess = parseInt(hmsToTime($('#rightbound').val()));
+		}else{
+			JSPState.lowerguess = parseInt(ui.target.value);
+			JSPState.upperguess = parseInt($('#rightbound').val());
+		}
+		
+		console.log(JSPState.lowerguess, JSPState.upperguess);
+		
 		if(JSPState.lowerguess <= JSPState.upperguess){
 			$('#rangeselector').slider('values', 0, JSPState.lowerguess);
 			$('#errors').text('');
@@ -152,8 +182,19 @@ $(document).ready(function(){
 	});
 	
 	$('#rightbound').on('change', function(ui){
-		JSPState.lowerguess = parseInt($('#leftbound').val());
-		JSPState.upperguess = parseInt(ui.target.value);
+
+		console.log(ui.target.value);
+
+		if(JSPState.timeproblem){
+			JSPState.lowerguess = parseInt(hmsToTime($('#leftbound').val()));
+			JSPState.upperguess = parseInt(hmsToTime(ui.target.value));
+		}else{
+			JSPState.lowerguess = parseInt($('#leftbound').val());
+			JSPState.upperguess = parseInt(ui.target.value);
+		}
+		
+		console.log(JSPState.lowerguess, JSPState.upperguess);
+		
 		if(JSPState.upperguess >= JSPState.lowerguess){
 			$('#rangeselector').slider('values', 1, JSPState.upperguess);
 			$('#errors').text('');
@@ -190,13 +231,14 @@ $(document).ready(function(){
 		var upperchoice = $( '#rangeselector' ).slider( 'values', 1 );
 
 		if(JSPState.timeproblem){
+	    	JSPState.lowerguess = lowerchoice;
+	    	JSPState.upperguess = upperchoice;
+
 			lowerchoice = timeToHMS(lowerchoice);
 			upperchoice = timeToHMS(upperchoice);
 		
 		    $( '#leftbound' ).val(lowerchoice);
 	    	$( '#rightbound' ).val(upperchoice);
-	    	JSPState.lowerguess = lowerchoice;
-	    	JSPState.upperguess = upperchoice;
 
 		}else{
 			lowerchoice = sigFigs(lowerchoice, 3);
@@ -204,6 +246,7 @@ $(document).ready(function(){
 		
 		    $( '#leftbound' ).val(lowerchoice);
 	    	$( '#rightbound' ).val(upperchoice);
+	    	
 	    	JSPState.lowerguess = lowerchoice;
 	    	JSPState.upperguess = upperchoice;
 	    }
