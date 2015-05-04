@@ -7,7 +7,7 @@ Seems to be more or less in working order.
 Now it needs testing.
 
 #### Overview ####
-Move the sliders to guess a number (or an interval, depending on how the problem is set up). Partial credit is given depending on how accurate your guess is.
+Move the sliders to guess a number (or an interval, depending on how the problem is set up). Partial credit is given depending on how accurate your guess is. You can also use this to ask about when something happens in a video or audio clip, using the is\_time_question setting.
 
 This problem should be accessible to blind and partially sighted users who are employing a screen reader.
 
@@ -26,7 +26,7 @@ Here's how to adapt this example to create your own guessing problems.
 
 ##### Using Multiple Guessing Problems #####
 
-It looks like having two of these on one page will actually work properly these days, but test before deploying. You know, *much like everything else in your course.*
+Having more than one guessing problem on a page doesn't work well. They battle each other, trying to randomize or set the same python variables and call up the same HTML page multiple times. You could do it if you changed all the variable names, made a second HTML page, etc., but it's going to be a bit of a mess.
 
 #### Files: ####
 
