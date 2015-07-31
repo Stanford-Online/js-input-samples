@@ -134,4 +134,17 @@ def answercheck(e, ans):
     html_file="/static/MatchingA.html"
     sop="false"/>
 </customresponse>
+
+<solution>
+  <div class="detailed-solution">
+    <p>Explanation</p>
+    <p>This is a placeholder solution. You should replace it with your own.</p>
+    <p>To add an image to the solution, use an HTML "img" tag. Make sure to include alt text.</p>
+    <img src="/static/images/placeholder-image.png" width="400" 
+    alt="Description of image, with a primary goal of explaining its 
+    relevance to the problem or concept being illustrated for someone 
+    who is unable to see the image."/>
+  </div>
+</solution>
+
 </problem>
