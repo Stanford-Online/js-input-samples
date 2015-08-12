@@ -68,8 +68,9 @@ def answercheck(e, ans):
       scores.append((float(currentpoints[answer_index] - wrong_answers[answer_index])) / float(maxpoints[answer_index]))
       answer_index += 1
   
-    final_grade = round(max(scores), 2)
+    final_grade = max(scores)
     final_index = scores.index(final_grade)
+    final_grade = round(final_grade, 2)
     message = str(currentpoints[final_index]) 
     message += ' correct out of ' 
     message += str(maxpoints[final_index]) 
