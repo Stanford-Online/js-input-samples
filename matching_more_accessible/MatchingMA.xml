@@ -25,7 +25,7 @@ function logThatThing(ThatThing){
 
 </script>
 	
-<script type="loncapa/python">
+<script type="loncapa/python"><![CDATA[
 
 import json
 
@@ -34,24 +34,81 @@ def answercheck(e, ans):
   right_answer = []
   right_answer.append( [['A','2'],['B','4'],['C','3'],['D','1'],['D','2']] )
   right_answer.append( [['A','2'],['B','4'],['C','3'],['D','1']] )
+  partial_credit = True
+  feedback = True
 
   parsed = json.loads(ans)
   answer = json.loads(parsed['answer'])
-  answer_sort = sorted(answer['pairings'])
+  answer = answer['pairings']
   
-  is_right = False
+  if partial_credit:
   
-  for right_answer_n in right_answer:
-    right_answer_sort = sorted(right_answer_n)
+    currentpoints = []
+    wrong_answers = []
+    maxpoints = []
+    scores = []
+    answer_index = 0
   
-    if answer_sort == right_answer_sort:
-      is_right = True
-      break
-    else:
-      is_right = False
+    for right_answer_n in right_answer:
 
-  return is_right
+      maxpoints.append(len(right_answer_n))
+      currentpoints.append(0)
+      wrong_answers.append(0)
+      
+      for item in answer:
+        does_match = False
+        for target in right_answer_n:
+          if item == target:
+            does_match = True
+            break
+        if does_match:
+          currentpoints[answer_index] += 1
+        else:
+          wrong_answers[answer_index] += 1
+          
+    
+      scores.append((float(currentpoints[answer_index] - wrong_answers[answer_index])) / float(maxpoints[answer_index]))
+      answer_index += 1
   
+    final_grade = max(scores)
+    final_index = scores.index(final_grade)
+    final_grade = round(final_grade, 2)
+    message = str(currentpoints[final_index]) 
+    message += ' correct out of ' 
+    message += str(maxpoints[final_index]) 
+    message += ', ' 
+    message += str(wrong_answers[final_index]) 
+    message += ' wrong.'
+    
+    is_right = False
+    if final_grade == maxpoints: is_right = True
+    if 0 < final_grade < maxpoints: is_right = "Partial"
+    
+    if not feedback: message = ''
+    
+    return {
+      'input_list': [
+        { 'ok': is_right, 'msg': message, 'grade_decimal': final_grade},
+      ]
+    }
+  
+  else:
+    answer_sort = sorted(answer)
+  
+    is_right = False
+  
+    for right_answer_n in right_answer:
+      right_answer_sort = sorted(right_answer_n)
+  
+      if answer_sort == right_answer_sort:
+        is_right = True
+        break
+      else:
+        is_right = False
+        
+    return is_right
+
+]]> 
 </script>
 
 <p>This is a matching exercise. Drag the elements on the left into the ones on the right to create a match. You can match items with more than one other item, but you should choose the best match if you can. Click on the items for a better view if you need it.</p>
