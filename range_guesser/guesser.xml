@@ -63,7 +63,6 @@ def answercheck(e, ans):
   guess_lower_closed = answer['lowerclosed']
   
   # Now begins the grading.
-  isOK = False
   message = ''
   final_grade = 0
   
@@ -111,23 +110,18 @@ def answercheck(e, ans):
           final_grade = final_grade - type_penalty
           message += ' Upper endpoint is wrong.'
       
-      isOK = True
-
   else:
     
     farthest = max(abs(correct_number - guess_upper), abs(correct_number - guess_lower))
     
     if farthest < tolerance[0]:
       final_grade = brackets[0]
-      isOK = True
       message = 'Close enough! Actual answer: ' + str(correct_number)
     elif farthest < tolerance[1]:
       final_grade = brackets[1]
-      isOK = True
       message = 'Close. You are off by ' + str(farthest)
     elif farthest < tolerance[2]:
       final_grade = brackets[2]
-      isOK = True
       message = 'Not very close. You are off by ' + str(farthest)
     else:
       final_grade = brackets[3]
@@ -140,6 +134,13 @@ def answercheck(e, ans):
     
   if not feedback:
     message = ''
+
+  if final_grade > 0.95:
+    isOK = True
+  elif final_grade > 0.05:
+    isOK = "Partial"
+  else:
+    isOK = False
   
   return {
     'input_list': [
