@@ -77,10 +77,10 @@ def answercheck(e, ans):
     message += ', ' 
     message += str(wrong_answers[final_index]) 
     message += ' wrong.'
-    
+
     is_right = False
-    if final_grade == maxpoints: is_right = True
-    if 0 < final_grade < maxpoints: is_right = "Partial"
+    if 0.1 < final_grade < 0.9: is_right = 'Partial'
+    elif final_grade >= 0.9: is_right = True
     
     if not feedback: message = ''
     
