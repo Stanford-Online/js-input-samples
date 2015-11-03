@@ -283,7 +283,7 @@ function loadElementsScreenReader(){
 	}
 	
 	// Add event listeners.
-	$('input:checkbox').on('click tap', function(){
+	$('input:checkbox').on('click tap', function(event){
 		handleCheck(event, this); 
 	});
 	
