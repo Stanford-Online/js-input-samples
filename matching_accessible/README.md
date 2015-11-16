@@ -16,7 +16,7 @@ Here's how to adapt this example to create your own card-sorting problems.
 3. Download the files used in this problem.
 4. Update the MatchingA\_Elements.js file. Fill in the 'type' property with either 'text' or 'image', and fill in the according property with the image's filename or with your text. The text field is used as alt text for images.
 5. Upload all your images and files to the "Files and Uploads" section of Studio, or just dump them in the proper directory if you're using the XML approach.
-6. Create a new Custom Javascript Display and Input problem (under the "Advanced" problem tab). Copy and paste the contents of MatchingA.xml into that problem, fix up the `right\_answer` variable so that it contains the answer you want, and add your own instructions for the students.
+6. Create a new Custom Javascript Display and Input problem (under the "Advanced" problem tab). Copy and paste the contents of MatchingA.xml into that problem, fix up the `right_answer` variable so that it contains the answer you want, and add your own instructions for the students.
 7. Use your browser's javascript console for debugging - for instance, if your cards' text or images aren't showing up, it may point you to the line in your MatchingA\_Elements.js file that is causing the problem.
 
 ##### Using Multiple Matching Problems #####
@@ -35,9 +35,9 @@ Inside you will find many pieces used to create this problem:
 - `MatchingA.js`: the javascript file that does the majority of the work and allows you to drag items around and stuff. You should not need to change this.
 - `MatchingA.css`: the css file that makes things look pretty (or as close as I could get them). You should not need to change this.
 - `MatchingA.html`: the HTML file that will be iframed into the page. You should not need to change this unless you have more than one matching problem in your course.
-- `MatchingA.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating `right\_answer` to be the actual right answer you want, and filling it with your own instruction text. You can also turn partial credit and feedback off if you prefer; just set them to False.
+- `MatchingA.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating `right_answer` to be the actual right answer you want, and filling it with your own instruction text. You can also turn partial credit and feedback off if you prefer; just set them to False.
 - `MatchingA_nopartial.xml`: the old version of the XML without the partial credit code, for people running antique versions of edX.
-- `MatchingA\_Elements.js`: holds the pregenerated group names. You will need to update this to have the items you want.
+- `MatchingA_Elements.js`: holds the pregenerated group names. You will need to update this to have the items you want.
 - And several image files that you will need to replace with your own. 
 
 When creating your own matching problem, you will upload almost every file in this directory to the Files and Uploads section. There are two exceptions: the XML file (which you cut-and-paste into Studio) and the image files (which you replace with your own).
