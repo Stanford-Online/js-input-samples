@@ -71,6 +71,7 @@ def answercheck(e, ans):
     final_grade = max(scores)
     final_index = scores.index(final_grade)
     final_grade = round(final_grade, 2)
+    final_grade = max(final_grade, 0)
     message = str(currentpoints[final_index]) 
     message += ' correct out of ' 
     message += str(maxpoints[final_index]) 

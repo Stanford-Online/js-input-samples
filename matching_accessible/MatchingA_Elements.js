@@ -35,7 +35,7 @@ var elementsRight = {
 		'text': 'Does not match any other category.',
 		'imgURL': ''
 	}
-}
+};
 
 var elementsLeft = {
 	'A': {
@@ -62,4 +62,4 @@ var elementsLeft = {
 		'text': '<em>Sting of the Bumblebee</em>, by Man-o-war. A piece for electric guitar and drum that mirrors <i>Flight of the Bumblebee</i> before breaking down into dissonance.',
 		'imgURL': ''
 	}
-}
+};
