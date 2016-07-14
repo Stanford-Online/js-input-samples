@@ -1,0 +1,34 @@
+JAVASCRIPT
+Set up time array for recorded times
+
+Get video controller
+    Get video length
+    Get video timer
+        Run main loop
+
+Main Loop:
+    Get video time and push onto time array
+
+
+On "Check" button:
+    Pass time array and video length to grading code
+
+
+PYTHON
+Get time array and video length
+Sort time array
+Remove duplicates from time array
+
+create duration array
+
+Loop:
+    Get value from array. Store as "start"
+    Go to next point on array, get value
+    Subtract: if more than 1, store previous value as "end"
+        Subtract start from end and push onto duration array
+        Mark next point as start
+    else keep going to next points
+
+total watch time is sum of duration array
+
+grade is total watch time over video length (round up to nearest 10%)
