@@ -36,8 +36,6 @@ def answercheck(e, ans):
 
         ind = watch_times.index(j)
         this_time = j
-        #if this_time < start_time:
-        #    start_time = this_time
 
         next_time = watch_times[ind + 1]
 
