@@ -17,9 +17,9 @@ def answercheck(e, ans):
     # Get the student's answer.
     parsed = json.loads(ans)
     answer = json.loads(parsed['answer'])
-    video_length = answer['video_length']
+    video_length = float(answer['video_length'])
     watch_times = answer['watch_times']
-    start_time = answer['start_time']
+    start_time = float(answer['start_time'])
 
     durations = []
     total_watch_time = 0
@@ -27,31 +27,32 @@ def answercheck(e, ans):
     grade = 0
 
     # Remove duplicates and sort the list
+    watch_times = [float(i) for i in watch_times]
     watch_times = list(set(watch_times))
     watch_times.sort()
 
     # Count up the times
     for j in watch_times:
-    
+
         ind = watch_times.index(j)
         this_time = j
-        if this_time < start_time:
-            start_time = this_time
-        
+        #if this_time < start_time:
+        #    start_time = this_time
+
         next_time = watch_times[ind + 1]
-    
+
         # If the next one is the last item, mark it as an end and we're done.
         if ind == len(watch_times) - 2:
             end_time = next_time
             durations.append(end_time - start_time)
             break
-        
+
         # If the next time is too far ahead, call this an end and push duration
         elif next_time - this_time > 2:
             end_time = this_time
             durations.append(end_time - start_time)
             start_time = next_time
-        
+
         # Otherwise, just keep counting up.
         else:
             pass
@@ -68,8 +69,7 @@ def answercheck(e, ans):
 
     # Round up to the nearest tenth.
     grade = math.ceil(grade*10.0) / 10.0
-    grade = math.min(grade, 1)
-    
+
     msg = "You watched about " + str(grade * 100) + " percent of the video."
 
     if grade > 0.95:
@@ -89,10 +89,7 @@ def answercheck(e, ans):
 </script>
 
 <script type="text/javascript">
-
-$(document).ready(function(){
-	console.log('outer ready');
-});
+<![CDATA[
 
 // Logs a javascript object.
 function logThatThing(ThatThing){
@@ -118,14 +115,6 @@ $(document).ready(function(){
     var currentTime;
     
     console.log('Video watcher watcher started');
-
-
-    // Mark each video and set of controls with a class and anchor 
-    // that will let us handle each of them separately.
-    // Numbering from 1 to make things easier for course creators.
-    // Right now this problem type only handles one video per page, but this may be useful later.
-    video.each(function(index){   $(this).addClass('for-video-' + (index + 1));   });
-    video.each(function(index){   $(this).parent().prepend('<a name="video' + (index + 1) + '"></a>');   });
     
     video.each(function(vidnumber){
         
@@ -181,6 +170,7 @@ $(document).ready(function(){
     }
 });
 
+]]>
 </script>
 
 
