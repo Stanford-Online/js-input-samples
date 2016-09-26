@@ -68,7 +68,7 @@ def answercheck(e, ans):
     # Round up to the nearest tenth.
     grade = math.ceil(grade*10.0) / 10.0
 
-    msg = "You watched about " + str(grade * 100) + " percent of the video."
+    msg = "You watched about " + str(int(grade * 100)) + " percent of the video."
 
     if grade > 0.95:
         isOK = True
@@ -79,7 +79,7 @@ def answercheck(e, ans):
 
     return {
         'input_list': [
-            {'ok': isOK, 'msg': '', 'grade_decimal': grade},
+            {'ok': isOK, 'msg': msg, 'grade_decimal': grade},
         ]
     }
 
