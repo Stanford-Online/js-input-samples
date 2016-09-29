@@ -51,6 +51,10 @@ def answercheck(e, ans):
             durations.append(end_time - start_time)
             start_time = next_time
 
+        # If this is the first time, make sure we're using that as our start time.
+        elif ind == 0:
+            start_time = this_time
+
         # Otherwise, just keep counting up.
         else:
             pass
