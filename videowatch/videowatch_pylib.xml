@@ -1,0 +1,44 @@
+<problem>
+
+<script type="loncapa/python">
+<![CDATA[
+
+from python_lib import HXGraders
+
+###################### Set This #########################
+
+grading = 'linear'     # Options: 'linear', 'strict', or 'generous'
+
+############## Leave Everything Else Alone ##############
+
+
+def answercheck(e, ans):
+    
+    # This pulls from the python_lib.zip file in Files & Uploads.
+    return HXGraders.videoWatchGrader(ans, grading)
+
+]]>
+</script>
+
+<script type="text/javascript" src="/static/videowatchtimer.js"></script>
+
+<!--    Problem Description Section     -->
+<!-- You should ask your question here. -->
+<p>Press "Check" when you are done watching the video above.</p>
+<!-- End Problem Description Section -->
+
+
+<!-- You can use this same set of files for every video check problem in your course,
+     so you probably don't need to change what's below. -->
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="videowatch.getGrade"
+    get_statefn="videowatch.getState"
+    set_statefn="videowatch.setState"
+    width="800"
+    height="0"
+    html_file="/static/videowatch.html"
+    sop="false"/>
+</customresponse>
+
+</problem>
