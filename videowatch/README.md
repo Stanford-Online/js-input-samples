@@ -28,5 +28,6 @@ Inside you will find many pieces used to create this problem:
 
 - `jschannel.js`: the javascript file that allows javascript-type problems to work at all. You should not need to change this. I didn't make this one.
 - `videowatch.js`: the javascript file that passes video info back to the grader. You should not need to change this.
+- `VideoWatchTimer.js`: the javascript file that watches the time from the video and counts it up properly, and does logging. You should not need to change this.
 - `videowatch.html`: the HTML file that will be iframed into the page. You should not need to change this.
-- `videowatch.xml`: the XML used to create the problem within Studio. Includes both Python for grading and javascript to check on the video time every half-second. You can adjust the grading strictness and the prompt; leave everything else alone.
+- `videowatch.xml`: the XML used to create the problem within Studio. Includes Python for grading. You can adjust the grading strictness and the prompt; leave everything else alone.
