@@ -1,0 +1,77 @@
+<problem>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+// Logs a javascript object.
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.public_demo.matching_problem", ThatThing);
+
+}
+
+</script>
+	
+<script type="loncapa/python">
+<![CDATA[
+
+from python_lib import HXGraders
+right_answer = []
+
+##################### Set These #########################
+# You can set more than one right answer if you want.
+# Students will get the best grade among them for their answer.
+
+right_answer.append( [['A','2'],['B','4'],['C','3'],['D','1'],['D','2']] )
+right_answer.append( [['A','2'],['B','4'],['C','3'],['D','1']] )
+partial_credit = True
+feedback = True
+  
+############## Leave Everything Else Alone ##############
+
+def answercheck(e, ans):
+
+  # This pulls from the python_lib.zip file in Files & Uploads.
+  return HXGraders.matchingAGrader(ans, right_answer, partial_credit, feedback)
+
+]]> 
+</script>
+
+<!--    Problem Description Section     -->
+<!-- You should ask your question here. -->
+<p>This is a matching exercise. Drag the elements on the left into the ones on the right to create a match. You can match items with more than one other item, but you should choose the best match if you can. Click on the items for a better view if you need it.</p>
+<!-- End Problem Description Section -->
+
+
+<!-- You can use this same set of files for every video check problem in your course,
+     so you probably don't need to change what's below. -->
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="MatchingA.getGrade"
+    get_statefn="MatchingA.getState"
+    set_statefn="MatchingA.setState"
+    width="780"
+    height="550"
+    html_file="/static/MatchingA.html"
+    sop="false"/>
+</customresponse>
+
+<solution>
+  <div class="detailed-solution">
+    <p>Explanation</p>
+    <p>This is a placeholder solution. You should replace it with your own.</p>
+    <p>To add an image to the solution, use an HTML "img" tag. Make sure to include alt text.</p>
+    <img src="/static/images/placeholder-image.png" width="400" 
+    alt="Description of image, with a primary goal of explaining its 
+    relevance to the problem or concept being illustrated for someone 
+    who is unable to see the image."/>
+  </div>
+</solution>
+
+</problem>
