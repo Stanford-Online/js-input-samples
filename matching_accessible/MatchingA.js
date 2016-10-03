@@ -265,7 +265,7 @@ function loadElementsScreenReader(){
 					+ tableArrayLeft[i] + tableArrayRight[j]
 					+ '">'
 					+ elementsRight[tableArrayRight[j]].text
-					+ '<img src="'
+					+ '<br/><img src="'
 					+ elementsRight[tableArrayRight[j]].imgURL
 					+ '" alt="'
 					+ elementsRight[tableArrayRight[j]].text
