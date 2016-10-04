@@ -38,5 +38,6 @@ Inside you will find many pieces used to create this problem:
 - `guesser.css`: the css file that makes things look pretty (or as close as I could get them). You should not need to change this.
 - `guesser.html`: the HTML file that will be iframed into the page. You should not need to change this unless you have more than one matching problem in your course.
 - `guesser.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating the part marked Course Author Section to be the actual right answer you want, and filling it with your own instruction text. You can also turn feedback off if you prefer; just set it to False.
+- `guesser_pylib.xml`: The XML to use if you're using the python library from [https://github.com/Colin-Fredericks/hx-py](https://github.com/Colin-Fredericks/hx-py).
 
 When creating your own guessing problem, you will upload almost every file in this directory to the Files and Uploads section. The exception is the XML file (which you cut-and-paste into Studio).

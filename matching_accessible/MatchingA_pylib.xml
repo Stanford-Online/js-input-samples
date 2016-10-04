@@ -1,5 +1,9 @@
 <problem>
 
+<!-- This version uses the grading script found at -->
+<!-- https://github.com/Colin-Fredericks/hx-py -->
+
+
 <script type="text/javascript">
 $(document).ready(function(){
 	console.log('outer ready');

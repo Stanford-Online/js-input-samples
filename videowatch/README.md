@@ -31,3 +31,4 @@ Inside you will find many pieces used to create this problem:
 - `VideoWatchTimer.js`: the javascript file that watches the time from the video and counts it up properly, and does logging. You should not need to change this.
 - `videowatch.html`: the HTML file that will be iframed into the page. You should not need to change this.
 - `videowatch.xml`: the XML used to create the problem within Studio. Includes Python for grading. You can adjust the grading strictness and the prompt; leave everything else alone.
+- `videowatch_pylib.xml`: If you're using the python library at [https://github.com/Colin-Fredericks/hx-py](https://github.com/Colin-Fredericks/hx-py), use this version of the XML instead.

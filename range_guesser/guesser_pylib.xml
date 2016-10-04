@@ -1,0 +1,125 @@
+<problem>
+
+<!-- This version uses the grading script found at -->
+<!-- https://github.com/Colin-Fredericks/hx-py -->
+
+<!-- You will need to change things in three places: the Course Author section 
+     in the python code below, the Problem Description Section in the HTML
+     farther down, and the solution at the very bottom of this page.
+ -->
+
+<script type="loncapa/python">
+<![CDATA[
+
+from python_lib import HXGraders
+
+########## Course Author Section #########
+## Change whatever you need to in here. ##
+##########################################
+
+options = {
+
+    # These are REQUIRED for all problems.
+    'problem_type': 'interval',  # Set to 'interval' or a 'number'
+    'show_open_close': False,    # Do we ask for open/closed interval?
+    'feedback': True,            # Do we tell people how close they were?
+    'is_time_question': False,   # Should we convert these numbers to times (min:sec)?
+                                 # If this is set True, course authors still use seconds.
+
+    # Only needed for number-guessing:
+    'correct_number': 10,            # The right answer
+    'tolerance': [2, 4, 6],          # How close do they have to be? [correct, near, far]
+    'brackets': [1, 0.5, 0.25, 0],   # Scores for various range brackets
+
+    # Only needed for interval-guessing:
+    'correct_interval': [38515,62434],         # Please put the lower value on the left.
+    'interval_type': ['closed', 'closed'],     # Are endpoints 'open' or 'closed'?
+    'interval_tolerance': 'generous',          # Options: 'linear', 'strict', or 'generous'
+    'type_penalty': 0.1,                       # Points off if open/closed incorrect
+
+    # Only needed for time-guessing, like intervals in a video clip:
+    'max_time': 300                # How long is your clip in seconds?
+
+}
+
+######## End Course Author Section #########
+## Don't change anything below this line. ##
+############################################
+
+# For constructing the slider itself
+limits = HXGraders.getRangeGuesserParams(options)
+lowerlimit = limits['lower']
+upperlimit = limits['upper']
+
+# For passing to the interior javascript
+show_open_close = options['show_open_close']
+is_time_question = options['is_time_question']
+max_time = options['max_time']
+
+def answercheck(e, ans):
+    
+    # This pulls from the python_lib.zip file in Files & Uploads.
+    return HXGraders.rangeGuessGrader(ans, options)
+
+]]>
+</script>
+
+<!-- You don't need to alter this script. -->
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+// Logs a javascript object.
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+	
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.public_demo.range_guesser", ThatThing);
+
+}
+</script>
+
+
+<!--    Problem Description Section     -->
+<!-- You should ask your question here. -->
+
+<p>What is the range in dollars for the middle quintile of US household income? </p>
+
+
+<!-- End Problem Description Section -->
+<!-- Don't remove the things below.  -->
+
+
+<p class="sr" aria-hidden="true">
+<span id="lowerlimit">$lowerlimit</span>
+<span id="upperlimit">$upperlimit</span>
+<span id="openclose">$show_open_close</span>
+<span id="istimequestion">$is_time_question</span>
+<span id="maxtime">$max_time</span>
+</p>
+
+<customresponse cfn="answercheck">
+  <jsinput gradefn="guesser.getGrade"
+    get_statefn="guesser.getState"
+    set_statefn="guesser.setState"
+    width="800"
+    height="120"
+    html_file="/static/guesser.html"
+    sop="false"/>
+</customresponse>
+
+<!-- You should include an explanation below for when students click "Show Answer" -->
+
+<solution>
+<div class="detailed-solution">
+<p>Explanation</p>
+<p>Answer: $38,515/year to $62,434/year. Source: US Census Bureau, 2011</p>
+</div>
+</solution>
+
+
+</problem>
