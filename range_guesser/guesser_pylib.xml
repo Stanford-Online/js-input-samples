@@ -103,7 +103,8 @@ function logThatThing(ThatThing){
 </p>
 
 <customresponse cfn="answercheck">
-  <jsinput gradefn="guesser.getGrade"
+  <jsinput title="Range Guessing Exercise"
+    gradefn="guesser.getGrade"
     get_statefn="guesser.getState"
     set_statefn="guesser.setState"
     width="800"

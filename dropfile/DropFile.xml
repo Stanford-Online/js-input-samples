@@ -34,7 +34,8 @@ def answercheck(e, ans):
 <p>This is a </p>
 
 <customresponse cfn="answercheck">
-  <jsinput gradefn="DropFile.getGrade"
+  <jsinput title="File Upload Problem"
+    gradefn="DropFile.getGrade"
     get_statefn="DropFile.getState"
     set_statefn="DropFile.setState"
     width="800"

@@ -39,7 +39,8 @@ def answercheck(e, ans):
 <p>Every card must be in one and only one group. Other than that, there are no right or wrong ways to sort the cards!</p>
 
 <customresponse cfn="answercheck">
-  <jsinput gradefn="CardSortJS.getGrade"
+  <jsinput title="Card Sorting Exercise"
+    gradefn="CardSortJS.getGrade"
     get_statefn="CardSortJS.getState"
     set_statefn="CardSortJS.setState"
     width="750"

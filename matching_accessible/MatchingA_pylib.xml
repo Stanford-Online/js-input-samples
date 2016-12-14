@@ -57,7 +57,8 @@ def answercheck(e, ans):
      so you probably don't need to change what's below. -->
 
 <customresponse cfn="answercheck">
-  <jsinput gradefn="MatchingA.getGrade"
+  <jsinput title="Matching Exercise"
+    gradefn="MatchingA.getGrade"
     get_statefn="MatchingA.getState"
     set_statefn="MatchingA.setState"
     width="780"

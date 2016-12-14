@@ -40,7 +40,8 @@ This is an adaptive multiple choice problem. Each choice you make will send you 
 When you are completely done with the entire sequence, scroll down and press "Check" to receive your points. You can also press "Reset" to start over from the beginning.
 </p>
 <customresponse cfn="answercheck">
-  <jsinput gradefn="AdaptiveMC.getGrade"
+  <jsinput title="Adaptive Problems"
+    gradefn="AdaptiveMC.getGrade"
     get_statefn="AdaptiveMC.getState"
     set_statefn="AdaptiveMC.setState"
     width="800"

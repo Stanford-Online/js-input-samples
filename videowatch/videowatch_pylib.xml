@@ -34,7 +34,8 @@ def answercheck(e, ans):
      so you probably don't need to change what's below. -->
 
 <customresponse cfn="answercheck">
-  <jsinput gradefn="videowatch.getGrade"
+  <jsinput title="Video Watch Grader"
+    gradefn="videowatch.getGrade"
     get_statefn="videowatch.getState"
     set_statefn="videowatch.setState"
     width="800"

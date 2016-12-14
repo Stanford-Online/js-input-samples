@@ -113,7 +113,8 @@ def answercheck(e, ans):
 <p>This is a matching exercise. Drag the elements on the left into the ones on the right to create a match. You can match items with more than one other item, but you should choose the best match if you can. Click on the items for a better view if you need it.</p>
 
 <customresponse cfn="answercheck">
-  <jsinput gradefn="MatchingA.getGrade"
+  <jsinput title="Matching Exercise"
+    gradefn="MatchingA.getGrade"
     get_statefn="MatchingA.getState"
     set_statefn="MatchingA.setState"
     width="780"
