@@ -1,0 +1,51 @@
+<problem>
+<!-- This problem only logs student responses. It grades nearly anything as correct. -->
+
+<script type="loncapa/python">
+<![CDATA[
+
+from python_lib import HXGraders
+
+def answercheck(e, ans):
+        
+    # This pulls from the python_lib.zip file in Files & Uploads.
+    return HXGraders.textResponseGrader(ans)
+
+]]>
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+function logThatThing(ThatThing){
+	console.log(JSON.stringify(ThatThing));
+	Logger.log("harvardx.calculus.text_logger", ThatThing);
+
+}
+</script>
+
+
+<p>Put your prompt here.</p>
+
+
+<customresponse cfn="answercheck">
+  <jsinput title="Text Response Exercise"
+    gradefn="textlog.getGrade"
+    get_statefn="textlog.getState"
+    set_statefn="textlog.setState"
+    width="800"
+    height="100"
+    html_file="/static/textlog.html"
+    sop="false"/>
+</customresponse>
+
+<solution>
+<div class="detailed-solution">
+<p>Explanation</p>
+<p>Questions should have explanations, or at least commentary.</p>
+</div>
+</solution>
+
+
+</problem>
