@@ -10,6 +10,7 @@
 - "[Drop File](https://github.com/Stanford-Online/js-input-samples/tree/master/dropfile)": A bare-bones problem that uses Javascript to check a file and see whether it's an image or text. Constructed as an example of how someone might create a file-processing problem.
 - "[Adaptive MC](https://github.com/Stanford-Online/js-input-samples/tree/master/adaptive_mc)": Creates a set of resources where the path depends on a student's answers to MC questions. Still under construction.
 - "[Video Watch Credit](https://github.com/Stanford-Online/js-input-samples/tree/master/videowatch)": Gives students credit for watching a video.
+- "[Range Guesser](https://github.com/Stanford-Online/js-input-samples/tree/master/range_guesser)": Allows students to guess at a number (or time) by setting a range. Closer guess = more credit.
 - "[Text Logging Problem](https://github.com/Stanford-Online/js-input-samples/tree/master/text_logger)": Gives students credit for entering free-response text, and logs it.
 
 ## Deprecated Projects ##
