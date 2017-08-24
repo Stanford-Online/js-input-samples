@@ -25,6 +25,8 @@ var textlog = (function() {
 	function getState(){
 	    console.log('getting state');
         JSProblemState['answer'] = document.getElementById('answer').value;
+        // This string gets URI-decoded later, so percents need to be escaped.
+        JSProblemState['answer'] = JSProblemState['answer'].replace('%', '%25');
 		return JSON.stringify(JSProblemState);
 	}
 
@@ -39,6 +41,8 @@ var textlog = (function() {
 	    console.log('getting grade');
         JSProblemState['answer'] = document.getElementById('answer').value;
 		parent.logThatThing(JSProblemState);
+        // This string gets URI-decoded later, so percents need to be escaped.
+        JSProblemState['answer'] = JSProblemState['answer'].replace('%', '%25');
 		return JSON.stringify(JSProblemState);
 	}
 	
