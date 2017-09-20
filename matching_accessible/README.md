@@ -9,7 +9,7 @@ Student state is recorded via Logger.log() when a grade is calculated, but not a
 
 #### Creating Your Own Matching Problems ####
 
-Here's how to adapt this example to create your own card-sorting problems.
+Here's how to adapt this example to create your own matching problems.
 
 1. Come up with the items. 
 2. Find images or write text (full HTML ok) for the cards. Consider front-loading the text of your items so that students hear the most important or identifiable parts of them first when using a screen reader.
@@ -38,7 +38,7 @@ Inside you will find many pieces used to create this problem:
 - `MatchingA.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating `right_answer` to be the actual right answer you want, and filling it with your own instruction text. You can also turn partial credit and feedback off if you prefer; just set them to False.
 - `MatchingA_nopartial.xml`: the old version of the XML without the partial credit code, for people running antique versions of edX.
 - `MatchingA_Elements.js`: holds the pregenerated group names. You will need to update this to have the items you want.
-- And several image files that you will need to replace with your own. 
+- And several image files that you will need to replace with your own.
 - `MatchingA_pylib.xml`: If you're using the python library at [https://github.com/Colin-Fredericks/hx-py](https://github.com/Colin-Fredericks/hx-py), use this version of the XML instead.
 
 When creating your own matching problem, you will upload almost every file in this directory to the Files and Uploads section. There are two exceptions: the XML file (which you cut-and-paste into Studio) and the image files (which you replace with your own).
