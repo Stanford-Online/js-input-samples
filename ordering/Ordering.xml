@@ -1,0 +1,77 @@
+<problem>
+
+<!--
+This file is used to make the problem work within the edX system.
+You will not need it if you are using this code for other purposes.
+ -->
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+// Logs a javascript object.
+function logThatThing(ThatThing){
+
+	// Log it to the console just to verify it's working
+	console.log(JSON.stringify(ThatThing));
+
+	// Send it to the official edX logamajig!
+	Logger.log("harvardx.public_demo.ordering_problem", ThatThing);
+
+}
+
+</script>
+
+<script type="loncapa/python">
+<![CDATA[
+
+from python_lib import HXGraders
+right_answer = []
+
+##################### Set These #########################
+# You can set more than one right answer if you want.
+# Students will get the best grade among them for their answer.
+
+right_answer.append( ['ACFBE'] )
+options = ['partial_credit': True, 'feedback': True]
+
+############## Leave Everything Else Alone ##############
+
+def answercheck(e, ans):
+
+  # This pulls from the python_lib.zip file in Files & Uploads.
+  return HXGraders.orderGrader(ans, right_answer, options)
+
+]]>
+</script>
+
+<p>Put all the platforms by Nintendo on this list into their chronological release order, from earliest to most recent.</p>
+
+<p>This is an ordering exercise. Drag items on the left into the slots on the right to put them in the proper order. You do not necessarily need to use all the items or fill all the open slots. Click on the items for a better view if you need it.</p>
+
+<customresponse cfn="answercheck">
+  <jsinput title="Ordering Exercise"
+    gradefn="Ordering.getGrade"
+    get_statefn="Ordering.getState"
+    set_statefn="Ordering.setState"
+    width="780"
+    height="550"
+    html_file="/static/Ordering.html"
+    sop="false"/>
+</customresponse>
+
+<solution>
+  <div class="detailed-solution">
+    <p>Explanation</p>
+		<p>The correct order is NES, SNES, GameCube, Wii, and Switch. The Master System was made by Sega, not Nintendo.</p>
+    <p>This is a placeholder solution. You should replace it with your own.</p>
+    <p>To add an image to the solution, use an HTML "img" tag. Make sure to include alt text.</p>
+    <img src="/static/images/placeholder-image.png" width="400"
+    alt="Description of image, with a primary goal of explaining its
+    relevance to the problem or concept being illustrated for someone
+    who is unable to see the image."/>
+  </div>
+</solution>
+
+</problem>
