@@ -7,7 +7,7 @@ In addition, this problem has a version that is accessible to blind and partiall
 
 Student state is recorded via Logger.log() when a grade is calculated, but not at other times.
 
-#### Creating Your Own Matching Problems ####
+#### Creating Your Own Ordering Problems ####
 
 Here's how to adapt this example to create your own ordering problems.
 
@@ -35,9 +35,8 @@ Inside you will find many pieces used to create this problem:
 - `jquery.ui.touch-punch.min.js`: [Touch Punch](https://github.com/furf/jquery-ui-touch-punch), an awesome JQuery extension that maps touch events into mouse events. Used for mobile compatibility. Should not need to alter.
 - `Ordering.js`: the javascript file that does the majority of the work and allows you to drag items around and stuff. You should not need to change this.
 - `Ordering.css`: the css file that makes things look pretty (or as close as I could get them). You should not need to change this.
-- `Ordering.html`: the HTML file that will be iframed into the page. You should not need to change this unless you have more than one matching problem in your course.
-- `Ordering.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating `right_answer` to be the actual right answer you want, and filling it with your own instruction text. You can also turn partial credit and feedback off if you prefer; just set them to False.
-- `Ordering_Elements.js`: holds the pregenerated group names. You will need to update this to have the items you want.
-- And several image files that you will need to replace with your own.
+- `Ordering.html`: the HTML file that will be iframed into the page. If you have more than one ordering problem in your course, you will need to point this at the correct \_Elements file.
+- `Ordering.xml`: the XML used to create the problem within Studio. You will need to make changes to this: updating `right_answer` to be the actual right answer you want, pointing it at the right .html file, and filling it with your own instruction text. You can also turn partial credit and feedback off if you prefer; just set them to False.
+- `Ordering_Elements.js`: holds the item and ordering names. You will need to update this to have the items you want.
 
 When creating your own matching problem, you will upload almost every file in this directory to the Files and Uploads section. There are two exceptions: the XML file (which you cut-and-paste into Studio) and the image files (which you replace with your own).
