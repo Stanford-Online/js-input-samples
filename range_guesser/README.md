@@ -26,7 +26,7 @@ Here's how to adapt this example to create your own guessing problems.
 
 ##### Using Multiple Guessing Problems #####
 
-Having more than one guessing problem on a page doesn't work well. They battle each other, trying to randomize or set the same python variables and call up the same HTML page multiple times. You could do it if you changed all the variable names, made a second HTML page, etc., but it's going to be a bit of a mess.
+You can create multiple guessing problems on the same page. Since they're each individually iframed into the page, they won't interfere with each other much.
 
 #### Files: ####
 

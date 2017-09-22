@@ -16,9 +16,9 @@ Here's how to adapt this example to create your own guessing problems.
 3. Download textlog.xml, edit the prompt as desired, and paste that into a Blank Advanced Problem.
 4. Profit!
 
-##### Using Multiple Guessing Problems #####
+##### Using Multiple Text-Logging Problems #####
 
-I haven't tested having more than one text logging problem on a page.
+You can create multiple text logging problems on the same page. Since they're each individually iframed into the page, they won't interfere with each other much.
 
 #### Files: ####
 

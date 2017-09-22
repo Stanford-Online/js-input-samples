@@ -24,8 +24,6 @@ Here's how to adapt this example to create your own ordering problems.
 
 If you have multiple ordering problems in your course, you need to have different Ordering\_Element files for each one. You will need to number or name them differently, and update the link in the HTML page.
 
-Never put two ordering problems on the same page. The universe will explode. Or maybe they just won't work. Probably the second one. No guarantees.
-
 #### Files: ####
 
 Inside you will find many pieces used to create this problem:

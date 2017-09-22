@@ -9,7 +9,7 @@ Now it needs testing.
 #### Overview ####
 Click the button to get credit for sitting there and watching something. Or for turning it on and walking away.
 
-#### Creating Your Own Number-Guessing Problems ####
+#### Creating Your Own Video Watch Problems ####
 
 Here's how to adapt this example to create your own guessing problems.
 

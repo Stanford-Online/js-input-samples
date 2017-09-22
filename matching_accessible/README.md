@@ -11,7 +11,7 @@ Student state is recorded via Logger.log() when a grade is calculated, but not a
 
 Here's how to adapt this example to create your own matching problems.
 
-1. Come up with the items. 
+1. Come up with the items.
 2. Find images or write text (full HTML ok) for the cards. Consider front-loading the text of your items so that students hear the most important or identifiable parts of them first when using a screen reader.
 3. Download the files used in this problem.
 4. Update the MatchingA\_Elements.js file. Fill in the 'type' property with either 'text' or 'image', and fill in the according property with the image's filename or with your text. The text field is used as alt text for images.
@@ -23,7 +23,7 @@ Here's how to adapt this example to create your own matching problems.
 
 If you have multiple matching problems in your course, you need to have different MatchingA_Element files for each one. You will need to number or name them differently, and update the link in the HTML page.
 
-Never put two matching problems on the same page. The universe will explode. Or maybe they just won't work. Probably the second one. No guarantees.
+You can create multiple matching problems on the same page. Since they're each individually iframed into the page, they won't interfere with each other much.
 
 #### Files: ####
 
