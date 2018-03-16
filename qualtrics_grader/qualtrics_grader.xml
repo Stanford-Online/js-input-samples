@@ -4,7 +4,7 @@
   --------- Qualtrics Survey Grader Instructions -------
   To use this problem type, you should set:
   1. The survey_length in the python section (optional)
-  2. The qualtrics_survey_source in the javascript section (required)
+  2. The qualtricsSurveySource in the javascript section (required)
   3. The prompt where it says 'Put your prompt here.' (required)
   4. If applicable, a solution at the end. If not applicable, remove that
      section or your students may see a "show answer" button.
@@ -19,7 +19,7 @@ from python_lib import HXGraders
 def answercheck(e, ans):
 
     options = {
-        'survey_length', 10   # This is the number of pages in the survey.
+        'survey_length': 10   # This is the number of pages in the survey.
     }
 
     # This pulls from the python_lib.zip file in Files & Uploads.
@@ -30,10 +30,13 @@ def answercheck(e, ans):
 
 <script type="text/javascript">
 
+// Set this value.
+var qualtricsSurveySource = 'https://harvard.az1.qualtrics.com/jfe/form/SV_9EvlqyaDbHCPNlz';
+
 $(document).ready(function(){
-  window.qualtrics_survey_source = 'https://harvard.az1.qualtrics.com/jfe/form/SV_9EvlqyaDbHCPNlz' + '?uid=' + $('#anon_user_id').text();
-	console.log('outer ready');
+  console.log('outer ready');
 });
+
 function logThatThing(ThatThing){
 	console.log(JSON.stringify(ThatThing));
 	Logger.log("harvardx.GrapeApe.qualtrics_grader", ThatThing);
@@ -64,6 +67,7 @@ function logThatThing(ThatThing){
 </customresponse>
 
 <!-- Remove this if showing a solution is not appropriate or your purposes. -->
+<!-- You probably want to set "Show Answer" to "Never". -->
 <solution>
 <div class="detailed-solution">
 <p>Explanation</p>

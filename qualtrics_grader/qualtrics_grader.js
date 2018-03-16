@@ -1,5 +1,5 @@
 var JSProblemState = {
-	'score': '',
+	'score': 0,
 	'survey_url': 'unknown'
 };
 
@@ -10,16 +10,29 @@ $(document).ready(function(){
 	// Give the iframe an appropriate title attribute.
 	parent.$('iframe[name=' + window.name + ']').attr('title', 'Embedded Survey');
 
-	// Set the survey URL from the parent page, including student ID.
-	// We're doing this to make it easier to set all the options in the XML,
-	// instead of having to have a separate .html page for every question.
-	$('#QualtricsSurvey').attr('src', window.qualtrics_survey_source);
-	JSProblemState.survey_url = window.qualtrics_survey_source;
-	console.log('survey source set');
+	var anonID = false
+  // Making sure the analytics functions are ready. Usually very quick.
+  var waitForAnalytics = setInterval(function(){
+    if(parent.analytics._user.anonymousId() && parent.qualtricsSurveySource){
+      clearInterval(waitForAnalytics);
 
+      anonID = parent.analytics._user.anonymousId();
+      console.log('Anonymous ID: ' + anonID);
+      parent.qualtricsSurveySource = parent.qualtricsSurveySource + '?uid=' + anonID;
+
+			// Set the survey URL from the parent page, including student ID.
+			// We're doing this to make it easier to set all the options in the XML,
+			// instead of having to have a separate .html page for every question.
+			$(parent.document).find('#QualtricsSurvey').attr('src', parent.qualtrics_survey_source);
+			JSProblemState.survey_url = parent.qualtrics_survey_source;
+			console.log('survey source set');
+
+    }
+  }, 250);
 
 	// Listen for the end-of-survey event.
 	function hearQualtricsSurveyEnd(e) {
+		console.log('Received message')
 		// Only accept from Qualtrics.
 		if (e.origin !== 'https://harvard.az1.qualtrics.com'){
 			console.log('Origin wrong, aborting.');
@@ -94,5 +107,3 @@ var qualtrics_grader = (function() {
 	};
 
 }());
-
-console.log('inner ready');
