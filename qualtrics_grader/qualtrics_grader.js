@@ -3,6 +3,47 @@ var JSProblemState = {
 	'survey_url': 'unknown'
 };
 
+$(document).ready(function(){
+
+	console.log('inner ready');
+
+	// Give the iframe an appropriate title attribute.
+	parent.$('iframe[name=' + window.name + ']').attr('title', 'Embedded Survey');
+
+	// Set the survey URL from the parent page, including student ID.
+	// We're doing this to make it easier to set all the options in the XML,
+	// instead of having to have a separate .html page for every question.
+	$('#QualtricsSurvey').attr('src', window.qualtrics_survey_source);
+	JSProblemState.survey_url = window.qualtrics_survey_source;
+	console.log('survey source set');
+
+
+	// Listen for the end-of-survey event.
+	function hearQualtricsSurveyEnd(e) {
+		// Only accept from Qualtrics.
+		if (e.origin !== 'https://harvard.az1.qualtrics.com'){
+			console.log('Origin wrong, aborting.');
+			return;
+		}
+
+		// Only accept objects with the right form.
+		if (typeof e.data == 'string') {
+			console.log('Returned string instead of object, aborting.');
+			return;
+		} else {
+			console.log('Message: ' + e.data.text);
+			console.log('Source: ' + e.data.source);
+			console.log('Complete? ' + e.data.complete);
+			if(e.data.complete === 'yes' && e.data.source === 'HX_Qualtrics_Survey'){
+				JSProblemState.score = 1;
+			}
+		}
+	}
+
+	addEventListener('done_message', hearQualtricsSurveyEnd, false);
+
+});
+
 
 // This wrapper function is necessary.
 var qualtrics_grader = (function() {
