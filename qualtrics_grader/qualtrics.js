@@ -6,7 +6,7 @@ Qualtrics.SurveyEngine.addOnload(function()
 
 Qualtrics.SurveyEngine.addOnReady(function()
 {
-	/*Place your JavaScript here to run when the page is fully displayed*/
+  /*Place your JavaScript here to run when the page is fully displayed*/
 
 });
 
@@ -16,9 +16,9 @@ Qualtrics.SurveyEngine.addOnUnload(function()
   // Feel free to customize, but make sure the 'source' here matches the
   // source that your JSInput problem is looking for.
   message = {
-    text: "You can find out when someone gets to the last page of a Qualtrics survey.",
+    text: "Survey is complete.",
     source: "HX_Qualtrics_Survey",
-    complete: "yes"
+    score: "100" // Score is percentage out of 100%.
   }
 
   // If you will never run your course on Edge,
@@ -27,6 +27,6 @@ Qualtrics.SurveyEngine.addOnUnload(function()
   window.parent.postMessage(message, "https://courses.edx.org");
 
   // Can remove.
-  console.log('Qualtrics sent message');
+  console.log('Qualtrics sent message: ' + message.text);
 
 });

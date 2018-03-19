@@ -30,6 +30,7 @@ $(document).ready(function(){
 	// Listen for the end-of-survey event.
 	// Verify source and store info.
 	function hearQualtricsSurveyEnd(e) {
+
 		// Only accept from Qualtrics.
 		if (e.origin !== 'https://harvard.az1.qualtrics.com'){
 			return;
@@ -39,8 +40,8 @@ $(document).ready(function(){
 		if (typeof e.data == 'string') {
 			return;
 		} else {
-			if(e.data.complete === 'yes' && e.data.source === 'HX_Qualtrics_Survey'){
-				JSProblemState.score = 1;
+			if(e.data.source === 'HX_Qualtrics_Survey'){
+				JSProblemState.score = e.data.score / 100;
 			}
 		}
 	}
