@@ -3,10 +3,9 @@
   <!--
     ########## Qualtrics Survey Grader Instructions ##########
     To use this problem type, you should set:
-    1. The survey_length in the python section (optional)
-    2. The qualtrics_survey_source in the javascript section (required)
-    3. The prompt where it says 'Put your prompt here.' (required)
-    4. If applicable, a solution at the end. If not applicable, remove that
+    1. The qualtrics_survey_source in the javascript section (required)
+    2. The prompt where it says 'Put your prompt here.' (required)
+    3. A solution at the end (optional). If not applicable, remove that
        section or your students may see a "show answer" button.
     #################### End  Instructions ####################
   -->
@@ -18,12 +17,8 @@ from python_lib import HXGraders
 
 def answercheck(e, ans):
 
-    options = {
-        'survey_length': 1   # This is the number of pages in the survey. Currently unsupported.
-    }
-
     # This pulls from the python_lib.zip file in Files & Uploads.
-    return HXGraders.qualtricsSurveyGrader(ans, options)
+    return HXGraders.qualtricsSurveyGrader(ans)
 
 ]]>
 </script>
