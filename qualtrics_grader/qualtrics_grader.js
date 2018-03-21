@@ -12,10 +12,10 @@ $(document).ready(function(){
 
 	// Making sure the analytics functions are ready. Usually very quick.
   var waitForAnalytics = setInterval(function(){
-    if(parent.analytics._user.anonymousId() && parent.qualtricsSurveySource){
+    if(parent.analytics._user._getId() && parent.qualtricsSurveySource){
       clearInterval(waitForAnalytics);
 
-      var anonID = parent.analytics._user.anonymousId();
+      var anonID = parent.analytics._user._getId();
       var qualtricsSurveySource = parent.qualtricsSurveySource + '?uid=' + anonID;
 
 			// Set the survey URL from the parent page, including student ID.
