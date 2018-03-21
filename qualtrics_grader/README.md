@@ -1,6 +1,6 @@
-### Qualtrics Grader ###
+## Qualtrics Grader ###
 
-#### Current Status ####
+### Current Status ####
 
 Initial functionality is present.
 
@@ -9,10 +9,10 @@ Next goals:
 * Better advice on survey settings.
 * Can we get the survey to show results when students return?
 
-#### Overview ####
+### Overview ####
 You want to grade Qualtrics surveys? Turns out to be surprisingly doable. Good for handing out participation points.
 
-#### Creating Your Own Qualtrics-Grading Problems ####
+### Creating Your Own Qualtrics-Grading Problems ####
 
 Here's how to adapt this example to create your own qualtrics-grading problems.
 
@@ -25,7 +25,7 @@ Here's how to adapt this example to create your own qualtrics-grading problems.
 5. On the final page of that survey, include the javascript from the `qualtrics.js` file.
 6. Profit!
 
-#### Customizing Your Qualtrics-Grading Problems ####
+### Customizing Your Qualtrics-Grading Problems ####
 
 * By default, learners can only submit once. If you'd like to change that, set the problem component to "Show Reset Button" and "Randomize on Reset", and then mark "allowReset = true" in the javascript section of the problem XML.
 * If you want to give partial credit for each page learners compete, add the code in `qualtrics.js` to *every* page of your survey, adjusting the `score` variable appropriately as you go.
@@ -33,11 +33,11 @@ Here's how to adapt this example to create your own qualtrics-grading problems.
 * You can choose "Show Response Summary" if you want, but it's probably better to give a message that reminds people to hit "Submit" when they're done.
 * Qualtrics can generate embeddable reports, though you might need to "View Classic Reports" to get one that works in an iframe.
 
-##### Using Multiple Qualtrics-Grading Problems #####
+#### Using Multiple Qualtrics-Grading Problems #####
 
 Seems to work so far, but more testing is needed.
 
-#### Files: ####
+### Files: ####
 
 Inside you will find many pieces used to create this problem:
 
