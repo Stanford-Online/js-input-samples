@@ -5,9 +5,10 @@
 Initial functionality is present.
 
 Next goals:
-* Can we get extra data out of this? Answer responses? Total # of pages?
+* Can we get extra data out of this? Answer responses? Total # of pages? Qualtrics documentation currently implies no, but we'll see what we can dig up.
 * Better advice on survey settings.
-* Can we get the survey to show results when students return?
+* Getting the usual learner ID so this lines up with log data better.
+* Can we get the survey to show results when students return? Would be nice to do better than a blank grey box, but might not be automatable.
 
 ### Overview ####
 You want to grade Qualtrics surveys? Turns out to be surprisingly doable. Good for handing out participation points.
@@ -33,7 +34,7 @@ Here's how to adapt this example to create your own qualtrics-grading problems.
 * You can choose "Show Response Summary" if you want, but it's probably better to give a message that reminds people to hit "Submit" when they're done.
 * Qualtrics can generate embeddable reports, though you might need to "View Classic Reports" to get one that works in an iframe.
 
-#### Using Multiple Qualtrics-Grading Problems #####
+### Using Multiple Qualtrics-Grading Problems #####
 
 Seems to work so far, but more testing is needed.
 
@@ -44,5 +45,5 @@ Inside you will find many pieces used to create this problem:
 - `jschannel.js`: the javascript file that allows javascript-type problems to work at all. You should not need to change this. I didn't make this one.
 - `qualtrics_grader.js`: the javascript file that does the majority of the work. You should not need to change this.
 - `qualtrics_grader.html`: the HTML file that will be iframed into the page. You should not need to change this.
-- `qualtrics_grader.xml`: the XML used to create the problem within Studio. You will need to make changes to this, but you only need to replace the prompt with your own.
+- `qualtrics_grader.xml`: the XML used to create the problem within Studio. You will need to write a prompt, insert your survey URL, and decide whether resetting is allowed.
 - `qualtrics.js`: This is the js code to insert into each Qualtrics page.
