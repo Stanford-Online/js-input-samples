@@ -1,7 +1,17 @@
 var JSProblemState = {
 	'score': 0,
-	'survey_url': 'unknown'
+	'survey_url': 'unknown',
+	'survey_complete': false
 };
+
+var postSurveyHTML = '<p style="font-family: Open Sans,Helvetica,Arial,sans-serif;">'
+	+ 'You have already taken this survey.'
+
+if(parent.allowReset){
+	postSurveyHTML += ' If you would like to change your answers, use the "Reset" button at the bottom to restart the survey from the beginning.'
+}
+
+postSurveyHTML += '</p>'
 
 $(document).ready(function(){
 
@@ -80,10 +90,18 @@ var qualtrics_grader = (function() {
 		console.log('setting state');
 		stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
 		JSProblemState = JSON.parse(stateStr);
+		if(JSProblemState.survey_complete){
+			console.log('Already took survey.');
+			$('#QualtricsSurvey').remove();
+			$('body').html(postSurveyHTML);
+			$('body').css('background-color', '#ccc');
+			return;
+		}
 	}
 
 	function getGrade() {
 		console.log('getting grade');
+		JSProblemState.survey_complete = true
 		// Log the problem state.
 		// This is called from the parent window's Javascript so that we can write to the official edX logs.
 		parent.logThatThing(JSProblemState);

@@ -2,11 +2,15 @@
 
   <!--
     ########## Qualtrics Survey Grader Instructions ##########
-    To use this problem type, you should set:
-    1. The qualtrics_survey_source in the javascript section (required)
-    2. The prompt where it says 'Put your prompt here.' (required)
-    3. A solution at the end (optional). If not applicable, remove that
-       section or your students may see a "show answer" button.
+    To use this problem type, you should:
+    1. Set the qualtrics_survey_source in the javascript section (required)
+    2. Set the prompt where it says 'Put your prompt here.' (required)
+    3. Write a solution at the end (optional). If not applicable,
+       remove that section or your students may see a "show answer" button.
+    4. If you want students to be able to resubmit their
+       survey results, set the problem component to "Show Reset Button"
+       and "Randomize on Reset", and mark "allowReset = true"
+       in the javascript below.
     #################### End  Instructions ####################
   -->
 
@@ -25,8 +29,9 @@ def answercheck(e, ans):
 
 <script type="text/javascript">
 
-// Set this value.
+// Set these values.
 var qualtricsSurveySource = 'https://harvard.az1.qualtrics.com/jfe/form/SV_9EvlqyaDbHCPNlz';
+var allowReset = false;
 
 $(document).ready(function(){
   console.log('outer ready');
