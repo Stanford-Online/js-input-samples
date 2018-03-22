@@ -21,7 +21,7 @@ Here's how to adapt this example to create your own qualtrics-grading problems.
 2. Download `qualtrics_grader.html` and `qualtrics_grader.js`, and put them in your Files & Uploads.
 3. Download `qualtrics_grader.xml`, follow the instructions at the top of that file, and paste the result into a Blank Advanced Problem.
 4. Create a Qualtrics survey along the [method described in the edX documentation](https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/exercises_tools/qualtrics.html).
-  * You will probably want it set up so that it accepts User IDs. You CANNOT pass the usual anonymized ID; you have to pass a different one. This is handled in the javascript for you, but you still need to set the "uid" that edx's documentation mentions.
+  * You will probably want it set up so that it accepts User IDs. Adding the uid to the survey URL is something that is handled for you, but you still need to set the "uid" that edx's documentation mentions.
   * Do not create an iframe to embed the survey; we've done that for you.
 5. On the final page of that survey, include the javascript from the `qualtrics.js` file.
 6. Profit!
@@ -33,6 +33,7 @@ Here's how to adapt this example to create your own qualtrics-grading problems.
 * You may want to turn on the "Prevent Ballot Box Stuffing. Keep people from taking this survey more than once." setting for your survey.
 * You can choose "Show Response Summary" if you want, but it's probably better to give a message that reminds people to hit "Submit" when they're done.
 * Qualtrics can generate embeddable reports, though you might need to "View Classic Reports" to get one that works in an iframe.
+* The anonymous userID that's passed to this survey is DIFFERENT from the one that gets passed to our regular surveys. Research will need to do some extra work if they want to match up the output from this survey to the rest of student data.
 
 ### Using Multiple Qualtrics-Grading Problems #####
 
