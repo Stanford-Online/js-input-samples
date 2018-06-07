@@ -8,7 +8,7 @@ var textlog = (function() {
 
 	// REQUIRED --- DO NOT REMOVE/CHANGE!!
 	var channel;
-	
+
 	// REQUIRED --- DO NOT REMOVE/CHANGE!!
 	if (window.parent !== window) {
 		channel = Channel.build({
@@ -20,13 +20,13 @@ var textlog = (function() {
 		channel.bind('getState', getState);
 		channel.bind('setState', setState);
 	}
-	
-	
+
+
 	function getState(){
 	    console.log('getting state');
         JSProblemState['answer'] = document.getElementById('answer').value;
         // This string gets URI-decoded later, so percents need to be escaped.
-        JSProblemState['answer'] = JSProblemState['answer'].replace('%', '%25');
+        JSProblemState['answer'] = JSProblemState['answer'].replace(/%/g, '%25');
 		return JSON.stringify(JSProblemState);
 	}
 
@@ -42,10 +42,10 @@ var textlog = (function() {
         JSProblemState['answer'] = document.getElementById('answer').value;
 		parent.logThatThing(JSProblemState);
         // This string gets URI-decoded later, so percents need to be escaped.
-        JSProblemState['answer'] = JSProblemState['answer'].replace('%', '%25');
+        JSProblemState['answer'] = JSProblemState['answer'].replace(/%/g, '%25');
 		return JSON.stringify(JSProblemState);
 	}
-	
+
 
 	// REQUIRED --- DO NOT REMOVE/CHANGE!!
 	return {
