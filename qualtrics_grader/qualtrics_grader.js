@@ -51,7 +51,7 @@ $(document).ready(function(){
 			return;
 		} else {
 			if(e.data.source === 'HX_Qualtrics_Survey'){
-				JSProblemState.score = e.data.score / 100;
+				JSProblemState.score = Math.max( JSProblemState.score, e.data.score / 100);
 			}
 		}
 	}
