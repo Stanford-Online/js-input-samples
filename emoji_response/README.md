@@ -13,7 +13,7 @@ Click on an emoji to say how you felt about this page.
 
 ### Creating Your Own Emoji Response Poll ####
 
-Here's how to adapt this example to create your own qualtrics-grading problems.
+Here's how to adapt this example to create your own emoji poll.
 
 1. Grab python_lib.zip from the [HX-PY](https://github.com/Colin-Fredericks/hx-py) repo, and upload it (still compressed) into your Files & Uploads.
 2. Download `emoji_response.html` and `emoji_response.js`, and put them in your Files & Uploads.
