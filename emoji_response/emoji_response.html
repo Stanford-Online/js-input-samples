@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<script src="jschannel.js"></script>
+    <style>
+    #emojibox {  }
+    #emojibox label {
+        font-size: 30pt;
+        background-color: transparent;
+        border: none;
+    }
+    .hidden {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    /* IMAGE STYLES */
+    [type=radio] + span {
+        cursor: pointer;
+    }
+    /* CHECKED STYLES */
+    [type=radio]:checked + span {
+        border-bottom: 5px solid black;
+    }
+    </style>
+</head>
+<body>
+
+    <form id="emojibox">
+        <label>
+            <input type="radio" name="emojiblock" id="I_understand" value="I understand &#10003;" class="hidden">
+            <span role="img" aria-label="I understand" style="color:green;">&#10003;</span>
+        </label>
+        <label>
+            <input type="radio" name="emojiblock" id="I_am_confused" value="I am confused &#10067;" class="hidden">
+            <span role="img" aria-label="I am confused">&#10067;</span>
+        </label>
+        <label>
+            <input type="radio" name="emojiblock" id="I_was_surprised" value="I was surprised &#128559;" class="hidden">
+            <span role="img" aria-label="I was surprised">&#128559;</span>
+        </label>
+        <label>
+            <input type="radio" name="emojiblock" id="I_am_skeptical" value="I am skeptical &#129300;" class="hidden">
+            <span role="img" aria-label="I am skeptical">&#129300;</span>
+        </label>
+        <label>
+            <input type="radio" name="emojiblock" id="I_was_bored" value="I was bored &#128564;" class="hidden">
+            <span role="img" aria-label="I am bored">&#128564;</span>
+        </label>
+        <label class="hidden">
+            <input type="radio" name="emojiblock" id="No_response_selected" value="No response selected" checked>
+        </label>
+    </form>
+
+</body>
+<script src="emoji_response.js"></script>
+</html>
