@@ -21,8 +21,19 @@ function getClassNumber(className, importantClass) {
   return -1;
 }
 
+// Make sure all the boxes that were open last time are open now.
+function putEmBack(){
+  // Just click their buttons. Only click the first one we find.
+  JSProblemState.currently_open.forEach(function(n){
+    if(window.parent.window.$('.hx-toggletarget'+n).css('display') === 'none'){
+      console.log('element ' + n + ' is hidden. Clicking.');
+      window.parent.window.$('.hx-togglebutton'+n)[0].click();
+    }
+  });
+}
+
 // Keep the Problem State up to date.
-parent.window.find('[class^="hx-togglebutton"').on('click tap', function() {
+window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
   JSProblemState.last_open = Array.from(JSProblemState.currently_open);
 
   let myNumber = getClassNumber(this.className, 'hx-togglebutton');
@@ -30,17 +41,19 @@ parent.window.find('[class^="hx-togglebutton"').on('click tap', function() {
   // Every time we open a box, add it to ever_opened and currently_open.
   if (JSProblemState.currently_open.indexOf(myNumber) === -1) {
     JSProblemState.currently_open.push(myNumber);
-  }
-
-  // Every time we close a box, remove it from currently_open.
-  if (JSProblemState.ever_open.indexOf(myNumber) === -1) {
-    JSProblemState.ever_open.push(myNumber);
-  } else {
-    JSProblemState.ever_open.splice(
-      JSProblemState.ever_open.indexOf(myNumber),
+  }else {
+    JSProblemState.currently_open.splice(
+      JSProblemState.currently_open.indexOf(myNumber),
       1
     );
   }
+
+  // Every time we close a box, remove it from currently_open.
+  if (JSProblemState.ever_opened.indexOf(myNumber) === -1) {
+    JSProblemState.ever_opened.push(myNumber);
+  }
+
+  console.log(JSProblemState);
 });
 
 // This wrapper function is necessary.
@@ -70,14 +83,8 @@ var pathway_problem = (function() {
     console.log('setting state');
     stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
     JSProblemState = JSON.parse(stateStr);
-    // Open all the boxes that were open last time.
-    // Just click them, honestly.
-    // This is probably wrong code. Fix it next time.
-    parent.window.find('[class^="hx-togglebutton"').each(function(e){
-      if(JSProblemState.currently_open.indexOf(getClassNumber(e.classes)) !== -1){
-        e.click();
-      }
-    });
+    console.log(JSProblemState);
+    putEmBack();
   }
 
   function getGrade() {

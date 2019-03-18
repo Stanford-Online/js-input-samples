@@ -45,7 +45,7 @@ points_lookup = {
     'A': 30,
     'B': -5,
     'C': 30,
-    'omega': 20
+    'omega': 20,
     'final_total': 70
 }
 
