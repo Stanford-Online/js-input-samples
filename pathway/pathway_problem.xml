@@ -70,8 +70,6 @@ points_lookup = {
 
 def answercheck(e, ans):
   total_score = 0;
-  minus_points = 0;
-  plus_points = 0;
 
   # Get the student's answer.
   parsed = json.loads(ans)
@@ -82,6 +80,8 @@ def answercheck(e, ans):
   # Negative points always subtract,
   # but take the highest positive points from any set.
   for group in points_lookup:
+    minus_points = 0;
+    plus_points = 0;
     if type(points_lookup[group]) is dict:
       for choice in points_lookup[group]:
         p = int(points_lookup[group][choice])
@@ -90,7 +90,7 @@ def answercheck(e, ans):
         if str(choice) in answer['currently_open'] and p > 0:
           plus_points = max(plus_points, p)
 
-      total_score = total_score + plus_points - minus_points
+    total_score = total_score + plus_points + minus_points
 
   grade_decimal = median([0, total_score / max_score, 1])
 
@@ -99,7 +99,7 @@ def answercheck(e, ans):
   # Correct if 80%+, incorrect if 20%-, partial if inbetween.
   return {
     'ok': True,
-    'msg': 'Thank you for your submission.',
+    'msg': 'Your work has been recorded.',
     'grade_decimal': grade_decimal
   }
 ]]>
