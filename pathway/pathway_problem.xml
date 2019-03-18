@@ -1,0 +1,152 @@
+<problem>
+
+<!--
+############ Pathway Problem Instructions ############
+To use this problem type, copy-paste this XML file into
+a Blank Advanced Problem. You need the emoji_response.js
+and emoji_response.html files in your Files & Uploads.
+
+You need to alter the text from placeholder Lorem Ipsum stuff
+to an actual scenario with meaningful choices.
+* Set the points_lookup value to indicate how many
+  points each section is worth when opened. The 'final_total'
+  is the max number of points someone can obtain.
+* Put in your course name where it says GrapeApe.
+* Allow unlimited attempts.
+* Test it a lot.
+
+If you want to change the prompt, scroll down to "INSTRUCTOR" and edit.
+
+################# End  Instructions #################
+-->
+
+<script type="text/javascript">
+
+    // Course Name (no spaces):
+    var coursename = 'GrapeApe'
+
+    $(document).ready(function(){
+      console.log('outer ready');
+    });
+
+    function logThatThing(ThatThing){
+      console.log(JSON.stringify(ThatThing));
+      Logger.log("harvardx." + coursename + ".pathway_problem", ThatThing);
+    }
+</script>
+
+<script type="loncapa/python">
+<![CDATA[
+
+points_lookup = {
+    '1': -5,
+    '2': 20,
+    '3': 15,
+    'A': 30,
+    'B': -5,
+    'C': 30,
+    'omega': 20
+    'final_total': 70
+}
+
+def answercheck(e, ans):
+    # Parse answer
+    # Get total number of points from opened boxes.
+    # Make sure we don't go negative or over 100%.
+    # Divide by final total to get overall score.
+    # Correct if 80%+, incorrect if 20%-, partial if inbetween.
+    return {'ok': True, 'msg': 'Thank you for your response.', 'grade_decimal': 1}
+]]>
+</script>
+
+<!-- INSTRUCTOR: change this if desired. -->
+<p>Please read this scenario and use the buttons to make your
+    decisions. Some paths will earn you points, but some will
+    subtract points, so decide carefully.</p>
+
+    <div>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p class="hx-toggleset">
+        <button class="hx-togglebutton1">Option 1</button>
+        <button class="hx-togglebutton2">Option 2</button>
+        <button class="hx-togglebutton3">Option 3</button>
+      </p>
+    </div>
+
+    <div class="hx-toggletarget1 start_hidden">
+      <h4 class="hx-underline">Option 1</h4>
+      <p>Lorem ipsum dolor amet brooklyn succulents affogato, scenester sustainable tumeric mumblecore you probably haven't heard of them readymade fixie brunch wolf. Letterpress PBR&amp;B tousled, yr poutine williamsburg 90's woke portland flannel. Master cleanse shabby chic hell of tattooed mustache tousled cronut subway tile four loko post-ironic gochujang flannel activated charcoal. Brooklyn master cleanse portland fanny pack, DIY ugh air plant man braid tbh williamsburg vegan chillwave. Lo-fi gastropub iPhone, irony roof party af pour-over actually man bun asymmetrical mlkshk echo park. Selfies lyft craft beer flannel four loko, scenester health goth enamel pin cronut ennui mlkshk PBR&amp;B small batch.</p>
+      <p class="hx-toggleset">
+        <button class="hx-togglebutton1">Go Back</button>
+      </p>
+    </div>
+
+    <div class="hx-toggletarget2 start_hidden">
+      <h4 class="hx-underline">Option 2</h4>
+      <p>Keffiyeh pitchfork snackwave, hot chicken 8-bit williamsburg man bun fashion axe succulents man braid trust fund slow-carb. Snackwave asymmetrical helvetica hella unicorn mumblecore occupy yr literally cred. Raclette DIY flannel pinterest tattooed. Farm-to-table vegan umami sustainable art party.</p>
+
+      <p>Celiac copper mug meh hashtag echo park. Vinyl mixtape tumblr lomo green juice. Hammock actually four loko, chambray small batch messenger bag hashtag stumptown swag kogi next level. Intelligentsia hot chicken gochujang bushwick synth semiotics. Unicorn ugh photo booth knausgaard man bun jean shorts. Chartreuse glossier pinterest edison bulb, messenger bag celiac gastropub.</p>
+
+       <p class="hx-toggleset">
+        <button class="hx-togglebuttonA">Option A</button>
+        <button class="hx-togglebuttonB">Option B</button>
+        <button class="hx-togglebuttonC">Option C</button>
+      </p>
+    </div>
+
+    <div class="hx-toggletarget3 start_hidden">
+      <h4 class="hx-underline">Option 3</h4>
+      <p>Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit..., morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.</p>
+      <p class="hx-toggleset">
+        <button class="hx-togglebuttonB">Option B</button>
+        <button class="hx-togglebuttonC">Option C</button>
+      </p>
+    </div>
+
+    <div class="hx-toggletargetA start_hidden">
+      <h4 class="hx-underline">Option A</h4>
+      <p>Bacon ipsum dolor amet short ribs brisket venison rump drumstick pig sausage prosciutto chicken spare ribs salami picanha doner. Kevin capicola sausage, buffalo bresaola venison turkey shoulder picanha ham pork tri-tip meatball meatloaf ribeye. Doner spare ribs andouille bacon sausage. Ground round jerky brisket pastrami shank.</p>
+      <p class="hx-toggleset">
+        <button class="hx-togglebuttonomega">Option Omega</button>
+      </p>
+    </div>
+
+    <div class="hx-toggletargetB start_hidden">
+      <h4 class="hx-underline">Option B</h4>
+      <p>Cupcake ipsum dolor. Sit amet marshmallow topping cheesecake muffin. Halvah croissant candy canes bonbon candy. Apple pie jelly beans topping carrot cake danish tart cake cheesecake. Muffin danish chocolate soufflé pastry icing bonbon oat cake. Powder cake jujubes oat cake. Lemon drops tootsie roll marshmallow halvah carrot cake.</p>
+      <p class="hx-toggleset">
+        <button class="hx-togglebuttonB">Go Back</button>
+      </p>
+    </div>
+
+    <div class="hx-toggletargetC start_hidden">
+      <h4 class="hx-underline">Option C</h4>
+      <p>Nori grape silver beet broccoli kombu beet greens fava bean potato quandong celery. Bunya nuts black-eyed pea prairie turnip leek lentil turnip greens parsnip. Sea lettuce lettuce water chestnut eggplant winter purslane fennel azuki bean earthnut pea sierra leone bologi leek soko chicory celtuce parsley jícama salsify.</p>
+      <p class="hx-toggleset">
+        <button class="hx-togglebuttonomega">Option Omega</button>
+      </p>
+    </div>
+
+    <div class="hx-toggletargetomega start_hidden">
+      <h4 class="hx-underline">Option Omega: Samuel L. Ipsum</h4>
+      <p>My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You understand?</p>
+    </div>
+
+<!-- INSTRUCTOR: change this if desired. -->
+<p>You can press "Submit" to save your current state,
+    whether you're finished or only partway through.
+    Your current grade is counted.
+    You can then continue with the problem or move on.</p>
+
+    <customresponse cfn="answercheck">
+        <jsinput gradefn="BJP.getGrade"
+             get_statefn="pathway_problem.getState"
+             set_statefn="pathway_problem.setState"
+             width="0"
+             height="0"
+             html_file="/static/pathway_problem.html"
+             title="Skip this frame."
+             sop="false"/>
+    </customresponse>
+
+</problem>
