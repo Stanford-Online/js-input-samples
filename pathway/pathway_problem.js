@@ -3,6 +3,7 @@ var JSProblemState = {
   last_open: [],
   ever_opened: []
 };
+var disableStateUpdates = false;
 
 console.log('inner ready');
 
@@ -23,37 +24,53 @@ function getClassNumber(className, importantClass) {
 
 // Make sure all the boxes that were open last time are open now.
 function putEmBack(){
-  // Just click their buttons. Only click the first one we find.
-  JSProblemState.currently_open.forEach(function(n){
-    if(window.parent.window.$('.hx-toggletarget'+n).css('display') === 'none'){
-      console.log('element ' + n + ' is hidden. Clicking.');
-      window.parent.window.$('.hx-togglebutton'+n)[0].click();
+  console.log('putting them back');
+  // Make sure hx-js has assigned listeners. We need those.
+  let waitForToggles = setInterval(function(){
+    console.log('checking for listeners');
+    if(window.parent.hxGlobalOptions){
+      clearInterval(waitForToggles);
+      console.log('found them');
+      // Just click their buttons. Only click the first one we find.
+      JSProblemState.currently_open.forEach(function(n){
+        if(window.parent.window.$('.hx-toggletarget'+n).css('display') === 'none'){
+          console.log('element ' + n + ' is hidden. Clicking.');
+          disableStateUpdates = true;
+          window.parent.window.$('.hx-togglebutton'+n)[0].click();
+          disableStateUpdates = false;
+        }
+      });
     }
-  });
+  }, 250);
 }
 
 // Keep the Problem State up to date.
 window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
-  JSProblemState.last_open = Array.from(JSProblemState.currently_open);
+  if(disableStateUpdates){
+    console.log('state updates temporarily disabled');
+  }else{
+    console.log('state updates aok');
+    JSProblemState.last_open = Array.from(JSProblemState.currently_open);
 
-  let myNumber = getClassNumber(this.className, 'hx-togglebutton');
+    let myNumber = getClassNumber(this.className, 'hx-togglebutton');
 
-  // Every time we open a box, add it to ever_opened and currently_open.
-  if (JSProblemState.currently_open.indexOf(myNumber) === -1) {
-    JSProblemState.currently_open.push(myNumber);
-  }else {
-    JSProblemState.currently_open.splice(
-      JSProblemState.currently_open.indexOf(myNumber),
-      1
-    );
+    // Every time we open a box, add it to ever_opened and currently_open.
+    if (JSProblemState.currently_open.indexOf(myNumber) === -1) {
+      JSProblemState.currently_open.push(myNumber);
+    }else {
+      JSProblemState.currently_open.splice(
+        JSProblemState.currently_open.indexOf(myNumber),
+        1
+      );
+    }
+
+    // Every time we close a box, remove it from currently_open.
+    if (JSProblemState.ever_opened.indexOf(myNumber) === -1) {
+      JSProblemState.ever_opened.push(myNumber);
+    }
+
+    console.log(JSProblemState);
   }
-
-  // Every time we close a box, remove it from currently_open.
-  if (JSProblemState.ever_opened.indexOf(myNumber) === -1) {
-    JSProblemState.ever_opened.push(myNumber);
-  }
-
-  console.log(JSProblemState);
 });
 
 // This wrapper function is necessary.
