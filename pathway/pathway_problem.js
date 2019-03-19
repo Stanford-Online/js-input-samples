@@ -24,13 +24,13 @@ function getClassLabel(className, importantClass) {
 
 // Make sure all the boxes that were open last time are open now.
 function putEmBack() {
-  console.log('putting them back');
+  // console.log('putting them back');
   // Make sure hx-js has assigned listeners. We need those.
   let waitForToggles = setInterval(function() {
-    console.log('checking for listeners');
+    // console.log('checking for listeners');
     if (window.parent.hxGlobalOptions) {
       clearInterval(waitForToggles);
-      console.log('found them');
+      // console.log('found them');
       // Just click their buttons. Only click the first one we find.
       JSProblemState.currently_open.forEach(function(n) {
         if (
@@ -50,9 +50,9 @@ function putEmBack() {
 // Keep the Problem State up to date.
 window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
   if (disableStateUpdates) {
-    console.log('state updates temporarily disabled');
+    // console.log('state updates temporarily disabled');
   } else {
-    console.log('state updates aok');
+    // console.log('state updates aok');
     JSProblemState.last_open = Array.from(JSProblemState.currently_open);
 
     let myLabel = getClassLabel(this.className, 'hx-togglebutton');
@@ -67,12 +67,17 @@ window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
         1
       );
       // If we close a box that would leave orphan boxes, close those too.
+      let dontClickAgain = [];
       window.parent.window
         .$('.hx-toggletarget' + myLabel)
         .find('button')
         .each(function(i, b) {
           if (b.attributes['aria-expanded'].value === 'true') {
-            b.click();
+            // Only click a button for each orphan box once.
+            if (dontClickAgain.indexOf(myLabel) === -1) {
+              dontClickAgain.push(myLabel);
+              b.click();
+            }
           }
         });
     }
