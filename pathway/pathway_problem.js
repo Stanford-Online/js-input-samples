@@ -23,20 +23,23 @@ function getClassNumber(className, importantClass) {
 }
 
 // Make sure all the boxes that were open last time are open now.
-function putEmBack(){
+function putEmBack() {
   console.log('putting them back');
   // Make sure hx-js has assigned listeners. We need those.
-  let waitForToggles = setInterval(function(){
+  let waitForToggles = setInterval(function() {
     console.log('checking for listeners');
-    if(window.parent.hxGlobalOptions){
+    if (window.parent.hxGlobalOptions) {
       clearInterval(waitForToggles);
       console.log('found them');
       // Just click their buttons. Only click the first one we find.
-      JSProblemState.currently_open.forEach(function(n){
-        if(window.parent.window.$('.hx-toggletarget'+n).css('display') === 'none'){
+      JSProblemState.currently_open.forEach(function(n) {
+        if (
+          window.parent.window.$('.hx-toggletarget' + n).css('display') ===
+          'none'
+        ) {
           console.log('element ' + n + ' is hidden. Clicking.');
           disableStateUpdates = true;
-          window.parent.window.$('.hx-togglebutton'+n)[0].click();
+          window.parent.window.$('.hx-togglebutton' + n)[0].click();
           disableStateUpdates = false;
         }
       });
@@ -46,9 +49,9 @@ function putEmBack(){
 
 // Keep the Problem State up to date.
 window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
-  if(disableStateUpdates){
+  if (disableStateUpdates) {
     console.log('state updates temporarily disabled');
-  }else{
+  } else {
     console.log('state updates aok');
     JSProblemState.last_open = Array.from(JSProblemState.currently_open);
 
@@ -57,7 +60,7 @@ window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
     // Every time we open a box, add it to ever_opened and currently_open.
     if (JSProblemState.currently_open.indexOf(myNumber) === -1) {
       JSProblemState.currently_open.push(myNumber);
-    }else {
+    } else {
       JSProblemState.currently_open.splice(
         JSProblemState.currently_open.indexOf(myNumber),
         1
