@@ -60,20 +60,21 @@ options = {
 }
 
 points_lookup = {
-  'groupOne': {
-    '1': -5,
-    '2': 20,
-    '3': 15
+  'start': {
+    '-city': 0,
+    '-village': 20,
+    '-forest': 10
   },
-  'groupAlpha': {
-    'A': 30,
-    'B': -5,
-    'C': 30
+  'village': {
+    '-purple': 20,
+    '-inn': 10
   },
-  'finalGroup': {
-    'omega': 20
+  'forest': {
+    '-hobbit': 25,
+    '-witch': 35,
+    '-mimic': -25
   },
-  'final_total': 70
+  'final_total': 45
 }
 
 ############## Leave This Alone ##############
@@ -88,75 +89,99 @@ def answercheck(e, ans):
 
   <!--- Technically this part doesn't even need to be in the same component, but you probably want it here. -->
 
-<h3 class="hx-underline">Start Here</h3>
+  <h3 class="hx-underline">Start Here</h3>
 
-<div>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  <p class="hx-toggleset">
-    <button class="hx-togglebutton1">Option 1</button>
-    <button class="hx-togglebutton2">Option 2</button>
-    <button class="hx-togglebutton3">Option 3</button>
-  </p>
-</div>
+  <div>
+    <p>As a house hunter in an occasionally strange world, you are trying to find the best bargain for your money without being devoured by giant terrible monsters. </p>
+    <p>Use the buttons below to search for a house. Try to get the best score you can - but be warned that being eaten by a monster will permanently lose you points.</p>
+    <p>There are three options before you: a bustling city, a charming village, and a quiet forest. Where would you like to start?</p>
+    <p class="hx-toggleset">
+      <button class="hx-togglebutton-city">City</button>
+      <button class="hx-togglebutton-village">Village</button>
+      <button class="hx-togglebutton-forest">Forest</button>
+    </p>
+    <br clear="all"/>
+  </div>
 
-<div class="hx-toggletarget1 start_hidden">
-  <h4 class="hx-underline">Option 1</h4>
-  <p>Lorem ipsum dolor amet brooklyn succulents affogato, scenester sustainable tumeric mumblecore you probably haven't heard of them readymade fixie brunch wolf. Letterpress PBR&amp;B tousled, yr poutine williamsburg 90's woke portland flannel. Master cleanse shabby chic hell of tattooed mustache tousled cronut subway tile four loko post-ironic gochujang flannel activated charcoal. Brooklyn master cleanse portland fanny pack, DIY ugh air plant man braid tbh williamsburg vegan chillwave. Lo-fi gastropub iPhone, irony roof party af pour-over actually man bun asymmetrical mlkshk echo park. Selfies lyft craft beer flannel four loko, scenester health goth enamel pin cronut ennui mlkshk PBR&amp;B small batch.</p>
-  <p class="hx-toggleset">
-    <button class="hx-togglebutton1">Go Back</button>
-  </p>
-</div>
+  <div class="hx-toggletarget-city start_hidden">
+    <h4 class="hx-underline">The City</h4>
+    <img src="https://orig12.deviantart.net/eee6/f/2012/215/2/c/floating_city_kerris_by_gamefan84-d59n4ps.jpg" alt="A city floating in the sky" style="width: 350px; float:right;" />
+    <p>+0 points</p>
+    <p>It turns out that everything in the city is too expensive. You should have guessed by the fact that it's floating in the sky, I suppose, but it was worth a shot. You'll need to set your sights elsewhere. On the plus side, no monsters ate you.</p>
+    <p class="hx-toggleset">
+      <button class="hx-togglebutton-city">Go Back</button>
+    </p>
+    <br clear="all"/>
+  </div>
 
-<div class="hx-toggletarget2 start_hidden">
-  <h4 class="hx-underline">Option 2</h4>
-  <p>Keffiyeh pitchfork snackwave, hot chicken 8-bit williamsburg man bun fashion axe succulents man braid trust fund slow-carb. Snackwave asymmetrical helvetica hella unicorn mumblecore occupy yr literally cred. Raclette DIY flannel pinterest tattooed. Farm-to-table vegan umami sustainable art party.</p>
+  <div class="hx-toggletarget-village start_hidden">
+    <img src="https://wallup.net/wp-content/uploads/2016/04/10/255538-artwork-fantasy_art-village-villages-house-waterfall-river-water-hill.jpg" alt="You get used to the sound of the waterfall." style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Village</h4>
+    <p>+20 points</p>
+    <p>Prices here aren't completely out of your range. There are two options that strike you as interesting: a magical-looking neighborhood with purple trim, or a more regular-looking inn that gets a lot of traffic.</p>
+    <p class="hx-toggleset">
+      <button class="hx-togglebutton-purple">Purple Magic Hooray!</button>
+      <button class="hx-togglebutton-inn">Run The Inn</button>
+    </p>
+    <br clear="all"/>
+  </div>
 
-  <p>Celiac copper mug meh hashtag echo park. Vinyl mixtape tumblr lomo green juice. Hammock actually four loko, chambray small batch messenger bag hashtag stumptown swag kogi next level. Intelligentsia hot chicken gochujang bushwick synth semiotics. Unicorn ugh photo booth knausgaard man bun jean shorts. Chartreuse glossier pinterest edison bulb, messenger bag celiac gastropub.</p>
+  <div class="hx-toggletarget-forest start_hidden">
+    <img src="https://i.pinimg.com/736x/76/1c/e9/761ce9c9b41dec0273cde9ef037dff7d.jpg" alt="It is darker in this forest than you had hoped." style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Forest</h4>
+    <p>+10 points</p>
+    <p>A quiet path through a dark forest. Nothing ever went wrong in that kind of place. Nice choice, Socrates.</p>
+    <p>Anyway, after a few days of being lost and running out of food, you are faced with a choice between three options: ducking into a hobbit-hole, knocking on the door of a gingerbread house, or a perfectly ordinary-looking house.</p>
+    <p class="hx-toggleset">
+      <button class="hx-togglebutton-hobbit">Hobbit-hole</button>
+      <button class="hx-togglebutton-witch">Gingerbread House</button>
+      <button class="hx-togglebutton-mimic">Ordinary House</button>
+    </p>
+    <br clear="all"/>
+  </div>
 
-   <p class="hx-toggleset">
-    <button class="hx-togglebuttonA">Option A</button>
-    <button class="hx-togglebuttonB">Option B</button>
-    <button class="hx-togglebuttonC">Option C</button>
-  </p>
-</div>
+  <div class="hx-toggletarget-purple start_hidden">
+    <img src="https://img08.deviantart.net/3a1d/i/2014/252/7/5/fantasy_house_by_zaigraev-d7jclur.jpg" alt="A weird set of purple houses" style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Purple Magic Neighborhood</h4>
+    <p>+20 points</p>
+    <p>It's a weird place to live, but the people here are friendly, and it kind of grows on you after a while. Plus you don't even need streetlights with all the constant moonlight and glowing fog!</p>
+    <p>You have found a home. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
 
-<div class="hx-toggletarget3 start_hidden">
-  <h4 class="hx-underline">Option 3</h4>
-  <p>Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro. De carne lumbering animata corpora quaeritis. Summus brains sit..., morbo vel maleficia? De apocalypsi gorger omero undead survivor dictum mauris. Hi mindless mortuis soulless creaturas, imo evil stalking monstra adventus resi dentevil vultus comedat cerebella viventium. Qui animated corpse, cricket bat max brucks terribilem incessu zomby. The voodoo sacerdos flesh eater, suscitat mortuos comedere carnem virus. Zonbi tattered for solum oculi eorum defunctis go lum cerebro. Nescio brains an Undead zombies. Sicut malus putrid voodoo horror. Nigh tofth eliv ingdead.</p>
-  <p class="hx-toggleset">
-    <button class="hx-togglebuttonB">Option B</button>
-    <button class="hx-togglebuttonC">Option C</button>
-  </p>
-</div>
+  <div class="hx-toggletarget-inn start_hidden">
+    <img src="https://2.bp.blogspot.com/--HQgfxUOTLE/WG9OajWyjaI/AAAAAAAAB7k/KVZ5OvU76kkoBl-EyoB0DbLmRe5xXSnWACK4B/s1600/city%2Bsquare.jpg" alt="A pretty normal inn, all considered." style="width: 350px; float:right;" />
+    <h4 class="hx-underline">A Typical Inn</h4>
+    <p>+10 points</p>
+    <p>You settle down and run the inn. It's a living.</p>
+    <p>You have found a home. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
 
-<div class="hx-toggletargetA start_hidden">
-  <h4 class="hx-underline">Option A</h4>
-  <p>Bacon ipsum dolor amet short ribs brisket venison rump drumstick pig sausage prosciutto chicken spare ribs salami picanha doner. Kevin capicola sausage, buffalo bresaola venison turkey shoulder picanha ham pork tri-tip meatball meatloaf ribeye. Doner spare ribs andouille bacon sausage. Ground round jerky brisket pastrami shank.</p>
-  <p class="hx-toggleset">
-    <button class="hx-togglebuttonomega">Option Omega</button>
-  </p>
-</div>
+  <div class="hx-toggletarget-hobbit start_hidden">
+    <img src="http://wp.production.patheos.com/blogs/standingonmyhead/files/2015/09/hobbit-hole.jpg" alt="A deluxe, comfortable hold in the ground" style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Hobbit-hole</h4>
+    <p>+15 points</p>
+    <p>Looks like whomever lived here got eaten by a dragon or something - the house is yours! It's not the best place for your back, but it's dry and free, so your back doctor and the local Sackville-Bagginses are the only ones who complains.</p>
+    <p>You have found a home. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
+  <div class="hx-toggletarget-witch start_hidden">
+    <img src="http://www.cartoonaday.com/images/cartoons/2011/08/fantasy-house-illustration-blue-598x373.jpg" alt="A witch's gingerbread house" style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Gingerbread House</h4>
+    <p>+35 points</p>
+    <p>A witch lives here, but she's really nice and a great cook, and she thinks you're cute. You end up moving in together. All in all it's pretty great as long as you remember that it's food or shelter, not both.</p>
+    <p>You have found a home. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
+  <div class="hx-toggletarget-mimic start_hidden">
+    <img src="https://i.ytimg.com/vi/j_v7m4dViWg/hqdefault.jpg" alt="That house is going to eat you." style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The House-Sized Mimic</h4>
+    <p>-25 points</p>
+    <p>This is not how you wanted to die.</p>
+    <br clear="all"/>
+  </div>
 
-<div class="hx-toggletargetB start_hidden">
-  <h4 class="hx-underline">Option B</h4>
-  <p>Cupcake ipsum dolor. Sit amet marshmallow topping cheesecake muffin. Halvah croissant candy canes bonbon candy. Apple pie jelly beans topping carrot cake danish tart cake cheesecake. Muffin danish chocolate soufflé pastry icing bonbon oat cake. Powder cake jujubes oat cake. Lemon drops tootsie roll marshmallow halvah carrot cake.</p>
-  <p class="hx-toggleset">
-    <button class="hx-togglebuttonB">Go Back</button>
-  </p>
-</div>
-
-<div class="hx-toggletargetC start_hidden">
-  <h4 class="hx-underline">Option C</h4>
-  <p>Nori grape silver beet broccoli kombu beet greens fava bean potato quandong celery. Bunya nuts black-eyed pea prairie turnip leek lentil turnip greens parsnip. Sea lettuce lettuce water chestnut eggplant winter purslane fennel azuki bean earthnut pea sierra leone bologi leek soko chicory celtuce parsley jícama salsify.</p>
-  <p class="hx-toggleset">
-    <button class="hx-togglebuttonomega">Option Omega</button>
-  </p>
-</div>
-
-<div class="hx-toggletargetomega start_hidden">
-  <h4 class="hx-underline">Option Omega: Samuel L. Ipsum</h4>
-  <p>My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking to you, motherfucker. You understand?</p>
-</div>
 
   <p>You can press "Submit" to save your current state, whether you're finished or only partway through. Your current grade is counted. You can then continue with the problem or move on.</p>
 
@@ -167,7 +192,7 @@ def answercheck(e, ans):
        width="0"
        height="0"
        html_file="/static/pathway_problem.html"
-       title="Skip this frame."
+       title="You can ignore this frame."
        sop="false"/>
   </customresponse>
 
