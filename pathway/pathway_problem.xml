@@ -89,10 +89,8 @@ def answercheck(e, ans):
 
   <!--- Technically this part doesn't even need to be in the same component, but you probably want it here. -->
 
-  <h3 class="hx-underline">Start Here</h3>
-
   <div>
-    <p>As a house hunter in an occasionally strange world, you are trying to find the best bargain for your money without being devoured by giant terrible monsters. </p>
+    <p>As a house hunter in a strange and magical world, you are trying to find the best place to live for your money without being devoured by giant terrible monsters. It is a less common problem than one might think, but the risk-to-reward ratio gets thrown off by the fact that once you are devoured, that's kind of it for the house hunting (and other activities).</p>
     <p>Use the buttons below to search for a house. Try to get the best score you can - but be warned that being eaten by a monster will permanently lose you points.</p>
     <p>There are three options before you: a bustling city, a charming village, and a quiet forest. Where would you like to start?</p>
     <p class="hx-toggleset">
@@ -183,7 +181,7 @@ def answercheck(e, ans):
   </div>
 
 
-  <p>You can press "Submit" to save your current state, whether you're finished or only partway through. Your current grade is counted. You can then continue with the problem or move on.</p>
+  <p>You can press "Submit" to save your current state, whether you're finished or only partway through. Your current grade is counted. You can then continue with the problem or move on to the rest of the course.</p>
 
   <customresponse cfn="answercheck">
     <jsinput gradefn="pathway_problem.getGrade"
