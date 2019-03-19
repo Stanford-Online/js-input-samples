@@ -177,6 +177,7 @@ def answercheck(e, ans):
     <h4 class="hx-underline">The House-Sized Mimic</h4>
     <p>-25 points</p>
     <p>This is not how you wanted to die.</p>
+    <p>You have found a home in the stomach of a giant terrible monster posing as a house. Press "Submit" to finish.</p>
     <br clear="all"/>
   </div>
 
