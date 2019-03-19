@@ -12,7 +12,7 @@ console.log('inner ready');
 
 // Takes in an array of classes, as from a className function.
 // Returns the number or name attached to the important class.
-function getClassNumber(className, importantClass) {
+function getClassLabel(className, importantClass) {
   let allClasses = className.split(/\s+/);
   for (let i = 0; i < allClasses.length; i++) {
     if (allClasses[i].indexOf(importantClass) === 0) {
@@ -55,21 +55,31 @@ window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
     console.log('state updates aok');
     JSProblemState.last_open = Array.from(JSProblemState.currently_open);
 
-    let myNumber = getClassNumber(this.className, 'hx-togglebutton');
+    let myLabel = getClassLabel(this.className, 'hx-togglebutton');
 
-    // Every time we open a box, add it to ever_opened and currently_open.
-    if (JSProblemState.currently_open.indexOf(myNumber) === -1) {
-      JSProblemState.currently_open.push(myNumber);
+    // Every time we open a box, add it to currently_open.
+    if (JSProblemState.currently_open.indexOf(myLabel) === -1) {
+      JSProblemState.currently_open.push(myLabel);
     } else {
+      // Every time we close a box, remove it from currently_open.
       JSProblemState.currently_open.splice(
-        JSProblemState.currently_open.indexOf(myNumber),
+        JSProblemState.currently_open.indexOf(myLabel),
         1
       );
+      // If we close a box that would leave orphan boxes, close those too.
+      window.parent.window
+        .$('.hx-toggletarget' + myLabel)
+        .find('button')
+        .each(function(i, b) {
+          if (b.attributes['aria-expanded'].value === 'true') {
+            b.click();
+          }
+        });
     }
 
-    // Every time we close a box, remove it from currently_open.
-    if (JSProblemState.ever_opened.indexOf(myNumber) === -1) {
-      JSProblemState.ever_opened.push(myNumber);
+    // Every time we open a box, add it to ever_opened.
+    if (JSProblemState.ever_opened.indexOf(myLabel) === -1) {
+      JSProblemState.ever_opened.push(myLabel);
     }
 
     console.log(JSProblemState);
