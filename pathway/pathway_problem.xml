@@ -3,16 +3,17 @@
 <!--
 ############ Pathway Problem Instructions ############
 To use this problem type, copy-paste this XML file into
-a Blank Advanced Problem. You need the emoji_response.js
-and emoji_response.html files in your Files & Uploads.
+a Blank Advanced Problem. You need the pathway_problem.js
+and pathway_problem.html files in your Files & Uploads,
+and Harvard's python_lib.zip as well.
 
 You need to alter the text from placeholder Lorem Ipsum stuff
 to an actual scenario with meaningful choices.
-* Set the points_lookup value to indicate how many
+* Set the points_lookup list to indicate how many
   points each section is worth when opened. The 'final_total'
   is the max number of points someone can obtain.
 * Put in your course name where it says GrapeApe.
-* Allow unlimited attempts.
+* Probably allow unlimited attempts.
 * Test it a lot.
 
 If you want to change the prompt, scroll down to "INSTRUCTOR" and edit.
@@ -45,8 +46,16 @@ If you want to change the prompt, scroll down to "INSTRUCTOR" and edit.
 
 <script type="loncapa/python">
 <![CDATA[
-import json
-from numpy import median
+
+from python_lib import HXGraders
+
+##################### Set These #########################
+
+options = {
+  'show_points': True,      # Show "x out of y" points at end.
+  'grade_on': 'score',      # Does 'score' or 'participation' matter?
+  'retain_negative': True   # Negative points persist
+}
 
 points_lookup = {
   'groupOne': {
@@ -54,56 +63,28 @@ points_lookup = {
     '2': 20,
     '3': 15
   },
-
   'groupAlpha': {
     'A': 30,
     'B': -5,
     'C': 30
   },
-
   'finalGroup': {
     'omega': 20
   },
-
   'final_total': 70
 }
 
+############## Leave Everything Else Alone ##############
+
 def answercheck(e, ans):
-  total_score = 0;
 
-  # Get the student's answer.
-  parsed = json.loads(ans)
-  answer = json.loads(parsed['answer'])
-  max_score = points_lookup['final_total']
+  # This pulls from the python_lib.zip file in Files & Uploads.
+  return HXGraders.pathwayGrader(ans, points_lookup, options)
 
-  # Get total number of points from opened boxes.
-  # Negative points always subtract,
-  # but take the highest positive points from any set.
-  for group in points_lookup:
-    minus_points = 0;
-    plus_points = 0;
-    if type(points_lookup[group]) is dict:
-      for choice in points_lookup[group]:
-        p = int(points_lookup[group][choice])
-        if str(choice) in answer['ever_opened'] and p < 0:
-          minus_points += int(p)
-        if str(choice) in answer['currently_open'] and p > 0:
-          plus_points = max(plus_points, p)
-
-    total_score = total_score + plus_points + minus_points
-
-  grade_decimal = median([0, total_score / max_score, 1])
-
-  # Make sure we don't go negative or over 100%.
-  # Divide by final total to get overall score.
-  # Correct if 80%+, incorrect if 20%-, partial if inbetween.
-  return {
-    'ok': True,
-    'msg': 'Your work has been recorded.',
-    'grade_decimal': grade_decimal
-  }
 ]]>
 </script>
+
+  <!--- Technically this part doesn't even need to be in the same component, but you probably want it here. -->
 
     <h3 class="hx-underline">Start Here</h3>
 
@@ -178,7 +159,7 @@ def answercheck(e, ans):
   <p>You can press "Submit" to save your current state, whether you're finished or only partway through. Your current grade is counted. You can then continue with the problem or move on.</p>
 
     <customresponse cfn="answercheck">
-        <jsinput gradefn="BJP.getGrade"
+        <jsinput gradefn="pathway_problem.getGrade"
              get_statefn="pathway_problem.getState"
              set_statefn="pathway_problem.setState"
              width="0"
