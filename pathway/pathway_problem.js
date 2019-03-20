@@ -75,8 +75,11 @@ window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
           if (b.attributes['aria-expanded'].value === 'true') {
             // Only click a button for each orphan box once.
             if (dontClickAgain.indexOf(myLabel) === -1) {
-              dontClickAgain.push(myLabel);
-              b.click();
+              // Don't re-click a button we just clicked.
+              if (myLabel !== getClassLabel(b.className, 'hx-togglebutton')) {
+                dontClickAgain.push(myLabel);
+                b.click();
+              }
             }
           }
         });
