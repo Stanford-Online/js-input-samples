@@ -9,7 +9,7 @@ from python_lib import HXGraders
 def answercheck(e, ans):
     
     options = {
-        'min_length', 10   # This is the minimum length in characters of the response.
+        'min_length': 10   # This is the minimum length in characters of the response.
     }
     
     # This pulls from the python_lib.zip file in Files & Uploads.
