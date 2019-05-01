@@ -1,26 +1,27 @@
-### Text Logger ###
+### Text Logger
 
-#### Current Status ####
+#### Current Status
 
 Seems to be more or less in working order.
 
-#### Overview ####
+#### Overview
+
 Sometimes you just want students to type in a paragraph so you can log it for later. For instance, you might be collecting free-response answers to create a better multiple-choice question later. This problem type just collects a response, logs it, and marks the student correct if the answer is at least 10 characters.
 
-#### Creating Your Own Text-Logging Problems ####
+#### Creating Your Own Text-Logging Problems
 
 Here's how to adapt this example to create your own guessing problems.
 
 1. Grab python_lib.zip from the [HX-PY](https://github.com/Colin-Fredericks/hx-py) repo, and upload it (still compressed) into your Files & Uploads.
-2. Download textlog.html and textlog.js, and put them in your Files & Uploads.
+2. Download jschannel.js, textlog.html and textlog.js, and put them in your Files & Uploads.
 3. Download textlog.xml, edit the prompt as desired, and paste that into a Blank Advanced Problem.
 4. Profit!
 
-##### Using Multiple Text-Logging Problems #####
+##### Using Multiple Text-Logging Problems
 
 You can create multiple text logging problems on the same page. Since they're each individually iframed into the page, they won't interfere with each other much.
 
-#### Files: ####
+#### Files:
 
 Inside you will find many pieces used to create this problem:
 
