@@ -72,11 +72,13 @@ window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
         .$('.hx-toggletarget' + myLabel)
         .find('button')
         .each(function(i, b) {
+          console.log(b);
           if (b.attributes['aria-expanded'].value === 'true') {
             // Only click a button for each orphan box once.
             if (dontClickAgain.indexOf(myLabel) === -1) {
               // Don't re-click a button we just clicked.
               if (myLabel !== getClassLabel(b.className, 'hx-togglebutton')) {
+                console.log('Orphan element: ' + b.className);
                 dontClickAgain.push(myLabel);
                 b.click();
               }

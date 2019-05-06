@@ -31,7 +31,7 @@ Here's how to adapt this example to create your own pathway problem.
 **Options:**
 
 - show_points - True/False. Do learners see the points they earned? No breakdown shown at the moment.
-- grade_on - Mark as 'score' if you want to use the points to determine grade, or 'participation' if you want to use how much of the scenario was explored to determine grade.
+- grade_on - Mark as 'score' if you want to use the points on-screen at the end to determine grade, 'exploration' if you care how much of the material the learners make it through in total, or 'participation' if you want to use how much of the scenario was explored to determine grade.
 - retain_negative - True/False. Do negative point values stick around until the end, or do they go away when you choose a different path?
 
 ### Using Multiple Pathway Problems

@@ -55,10 +55,12 @@ from python_lib import HXGraders
 
 options = {
   'show_points': True,      # Show "x out of y" points at end.
-  'grade_on': 'score',      # Does 'score' or 'participation' matter?
+  'grade_on': 'score',      # Pick 'score', 'exploration', or 'participation'
   'retain_negative': True   # Negative points persist
 }
 
+# This is set up for 'points' where the best score from each category counts.
+# To do 'exploration' you would want to put each set of points in its own category. 
 points_lookup = {
   'start': {
     '-city': 0,
