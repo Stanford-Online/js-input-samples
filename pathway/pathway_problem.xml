@@ -38,7 +38,7 @@ function logThatThing(ThatThing){
 
 <style>
   /* Change this to change how the boxes look on-screen. */
-  .start_hidden {
+  .vert .start_hidden {
     display: none;
     margin: 10px;
     border: 1px solid lightgrey;
