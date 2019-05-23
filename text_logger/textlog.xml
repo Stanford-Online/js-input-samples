@@ -3,17 +3,52 @@
 
 <script type="loncapa/python">
 <![CDATA[
+# The CDATA declaration lets us use less-than signs
+# without edX thinking that we're starting an XML tag.
 
-from python_lib import HXGraders
+def textResponseGrader(ans, new_options={"min_length": 10}):
+
+  options = {"min_length": 10}
+  options.update(new_options)
+
+  # Parse the state and obtain the "answer" string from it.
+  parsed = json.loads(ans)
+  answer = json.loads(parsed["answer"])["answer"]
+
+  # Remove quotes and whitespace from the ends.
+  answer = answer.strip('"')
+  answer = answer.strip('"')
+  answer = answer.strip()
+
+  # Checking for sufficient length.
+  if len(answer) >= options["min_length"]:
+    return {
+      "input_list": [
+        {
+          "ok": True,
+          "msg": "Thank you for your response.",
+          "grade_decimal": 1
+        }
+      ]
+    }
+  else:
+    return {
+      "input_list": [
+        {
+          "ok": False,
+          "msg": "Your response is too short. Please try again.",
+          "grade_decimal": 0
+        }
+      ]
+    }
 
 def answercheck(e, ans):
-    
-    options = {
-        'min_length': 10   # This is the minimum length in characters of the response.
-    }
-    
-    # This pulls from the python_lib.zip file in Files & Uploads.
-    return HXGraders.textResponseGrader(ans, options)
+
+  options = {
+    'min_length': 10   # This is the minimum length in characters of the response.
+  }
+
+  textResponseGrader(ans, options)
 
 ]]>
 </script>
@@ -22,24 +57,26 @@ def answercheck(e, ans):
 $(document).ready(function(){
 	console.log('outer ready');
 });
+
 function logThatThing(ThatThing){
 	console.log(JSON.stringify(ThatThing));
-	Logger.log("harvardx.calculus.text_logger", ThatThing);
-
+  // Call the edX logging code.
+	Logger.log("harvardx.StudioAdv.text_logger", ThatThing);
 }
 </script>
 
 
 <p>Put your prompt here.</p>
 
-
+<!-- The gradefn and get_statefn and set_statefn below need to match
+     the function name in the .js file. -->
 <customresponse cfn="answercheck">
   <jsinput title="Text Response Exercise"
     gradefn="textlog.getGrade"
     get_statefn="textlog.getState"
     set_statefn="textlog.setState"
     width="800"
-    height="100"
+    height="120"
     html_file="/static/textlog.html"
     sop="false"/>
 </customresponse>
@@ -50,6 +87,5 @@ function logThatThing(ThatThing){
 <p>Questions should have explanations, or at least commentary.</p>
 </div>
 </solution>
-
 
 </problem>

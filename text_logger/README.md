@@ -14,7 +14,7 @@ Here's how to adapt this example to create your own guessing problems.
 
 1. Grab python_lib.zip from the [HX-PY](https://github.com/Colin-Fredericks/hx-py) repo, and upload it (still compressed) into your Files & Uploads.
 2. Download jschannel.js, textlog.html and textlog.js, and put them in your Files & Uploads.
-3. Download textlog.xml, edit the prompt as desired, and paste that into a Blank Advanced Problem.
+3. Download textlog_with_pythonlib.xml, edit the prompt as desired, and paste that into a Blank Advanced Problem.
 4. Profit!
 
 ##### Using Multiple Text-Logging Problems
