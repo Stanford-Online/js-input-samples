@@ -1,0 +1,57 @@
+<problem>
+<!-- This problem only logs student responses. It grades nearly anything as correct. -->
+
+<script type="loncapa/python">
+<![CDATA[
+# The CDATA declaration lets us use less-than signs
+# without edX thinking that we're starting an XML tag.
+
+from python_lib import HXGraders
+
+def answercheck(e, ans):
+
+    options = {
+        'min_length': 10   # This is the minimum length in characters of the response.
+    }
+
+    # This pulls from the python_lib.zip file in Files & Uploads.
+    return HXGraders.textResponseGrader(ans, options)
+
+]]>
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+function logThatThing(ThatThing){
+	console.log(JSON.stringify(ThatThing));
+  // Call the edX logging code.
+	Logger.log("harvardx.StudioAdv.text_logger", ThatThing);
+}
+</script>
+
+
+<p>Put your prompt here.</p>
+
+
+<customresponse cfn="answercheck">
+  <jsinput title="Text Response Exercise"
+    gradefn="textlog.getGrade"
+    get_statefn="textlog.getState"
+    set_statefn="textlog.setState"
+    width="800"
+    height="120"
+    html_file="/static/textlog.html"
+    sop="false"/>
+</customresponse>
+
+<solution>
+<div class="detailed-solution">
+<p>Explanation</p>
+<p>Questions should have explanations, or at least commentary.</p>
+</div>
+</solution>
+
+</problem>

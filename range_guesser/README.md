@@ -26,7 +26,7 @@ Here's how to adapt this example to create your own guessing problems.
 
 ##### Using Multiple Guessing Problems #####
 
-You can create multiple guessing problems on the same page. Since they're each individually iframed into the page, they won't interfere with each other much.
+You should not create multiple guessing problems on the same page. Because of the way they pass information from the python to the javascript, they will interfere with one another, and you'll end up pulling all your info from the first problem on the page.
 
 #### Files: ####
 

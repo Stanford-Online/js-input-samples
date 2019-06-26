@@ -1,0 +1,58 @@
+<problem>
+
+<!--
+############ Emoji Response Poll Instructions ############
+To use this problem type, copy-paste this XML file into
+a Blank Advanced Problem. You need the emoji_response.js
+and emoji_response.html files in your Files & Uploads.
+
+Change the course name from GrapeApe to your course (no spaces).
+In the problem settings, set...
+    "Show Answer" to "Never"
+    "Randomization" to "On Reset"
+    "Show Reset Button" to "True"
+
+If you want to change the prompt, scroll down to "INSTRUCTOR" and edit.
+To use a custom set of emoji, use the format below.
+
+#################### End  Instructions ####################
+-->
+
+<script type="text/javascript">
+
+    // Course Name (no spaces):
+    var coursename = 'GrapeApe'
+
+    $(document).ready(function(){
+    console.log('outer ready');
+    });
+
+    function logThatThing(ThatThing){
+    console.log(JSON.stringify(ThatThing));
+    Logger.log("harvardx." + coursename + ".emoji_response", ThatThing);
+    }
+</script>
+
+<script type="loncapa/python">
+<![CDATA[
+# There's no wrong answer.
+def answercheck(e, ans):
+    return {'ok': True, 'msg': 'Thank you for your response.', 'grade_decimal': 1}
+]]>
+</script>
+
+<!-- INSTRUCTOR: put your response here. -->
+<p>How was this page? Click to select your response, then press "Submit".</p>
+
+<customresponse cfn="answercheck">
+    <jsinput title="Emoji Response Poll"
+        gradefn="emoji_response.getGrade"
+        get_statefn="emoji_response.getState"
+        set_statefn="emoji_response.setState"
+        width="900"
+        height="70"
+        html_file="/static/emoji_response.html"
+        sop="false"/>
+</customresponse>
+
+</problem>

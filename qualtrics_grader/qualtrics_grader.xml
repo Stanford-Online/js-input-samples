@@ -1,0 +1,74 @@
+<problem>
+
+  <!--
+    ########## Qualtrics Survey Grader Instructions ##########
+    To use this problem type, you should:
+    1. Set the qualtrics_survey_source in the javascript section (required)
+    2. Set the prompt where it says 'Put your prompt here.' (required)
+    3. Write a solution at the end (optional). If not applicable,
+       remove that section or your students may see a "show answer" button.
+    4. If you want students to be able to resubmit their
+       survey results, set the problem component to "Show Reset Button"
+       and "Randomize on Reset", and mark "allowReset = true"
+       in the javascript below.
+    #################### End  Instructions ####################
+  -->
+
+<script type="loncapa/python">
+<![CDATA[
+
+from python_lib import HXGraders
+
+def answercheck(e, ans):
+
+    # This pulls from the python_lib.zip file in Files & Uploads.
+    return HXGraders.qualtricsSurveyGrader(ans)
+
+]]>
+</script>
+
+<script type="text/javascript">
+
+// Set these values.
+var qualtricsSurveySource = 'https://harvard.az1.qualtrics.com/jfe/form/SV_9EvlqyaDbHCPNlz';
+var allowReset = false;
+
+$(document).ready(function(){
+  console.log('outer ready');
+});
+
+function logThatThing(ThatThing){
+	console.log(JSON.stringify(ThatThing));
+	Logger.log("harvardx.GrapeApe.qualtrics_grader", ThatThing);
+}
+</script>
+
+<!-- INSTRUCTOR: -->
+<p>Put your prompt here.</p>
+
+
+<!-- Leave this part alone. -->
+<p>When you are done with the survey, press "Submit".</p>
+
+<customresponse cfn="answercheck">
+  <jsinput title="Graded Survey"
+    gradefn="qualtrics_grader.getGrade"
+    get_statefn="qualtrics_grader.getState"
+    set_statefn="qualtrics_grader.setState"
+    width="900"
+    height="800"
+    html_file="/static/qualtrics_grader.html"
+    sop="false"/>
+</customresponse>
+
+<!-- Remove this if showing a solution is not appropriate or your purposes. -->
+<!-- You probably want to set "Show Answer" to "Never". -->
+<solution>
+<div class="detailed-solution">
+<p>Explanation</p>
+<p>Questions should have explanations, or at least commentary.</p>
+</div>
+</solution>
+
+
+</problem>

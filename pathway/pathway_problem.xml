@@ -1,0 +1,200 @@
+<problem>
+
+<!--
+############ Pathway Problem Instructions ############
+To use this problem type, copy-paste this XML file into
+a Blank Advanced Problem. You need the pathway_problem.js
+and pathway_problem.html files in your Files & Uploads,
+and Harvard's python_lib.zip as well.
+
+You need to alter the text from placeholder Lorem Ipsum stuff
+to an actual scenario with meaningful choices.
+* Set the points_lookup list to indicate how many
+  points each section is worth when opened. The 'final_total'
+  is the max number of points someone can obtain.
+* Put in your course name where it says GrapeApe.
+* Probably allow unlimited attempts.
+* Test it a lot.
+
+If you want to change the prompt, scroll down to "INSTRUCTOR" and edit.
+
+################# End  Instructions #################
+-->
+
+<script src="/static/hx.js" type="application/javascript"></script>
+<script type="text/javascript">
+// Course Name (no spaces):
+var coursename = 'GrapeApe'
+
+$(document).ready(function(){
+  console.log('outer ready');
+});
+
+function logThatThing(ThatThing){
+  console.log(JSON.stringify(ThatThing));
+  Logger.log("harvardx." + coursename + ".pathway_problem", ThatThing);
+}
+</script>
+
+<style>
+  /* Change this to change how the boxes look on-screen. */
+  .vert .start_hidden {
+    display: none;
+    margin: 10px;
+    border: 1px solid lightgrey;
+    padding: 5px 10px 5px 10px;
+  }
+</style>
+
+<script type="loncapa/python">
+<![CDATA[
+
+from python_lib import HXGraders
+
+##################### Set These #########################
+
+options = {
+  'show_points': True,      # Show "x out of y" points at end.
+  'grade_on': 'score',      # Pick 'score', 'exploration', or 'participation'
+  'retain_negative': True   # Negative points persist
+}
+
+# This is set up for 'points' where the best score from each category counts.
+# To do 'exploration' you would want to put each set of points in its own category. 
+points_lookup = {
+  'start': {
+    '-city': 0,
+    '-village': 20,
+    '-forest': 10
+  },
+  'village': {
+    '-purple': 20,
+    '-inn': 10
+  },
+  'forest': {
+    '-hobbit': 25,
+    '-witch': 35,
+    '-mimic': -25
+  },
+  'final_total': 45
+}
+
+############## Leave This Alone ##############
+
+def answercheck(e, ans):
+
+  # This pulls from the python_lib.zip file in Files & Uploads.
+  return HXGraders.pathwayGrader(ans, points_lookup, options)
+
+]]>
+</script>
+
+  <!--- Technically this part doesn't even need to be in the same component, but you probably want it here. -->
+
+  <div>
+    <p>As a house hunter in a strange and magical world, you are trying to find the best place to live for your money without being devoured by giant terrible monsters. It is a less common problem than one might think, but the risk-to-reward ratio gets thrown off by the fact that once you are devoured, that's kind of it for the house hunting (and other activities).</p>
+    <p>Use the buttons below to search for a house. Try to get the best score you can - but be warned that being eaten by a monster will permanently lose you points.</p>
+    <p>There are three options before you: a bustling city, a charming village, and a quiet forest. Where would you like to start?</p>
+    <p class="hx-toggleset">
+      <button class="hx-togglebutton-city">City</button>
+      <button class="hx-togglebutton-village">Village</button>
+      <button class="hx-togglebutton-forest">Forest</button>
+    </p>
+    <br clear="all"/>
+  </div>
+
+  <div class="hx-toggletarget-city start_hidden">
+    <h4 class="hx-underline">The City</h4>
+    <img src="https://orig12.deviantart.net/eee6/f/2012/215/2/c/floating_city_kerris_by_gamefan84-d59n4ps.jpg" alt="A city floating in the sky" style="width: 350px; float:right;" />
+    <p>+0 points</p>
+    <p>It turns out that everything in the city is too expensive. You should have guessed by the fact that it's floating in the sky, I suppose, but it was worth a shot. You'll need to set your sights elsewhere. On the plus side, no monsters ate you.</p>
+    <p class="hx-toggleset">
+      <button class="hx-togglebutton-city">Go Back</button>
+    </p>
+    <br clear="all"/>
+  </div>
+
+  <div class="hx-toggletarget-village start_hidden">
+    <img src="https://wallup.net/wp-content/uploads/2016/04/10/255538-artwork-fantasy_art-village-villages-house-waterfall-river-water-hill.jpg" alt="You get used to the sound of the waterfall." style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Village</h4>
+    <p>+20 points</p>
+    <p>Prices here aren't completely out of your range. There are two options that strike you as interesting: a magical-looking neighborhood with purple trim, or a more regular-looking inn that gets a lot of traffic.</p>
+    <p class="hx-toggleset">
+      <button class="hx-togglebutton-purple">Purple Magic Hooray!</button>
+      <button class="hx-togglebutton-inn">Run The Inn</button>
+    </p>
+    <br clear="all"/>
+  </div>
+
+  <div class="hx-toggletarget-forest start_hidden">
+    <img src="https://i.pinimg.com/736x/76/1c/e9/761ce9c9b41dec0273cde9ef037dff7d.jpg" alt="It is darker in this forest than you had hoped." style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Forest</h4>
+    <p>+10 points</p>
+    <p>A quiet path through a dark forest. Nothing ever went wrong in that kind of place. Nice choice, Socrates.</p>
+    <p>Anyway, after a few days of being lost and running out of food, you are faced with a choice between three options: ducking into a hobbit-hole, knocking on the door of a gingerbread house, or a perfectly ordinary-looking house.</p>
+    <p class="hx-toggleset">
+      <button class="hx-togglebutton-hobbit">Hobbit-hole</button>
+      <button class="hx-togglebutton-witch">Gingerbread House</button>
+      <button class="hx-togglebutton-mimic">Ordinary House</button>
+    </p>
+    <br clear="all"/>
+  </div>
+
+  <div class="hx-toggletarget-purple start_hidden">
+    <img src="https://img08.deviantart.net/3a1d/i/2014/252/7/5/fantasy_house_by_zaigraev-d7jclur.jpg" alt="A weird set of purple houses" style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Purple Magic Neighborhood</h4>
+    <p>+20 points</p>
+    <p>It's a weird place to live, but the people here are friendly, and it kind of grows on you after a while. Plus you don't even need streetlights with all the constant moonlight and glowing fog!</p>
+    <p>You have found a home. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
+
+  <div class="hx-toggletarget-inn start_hidden">
+    <img src="https://2.bp.blogspot.com/--HQgfxUOTLE/WG9OajWyjaI/AAAAAAAAB7k/KVZ5OvU76kkoBl-EyoB0DbLmRe5xXSnWACK4B/s1600/city%2Bsquare.jpg" alt="A pretty normal inn, all considered." style="width: 350px; float:right;" />
+    <h4 class="hx-underline">A Typical Inn</h4>
+    <p>+10 points</p>
+    <p>You settle down and run the inn. It's a living.</p>
+    <p>You have found a home. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
+
+  <div class="hx-toggletarget-hobbit start_hidden">
+    <img src="http://wp.production.patheos.com/blogs/standingonmyhead/files/2015/09/hobbit-hole.jpg" alt="A deluxe, comfortable hold in the ground" style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Hobbit-hole</h4>
+    <p>+25 points</p>
+    <p>Looks like whomever lived here got eaten by a dragon or something - the house is yours! It's not the best place for your back, but it's dry and free, so your back doctor and the local Sackville-Bagginses are the only ones who complains.</p>
+    <p>You have found a home. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
+  <div class="hx-toggletarget-witch start_hidden">
+    <img src="http://www.cartoonaday.com/images/cartoons/2011/08/fantasy-house-illustration-blue-598x373.jpg" alt="A witch's gingerbread house" style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The Gingerbread House</h4>
+    <p>+35 points</p>
+    <p>A witch lives here, but she's really nice and a great cook, and she thinks you're cute. You end up moving in together. All in all it's pretty great as long as you remember that it's food or shelter, not both.</p>
+    <p>You have found a home. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
+  <div class="hx-toggletarget-mimic start_hidden">
+    <img src="https://i.ytimg.com/vi/j_v7m4dViWg/hqdefault.jpg" alt="That house is going to eat you." style="width: 350px; float:right;" />
+    <h4 class="hx-underline">The House-Sized Mimic</h4>
+    <p>-25 points</p>
+    <p>This is not how you wanted to die.</p>
+    <p>You have found a home in the stomach of a giant terrible monster posing as a house. Press "Submit" to finish.</p>
+    <br clear="all"/>
+  </div>
+
+
+  <p>You can press "Submit" to save your current state, whether you're finished or only partway through. Your current grade is counted. You can then continue with the problem or move on to the rest of the course.</p>
+
+  <customresponse cfn="answercheck">
+    <jsinput gradefn="pathway_problem.getGrade"
+       get_statefn="pathway_problem.getState"
+       set_statefn="pathway_problem.setState"
+       width="0"
+       height="0"
+       html_file="/static/pathway_problem.html"
+       title="You can ignore this frame."
+       sop="false"/>
+  </customresponse>
+
+</problem>
