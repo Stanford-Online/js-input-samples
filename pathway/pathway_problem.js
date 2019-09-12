@@ -48,53 +48,55 @@ function putEmBack() {
 }
 
 // Keep the Problem State up to date.
-window.parent.window.$('[class^="hx-togglebutton"').on('click tap', function() {
-  if (disableStateUpdates) {
-    // console.log('state updates temporarily disabled');
-  } else {
-    // console.log('state updates aok');
-    JSProblemState.last_open = Array.from(JSProblemState.currently_open);
-
-    let myLabel = getClassLabel(this.className, 'hx-togglebutton');
-
-    // Every time we open a box, add it to currently_open.
-    if (JSProblemState.currently_open.indexOf(myLabel) === -1) {
-      JSProblemState.currently_open.push(myLabel);
+window.parent.window
+  .$('[class^="hx-togglebutton"]')
+  .on('click tap', function() {
+    if (disableStateUpdates) {
+      // console.log('state updates temporarily disabled');
     } else {
-      // Every time we close a box, remove it from currently_open.
-      JSProblemState.currently_open.splice(
-        JSProblemState.currently_open.indexOf(myLabel),
-        1
-      );
-      // If we close a box that would leave orphan boxes, close those too.
-      let dontClickAgain = [];
-      window.parent.window
-        .$('.hx-toggletarget' + myLabel)
-        .find('button')
-        .each(function(i, b) {
-          console.log(b);
-          if (b.attributes['aria-expanded'].value === 'true') {
-            // Only click a button for each orphan box once.
-            if (dontClickAgain.indexOf(myLabel) === -1) {
-              // Don't re-click a button we just clicked.
-              if (myLabel !== getClassLabel(b.className, 'hx-togglebutton')) {
-                console.log('Orphan element: ' + b.className);
-                dontClickAgain.push(myLabel);
-                b.click();
+      // console.log('state updates aok');
+      JSProblemState.last_open = Array.from(JSProblemState.currently_open);
+
+      let myLabel = getClassLabel(this.className, 'hx-togglebutton');
+
+      // Every time we open a box, add it to currently_open.
+      if (JSProblemState.currently_open.indexOf(myLabel) === -1) {
+        JSProblemState.currently_open.push(myLabel);
+      } else {
+        // Every time we close a box, remove it from currently_open.
+        JSProblemState.currently_open.splice(
+          JSProblemState.currently_open.indexOf(myLabel),
+          1
+        );
+        // If we close a box that would leave orphan boxes, close those too.
+        let dontClickAgain = [];
+        window.parent.window
+          .$('.hx-toggletarget' + myLabel)
+          .find('button')
+          .each(function(i, b) {
+            console.log(b);
+            if (b.attributes['aria-expanded'].value === 'true') {
+              // Only click a button for each orphan box once.
+              if (dontClickAgain.indexOf(myLabel) === -1) {
+                // Don't re-click a button we just clicked.
+                if (myLabel !== getClassLabel(b.className, 'hx-togglebutton')) {
+                  console.log('Orphan element: ' + b.className);
+                  dontClickAgain.push(myLabel);
+                  b.click();
+                }
               }
             }
-          }
-        });
-    }
+          });
+      }
 
-    // Every time we open a box, add it to ever_opened.
-    if (JSProblemState.ever_opened.indexOf(myLabel) === -1) {
-      JSProblemState.ever_opened.push(myLabel);
-    }
+      // Every time we open a box, add it to ever_opened.
+      if (JSProblemState.ever_opened.indexOf(myLabel) === -1) {
+        JSProblemState.ever_opened.push(myLabel);
+      }
 
-    console.log(JSProblemState);
-  }
-});
+      console.log(JSProblemState);
+    }
+  });
 
 // This wrapper function is necessary.
 var pathway_problem = (function() {

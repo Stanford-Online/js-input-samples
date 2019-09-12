@@ -33,7 +33,7 @@ right_answer = []
 # You can set more than one right answer if you want.
 # Students will get the best grade among them for their answer.
 
-right_answer.append( ['ACFBE'] )
+right_answer.append( 'ACFBE' )
 options = {'partial_credit': True, 'feedback': True}
 
 ############## Leave Everything Else Alone ##############
