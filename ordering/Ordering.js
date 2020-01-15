@@ -14,6 +14,10 @@ var JSProblemState = {
 // or with blind or partially sighted users (switched with link).
 var sighted = true;
 
+// Do we remove items from the left-hand list after they're matched?
+// On any truthy value, yes we do. If falsey or undefined, we do not.
+var removeMatched = !!parent.orderingRemoveMatched;
+
 // Loads the cards from the cardList variable
 function loadElementsSighted() {
   var tableArrayLeft = [];
@@ -345,6 +349,10 @@ function handleDrop(event, ui) {
     var indicatorSpace = targetElement.find('td.drop-area');
     JSProblemState.pairings.push(thisPairing);
     addMatch(indicatorSpace, letter, number);
+    // If we're not keeping copies of dragged stuff, remove them from the left.
+    if (removeMatched) {
+      $('#element' + letter).hide();
+    }
   }
 }
 
@@ -444,6 +452,10 @@ function selfDelete(event) {
     .hide()
     .show(0);
 
+  if (removeMatched) {
+    $('#element' + letter).show();
+  }
+
   console.log('Removed ' + thisPairing + ' from index ' + exIndex);
   console.log(JSProblemState.pairings);
 }
@@ -462,6 +474,10 @@ function putMatchesBack() {
     if (sighted) {
       indicatorSpace = $('#element' + number).find('td.drop-area');
       addMatch(indicatorSpace, letter, number);
+      // If we remove matched elements, hide them from the initial state too.
+      if (removeMatched) {
+        $('#element' + letter).hide();
+      }
     } else {
       thisCheckbox = $('#row' + letter).find(
         'input[value="element' + number + '"]'

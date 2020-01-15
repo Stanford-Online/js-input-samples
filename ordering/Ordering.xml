@@ -21,6 +21,11 @@ function logThatThing(ThatThing){
 
 }
 
+// OPTIONAL SETTINGS:
+// Remove items from the list once they've been matched up?
+var orderingRemoveMatched = true;
+
+
 </script>
 
 <script type="loncapa/python">
