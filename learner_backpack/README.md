@@ -2,7 +2,7 @@
 
 #### Current Status
 
-Initial stages.
+Checkbox working. Adding utility functions.
 
 #### Overview
 
