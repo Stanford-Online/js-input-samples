@@ -86,7 +86,12 @@ var backpack = (function() {
     if (smallEnough(hx_state)) {
       return JSON.stringify(hx_state);
     } else {
-      return JSON.stringify(last_state);
+      if (smallEnough(last_state)) {
+        return JSON.stringify(last_state);
+      } else {
+        // If the last state is too big too, suspect foul play and revert completely.
+        return JSON.stringify({ answer: '', data: '' });
+      }
     }
   }
 
