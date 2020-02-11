@@ -1,0 +1,76 @@
+<problem>
+<!-- This problem is part of the Learner Backpack project. -->
+
+<script type="loncapa/python">
+<![CDATA[
+# The CDATA declaration lets us use less-than signs
+# without edX thinking that we're starting an XML tag.
+
+import json
+
+def backpackGrader(expect, ans):
+
+  # Parse the state and obtain the "answer" string from it.
+  parsed = json.loads(ans)
+  answer = json.loads(parsed["answer"])["answer"]
+
+  # Make it a string and lowercase it.
+  answer = str(answer).lower()
+
+  # Checking for sufficient length.
+  if answer == "true":
+    return {
+      "input_list": [
+        {
+          "ok": True,
+          "msg": "Thank you. You may continue with the course.",
+          "grade_decimal": 1
+        }
+      ]
+    }
+  else:
+    return {
+      "input_list": [
+        {
+          "ok": False,
+          "msg": "You should not continue with the course.",
+          "grade_decimal": 0
+        }
+      ]
+    }
+
+]]>
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+function logThatThing(ThatThing){
+	console.log(JSON.stringify(ThatThing));
+  // Call the edX logging code.
+	Logger.log("harvardx.StudentBackpack", {
+    source: window.location.href,
+    data: ThatThing
+  });
+}
+</script>
+
+
+<p>Have you read and agreed to the edX Code of Conduct and honor code?</p>
+
+<!-- The gradefn and get_statefn and set_statefn below need to match
+     the function name in the .js file. -->
+<customresponse cfn="backpackGrader">
+  <jsinput title="Click yes to agree"
+    gradefn="backpack.getGrade"
+    get_statefn="backpack.getState"
+    set_statefn="backpack.setState"
+    width="100%"
+    height="40"
+    html_file="/static/backpack.html"
+    sop="false"/>
+</customresponse>
+
+</problem>
