@@ -2,10 +2,81 @@
 // they start with a blank.
 var hx_state = {
   answer: '',
-  data: ''
+  data: '{}'
 };
 
 var last_state = {};
+
+// Are we in an iframe?
+function inFrame() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
+// In order to record our data in edX's servers, we need to submit the problem.
+function storeData() {
+  // Check for parent window.
+  if (inFrame) {
+    // Get the submit button for this problem. Luckily, this is the only problem in the iframe.
+    let submit_button = parent.document.querySelectorAll('button.submit')[0];
+    // Click it.
+    submit_button.click();
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function hxSetData(key, input) {
+  // Parse out the object and set the new info, then write it back.
+  try {
+    obj = JSON.parse(hx_state.data);
+    console.log(obj);
+    obj[key] = input;
+    hx_state.data = JSON.stringify(obj);
+    console.log(hx_state);
+  } catch (err) {
+    console.log(err);
+  }
+  // Store the info in edX.
+  return storeData();
+}
+
+function hxClearData(key) {
+  // Parse out the object and remove the info, then write the object back.
+  try {
+    obj = JSON.parse(hx_state.data);
+    delete hx_state.data[key];
+    hx_state.data = JSON.stringify(obj);
+  } catch (err) {
+    console.log(err);
+  }
+  // Store the info in edX.
+  return storeData();
+}
+
+function hxGetData(key) {
+  try {
+    obj = JSON.parse(hx_state.data);
+    return obj[key];
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+}
+
+// Are we in an iframe?
+if (inFrame()) {
+  // If so, make functions available to the outer frame.
+  parent.hxSetData = hxSetData;
+  parent.hxClearData = hxSetData;
+  parent.hxGetData = hxGetData;
+} else {
+  console.log('Not running in an iframe.');
+}
 
 // Insert nice functions for working with the state data.
 // Also make those available to any parent window, if we're iframed.
