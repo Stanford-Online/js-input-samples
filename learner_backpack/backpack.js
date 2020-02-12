@@ -34,25 +34,36 @@ function smallEnough(ob) {
   }
 }
 
+// Check the size of the state before we send it to edx.
+// Then send the problem state to be graded.
+function effectiveState() {
+  if (smallEnough(hx_state)) {
+    return JSON.stringify(hx_state);
+  } else {
+    if (smallEnough(last_state)) {
+      return JSON.stringify(last_state);
+    } else {
+      // If the last state is too big too, suspect foul play and revert completely.
+      return JSON.stringify({ answer: '', data: '' });
+    }
+  }
+}
+
 // In order to record our data in edX's servers, we need to submit the problem.
 function storeData() {
-  console.log('Storing data');
   // Check for parent window.
   if (inFrame) {
-    console.log('Problem state');
-    console.log(hx_state);
     // Get the submit button for this problem. Luckily, this is the only problem in the iframe.
     let submit_button = parent_doc.querySelectorAll('button.submit')[0];
     // Click it.
     submit_button.click();
-    return true;
+    console.log('data stored');
   } else {
-    return false;
+    console.log('Not running in iframe; aborted.');
   }
 }
 
 function hxSetData(key, input) {
-  console.log('set ' + key + ' to ' + input);
   var obj = {};
 
   // Parse out the object and set the new info, then write it back.
@@ -62,25 +73,19 @@ function hxSetData(key, input) {
     console.log(err);
     return null;
   }
-  console.log('current parsed data:');
-  console.log(obj);
   obj[key] = input;
-  console.log('new parsed data:');
-  console.log(obj);
   if (smallEnough(obj)) {
     hx_state.data = JSON.stringify(obj);
-    console.log('stringified state');
-    console.log(hx_state);
   } else {
     console.log('Object not stored.');
     return false;
   }
   // Store the info in edX.
-  return storeData();
+  storeData();
+  return true;
 }
 
 function hxClearData(key) {
-  console.log('clear ' + key);
   // Parse out the object and remove the info, then write the object back.
   try {
     obj = JSON.parse(hx_state.data);
@@ -88,13 +93,14 @@ function hxClearData(key) {
     hx_state.data = JSON.stringify(obj);
   } catch (err) {
     console.log(err);
+    return false;
   }
   // Store the info in edX.
-  return storeData();
+  storeData();
+  return true;
 }
 
 function hxGetData(key) {
-  console.log('get ' + key);
   try {
     obj = JSON.parse(hx_state.data);
     return obj[key];
@@ -134,18 +140,21 @@ var backpack = (function() {
     hx_state.answer = document.getElementById('agree').checked;
     // The data string gets URI-decoded later, so percents need to be escaped.
     hx_state.data = hx_state.data.replace(/%/g, '%25');
-    // Give edX our state as a string.
-    return JSON.stringify(hx_state);
+    return effectiveState();
   }
 
   // Called by edX to set the live learner state to what's recorded on the server.
   function setState() {
     // Are we in an iframe?
     if (inFrame()) {
+      console.log('making functions available');
       // If so, make functions available to the outer frame.
       parent.hxSetData = hxSetData;
       parent.hxClearData = hxClearData;
       parent.hxGetData = hxGetData;
+      // Tell the edX page we're ready.
+      parent.parent.postMessage('ready', 'https://edge.edx.org');
+      parent.parent.postMessage('ready', 'https://courses.edx.org');
     } else {
       console.log('Not running in an iframe.');
     }
@@ -174,18 +183,7 @@ var backpack = (function() {
     parent.logThatThing(hx_state);
     // The answer string gets URI-decoded later, so percents need to be escaped.
     hx_state.data = hx_state.data.replace(/%/g, '%25');
-    // Check the size of the state before we send it to edx.
-    // Then send the problem state to be graded.
-    if (smallEnough(hx_state)) {
-      return JSON.stringify(hx_state);
-    } else {
-      if (smallEnough(last_state)) {
-        return JSON.stringify(last_state);
-      } else {
-        // If the last state is too big too, suspect foul play and revert completely.
-        return JSON.stringify({ answer: '', data: '' });
-      }
-    }
+    return effectiveState();
   }
 
   // REQUIRED --- DO NOT REMOVE/CHANGE!!
