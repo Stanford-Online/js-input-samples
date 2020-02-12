@@ -7,6 +7,10 @@ var hx_state = {
 
 var last_state = {};
 
+// Need to use this to refer to original parent
+// instead of dynamically finding parent within some functions.
+var parent_doc = parent.document;
+
 // Are we in an iframe?
 function inFrame() {
   try {
@@ -16,12 +20,29 @@ function inFrame() {
   }
 }
 
+// Returns true if the passed object is small enough, or the false if not.
+function smallEnough(ob) {
+  // Gives us a rough idea of the memory size for the state.
+  // Assuming 2 bytes per character, storing no more than 50,000 characters.
+  let size = JSON.stringify(ob).length * 2;
+  if (size < 100000) {
+    console.log('Current size: ~' + size + ' bytes.');
+    return true;
+  } else {
+    console.log('Data too large: ' + size + ' bytes. Changes rejected.');
+    return false;
+  }
+}
+
 // In order to record our data in edX's servers, we need to submit the problem.
 function storeData() {
+  console.log('Storing data');
   // Check for parent window.
   if (inFrame) {
+    console.log('Problem state');
+    console.log(hx_state);
     // Get the submit button for this problem. Luckily, this is the only problem in the iframe.
-    let submit_button = parent.document.querySelectorAll('button.submit')[0];
+    let submit_button = parent_doc.querySelectorAll('button.submit')[0];
     // Click it.
     submit_button.click();
     return true;
@@ -31,21 +52,35 @@ function storeData() {
 }
 
 function hxSetData(key, input) {
+  console.log('set ' + key + ' to ' + input);
+  var obj = {};
+
   // Parse out the object and set the new info, then write it back.
   try {
     obj = JSON.parse(hx_state.data);
-    console.log(obj);
-    obj[key] = input;
-    hx_state.data = JSON.stringify(obj);
-    console.log(hx_state);
   } catch (err) {
     console.log(err);
+    return null;
+  }
+  console.log('current parsed data:');
+  console.log(obj);
+  obj[key] = input;
+  console.log('new parsed data:');
+  console.log(obj);
+  if (smallEnough(obj)) {
+    hx_state.data = JSON.stringify(obj);
+    console.log('stringified state');
+    console.log(hx_state);
+  } else {
+    console.log('Object not stored.');
+    return false;
   }
   // Store the info in edX.
   return storeData();
 }
 
 function hxClearData(key) {
+  console.log('clear ' + key);
   // Parse out the object and remove the info, then write the object back.
   try {
     obj = JSON.parse(hx_state.data);
@@ -59,6 +94,7 @@ function hxClearData(key) {
 }
 
 function hxGetData(key) {
+  console.log('get ' + key);
   try {
     obj = JSON.parse(hx_state.data);
     return obj[key];
@@ -66,16 +102,6 @@ function hxGetData(key) {
     console.log(err);
     return err;
   }
-}
-
-// Are we in an iframe?
-if (inFrame()) {
-  // If so, make functions available to the outer frame.
-  parent.hxSetData = hxSetData;
-  parent.hxClearData = hxSetData;
-  parent.hxGetData = hxGetData;
-} else {
-  console.log('Not running in an iframe.');
 }
 
 // Insert nice functions for working with the state data.
@@ -101,20 +127,6 @@ var backpack = (function() {
     channel.bind('setState', setState);
   }
 
-  // Returns current state if it's small enough, or the original if not.
-  function smallEnough(ob) {
-    // Gives us a rough idea of the memory size for the state.
-    // Assuming 2 bytes per character, storing no more than 50,000 characters.
-    let size = JSON.stringify(ob).length * 2;
-    if (size < 100000) {
-      console.log('Current size: ~' + size + ' bytes.');
-      return true;
-    } else {
-      console.log('Data too large: ' + size + ' bytes. Changes rejected.');
-      return false;
-    }
-  }
-
   // Called by edX to obtain the current learner state for this problem.
   function getState() {
     console.log('getting state');
@@ -128,6 +140,16 @@ var backpack = (function() {
 
   // Called by edX to set the live learner state to what's recorded on the server.
   function setState() {
+    // Are we in an iframe?
+    if (inFrame()) {
+      // If so, make functions available to the outer frame.
+      parent.hxSetData = hxSetData;
+      parent.hxClearData = hxClearData;
+      parent.hxGetData = hxGetData;
+    } else {
+      console.log('Not running in an iframe.');
+    }
+
     console.log('setting state');
     // Make sure we're getting the right thing from edX.
     state_string = arguments.length === 1 ? arguments[0] : arguments[1];
