@@ -31,6 +31,7 @@ Second, and more importantly, it's part of a larger effort to allow edX course a
   - hxClearData('whatever') will empty the `whatever` variable.
   - hxClearAllData() will remove all variables.
   - This data is stored in the edX server, up to about 100k per student per course.
+  - The data is NOT currently logged, except in the problem submissions. Use Logger separately if you want to log events.
 
 #### Files:
 
