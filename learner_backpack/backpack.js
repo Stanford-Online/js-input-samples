@@ -34,17 +34,26 @@ function smallEnough(ob) {
   }
 }
 
-// Check the size of the state before we send it to edx.
+// Create a compressed version of the state.
+// Check its size before we send it to edx.
 // Then send the problem state to be graded.
-function effectiveState() {
-  if (smallEnough(hx_state)) {
-    return JSON.stringify(hx_state);
+function compressedState() {
+  let store_state = {
+    answer: hx_state.answer,
+    data: LZString.compressToUTF16(hx_state.data)
+  };
+  if (smallEnough(store_state)) {
+    return JSON.stringify(store_state);
   } else {
+    store_state = {
+      answer: hx_state.answer,
+      data: LZString.compressToUTF16(last_state.data)
+    };
     if (smallEnough(last_state)) {
       return JSON.stringify(last_state);
     } else {
       // If the last state is too big too, suspect foul play and revert completely.
-      return JSON.stringify({ answer: '', data: '' });
+      return JSON.stringify({ answer: '', data: '{}' });
     }
   }
 }
@@ -106,12 +115,19 @@ function hxGetData(key) {
     return obj[key];
   } catch (err) {
     console.log(err);
-    return err;
+    return null;
   }
 }
 
-// Insert nice functions for working with the state data.
-// Also make those available to any parent window, if we're iframed.
+function hxGetAllData() {
+  try {
+    obj = JSON.parse(hx_state.data);
+    return obj;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+}
 
 // This wrapper function is necessary.
 // You can rename it if you want, just make sure the attributes
@@ -140,7 +156,7 @@ var backpack = (function() {
     hx_state.answer = document.getElementById('agree').checked;
     // The data string gets URI-decoded later, so percents need to be escaped.
     hx_state.data = hx_state.data.replace(/%/g, '%25');
-    return effectiveState();
+    return compressedState();
   }
 
   // Called by edX to set the live learner state to what's recorded on the server.
@@ -152,6 +168,7 @@ var backpack = (function() {
       parent.hxSetData = hxSetData;
       parent.hxClearData = hxClearData;
       parent.hxGetData = hxGetData;
+      parent.hxGetAllData = hxGetAllData;
       // Tell the edX page we're ready.
       parent.parent.postMessage('ready', 'https://edge.edx.org');
       parent.parent.postMessage('ready', 'https://courses.edx.org');
@@ -164,6 +181,8 @@ var backpack = (function() {
     state_string = arguments.length === 1 ? arguments[0] : arguments[1];
     // edX stores the state as stringified JSON. Parse it.
     hx_state = JSON.parse(state_string);
+    // We compressed the data element when we stored it. Decompress it.
+    hx_state.data = LZString.decompressFromUTF16(hx_state.data);
     // Keep the old one so we can discard changes if we need to.
     last_state = hx_state;
     // Set the live state appropriately.
@@ -183,7 +202,7 @@ var backpack = (function() {
     parent.logThatThing(hx_state);
     // The answer string gets URI-decoded later, so percents need to be escaped.
     hx_state.data = hx_state.data.replace(/%/g, '%25');
-    return effectiveState();
+    return compressedState();
   }
 
   // REQUIRED --- DO NOT REMOVE/CHANGE!!
