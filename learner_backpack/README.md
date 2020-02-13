@@ -27,8 +27,10 @@ Second, and more importantly, it's part of a larger effort to allow edX course a
 - You can now access the backpack with the following javascript calls:
   - hxSetData('whatever', stuff) will store the `stuff` object in the `whatever` variable.
   - hxGetData('whatever') will get the contents of the `whatever` variable.
+  - hxGetAllData() will get the whole data object with all variables.
   - hxClearData('whatever') will empty the `whatever` variable.
-  - This data is stored in the edX server, up to about 100k per student per course.
+  - This data is stored compressed in the edX server, up to about 100k per student per course.
+  - The data is NOT currently logged, except in the problem submissions. Use Logger separately if you want to log events.
 
 #### Files:
 
