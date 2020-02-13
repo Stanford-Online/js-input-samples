@@ -17,6 +17,12 @@ Second, and more importantly, it's part of a larger effort to allow edX course a
 - Download all the files.
 - Put the .html and .js files into your Files & Uploads.
 - Copy-paste the .xml file into a Blank Advanced Problem.
+- You need to rename that problem's file. To do this...
+  - Get the component's location, probably via Staff Debug Info.
+  - Export the course and unzip it.
+  - Find that component in the `problem` folder.
+  - Rename it to `backpack.xml`.
+  - Rezip the course and reimport it.
 - On any page, get [HX-JS](https://github.com/Colin-Fredericks/hx-js) running.
 - You can now access the backpack with the following javascript calls:
   - hxSetData('whatever', stuff) will store the `stuff` object in the `whatever` variable.
