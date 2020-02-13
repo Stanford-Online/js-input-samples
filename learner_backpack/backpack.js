@@ -155,7 +155,7 @@ var backpack = (function() {
     // Get whether the learner agreed.
     hx_state.answer = document.getElementById('agree').checked;
     // The data string gets URI-decoded later, so percents need to be escaped.
-    hx_state.data = hx_state.data.replace(/%/g, '%25');
+    // hx_state.data = hx_state.data.replace(/%/g, '%25');
     return compressedState();
   }
 
@@ -201,7 +201,7 @@ var backpack = (function() {
     // This calls the logging code from the XML file.
     parent.logThatThing(hx_state);
     // The answer string gets URI-decoded later, so percents need to be escaped.
-    hx_state.data = hx_state.data.replace(/%/g, '%25');
+    // hx_state.data = hx_state.data.replace(/%/g, '%25');
     return compressedState();
   }
 
