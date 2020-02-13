@@ -129,6 +129,14 @@ function hxGetAllData() {
   }
 }
 
+function hxClearAllData() {
+  hx_state = {
+    answer: '',
+    data: '{}'
+  };
+  storeData();
+}
+
 // This wrapper function is necessary.
 // You can rename it if you want, just make sure the attributes
 // in your <jsinput> tag match the function name here.
