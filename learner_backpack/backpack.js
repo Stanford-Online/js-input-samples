@@ -2,7 +2,7 @@
 // they start with a blank.
 var hx_state = {
   answer: '',
-  data: '{}'
+  data: {}
 };
 
 var last_state = {};
@@ -25,11 +25,11 @@ function smallEnough(ob) {
   // Gives us a rough idea of the memory size for the state.
   // Assuming 2 bytes per character, storing no more than 50,000 characters.
   let size = JSON.stringify(ob).length * 2;
+  console.log('Current size: ~' + size + ' bytes.');
   if (size < 100000) {
-    console.log('Current size: ~' + size + ' bytes.');
     return true;
   } else {
-    console.log('Data too large: ' + size + ' bytes. Changes rejected.');
+    console.log('Data too large. Changes rejected.');
     return false;
   }
 }
@@ -40,20 +40,22 @@ function smallEnough(ob) {
 function compressedState() {
   let store_state = {
     answer: hx_state.answer,
-    data: LZString.compressToUTF16(hx_state.data)
+    data: LZString.compressToEncodedURIComponent(JSON.stringify(hx_state.data))
   };
   if (smallEnough(store_state)) {
     return JSON.stringify(store_state);
   } else {
     store_state = {
       answer: hx_state.answer,
-      data: LZString.compressToUTF16(last_state.data)
+      data: LZString.compressToEncodedURIComponent(
+        JSON.stringify(last_state.data)
+      )
     };
     if (smallEnough(last_state)) {
       return JSON.stringify(last_state);
     } else {
       // If the last state is too big too, suspect foul play and revert completely.
-      return JSON.stringify({ answer: '', data: '{}' });
+      return JSON.stringify({ answer: '', data: {} });
     }
   }
 }
@@ -73,18 +75,18 @@ function storeData() {
 }
 
 function hxSetData(key, input) {
-  var obj = {};
+  var obj;
 
-  // Parse out the object and set the new info, then write it back.
+  // Copy the state data and set the new info, then write it back.
   try {
-    obj = JSON.parse(hx_state.data);
+    obj = JSON.parse(JSON.stringify(hx_state.data));
   } catch (err) {
     console.log(err);
     return null;
   }
   obj[key] = input;
   if (smallEnough(obj)) {
-    hx_state.data = JSON.stringify(obj);
+    hx_state.data = obj;
   } else {
     console.log('Object not stored.');
     return false;
@@ -97,9 +99,7 @@ function hxSetData(key, input) {
 function hxClearData(key) {
   // Parse out the object and remove the info, then write the object back.
   try {
-    obj = JSON.parse(hx_state.data);
     delete hx_state.data[key];
-    hx_state.data = JSON.stringify(obj);
   } catch (err) {
     console.log(err);
     return false;
@@ -111,8 +111,7 @@ function hxClearData(key) {
 
 function hxGetData(key) {
   try {
-    obj = JSON.parse(hx_state.data);
-    return obj[key];
+    return hx_state.data[key];
   } catch (err) {
     console.log(err);
     return null;
@@ -121,8 +120,7 @@ function hxGetData(key) {
 
 function hxGetAllData() {
   try {
-    obj = JSON.parse(hx_state.data);
-    return obj;
+    return hx_state.data;
   } catch (err) {
     console.log(err);
     return null;
@@ -132,7 +130,7 @@ function hxGetAllData() {
 function hxClearAllData() {
   hx_state = {
     answer: '',
-    data: '{}'
+    data: {}
   };
   storeData();
 }
@@ -171,7 +169,6 @@ var backpack = (function() {
   function setState() {
     // Are we in an iframe?
     if (inFrame()) {
-      console.log('making functions available');
       // If so, make functions available to the outer frame.
       parent.hxSetData = hxSetData;
       parent.hxClearData = hxClearData;
@@ -190,7 +187,9 @@ var backpack = (function() {
     // edX stores the state as stringified JSON. Parse it.
     hx_state = JSON.parse(state_string);
     // We compressed the data element when we stored it. Decompress it.
-    hx_state.data = LZString.decompressFromUTF16(hx_state.data);
+    hx_state.data = JSON.parse(
+      LZString.decompressFromEncodedURIComponent(hx_state.data)
+    );
     // Keep the old one so we can discard changes if we need to.
     last_state = hx_state;
     // Set the live state appropriately.
