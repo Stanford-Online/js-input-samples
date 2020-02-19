@@ -20,8 +20,8 @@ function inFrame() {
   }
 }
 
-// Returns true if the passed object is small enough, or the false if not.
-function smallEnough(ob) {
+// Returns true if the passed objects are small enough in total, or the false if not.
+function smallEnough(...ob) {
   // Gives us a rough idea of the memory size for the state.
   // Assuming 2 bytes per character, storing no more than 50,000 characters.
   let size = JSON.stringify(ob).length * 2;
@@ -75,25 +75,37 @@ function storeData() {
 }
 
 function hxSetData(key, input) {
-  var obj;
+  // If the key is a string, set hx_state[key] = input.
+  if (typeof key === 'string') {
+    var obj;
 
-  // Copy the state data and set the new info, then write it back.
-  try {
-    obj = JSON.parse(JSON.stringify(hx_state.data));
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
-  obj[key] = input;
-  if (smallEnough(obj)) {
-    hx_state.data = obj;
+    // Copy the state data and set the new info, then write it back.
+    try {
+      obj = JSON.parse(JSON.stringify(hx_state.data));
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+    obj[key] = input;
+    if (smallEnough(obj)) {
+      hx_state.data = obj;
+    } else {
+      console.log('Object not stored.');
+      return false;
+    }
+    // Store the info in edX.
+    storeData();
+    return true;
+  } else if (typeof key === 'object') {
+    //if the key is an object, extend hx_state.data with that object.
+    if (smallEnough(key, hx_state.data)) {
+      $.extend(hx_state.data, key);
+    }
+    return true;
   } else {
-    console.log('Object not stored.');
+    console.log('hxSetData format not recognized.');
     return false;
   }
-  // Store the info in edX.
-  storeData();
-  return true;
 }
 
 function hxClearData(key) {
