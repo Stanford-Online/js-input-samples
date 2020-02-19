@@ -99,8 +99,9 @@ function hxSetData(key, input) {
   } else if (typeof key === 'object') {
     //if the key is an object, extend hx_state.data with that object.
     if (smallEnough(key, hx_state.data)) {
-      $.extend(hx_state.data, key);
+      Object.assign(hx_state.data, key);
     }
+    storeData();
     return true;
   } else {
     console.log('hxSetData format not recognized.');
@@ -187,8 +188,13 @@ var backpack = (function() {
       parent.hxGetData = hxGetData;
       parent.hxGetAllData = hxGetAllData;
       // Tell the edX page we're ready.
-      parent.parent.postMessage('ready', 'https://edge.edx.org');
-      parent.parent.postMessage('ready', 'https://courses.edx.org');
+      try {
+        parent.parent.postMessage('ready', 'https://edge.edx.org');
+        parent.parent.postMessage('ready', 'https://preview.edx.org');
+        parent.parent.postMessage('ready', 'https://courses.edx.org');
+      } catch (err) {
+        // Only one of those can succeed; that's fine.
+      }
     } else {
       console.log('Not running in an iframe.');
     }
