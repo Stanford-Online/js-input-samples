@@ -141,12 +141,16 @@ function hxGetAllData() {
 }
 
 function hxClearAllData() {
+  let old_answer = hx_state.answer;
   hx_state = {
-    answer: '',
+    answer: old_answer,
     data: {}
   };
   storeData();
 }
+
+// The backpack status. True if loaded, undefined otherwise.
+var hxBackpackLoaded = true;
 
 // This wrapper function is necessary.
 // You can rename it if you want, just make sure the attributes
@@ -187,6 +191,7 @@ var backpack = (function() {
       parent.hxClearData = hxClearData;
       parent.hxGetData = hxGetData;
       parent.hxGetAllData = hxGetAllData;
+      parent.hxBackpackLoaded = hxBackpackLoaded;
       // Tell the edX page we're ready.
       try {
         parent.parent.postMessage('ready', 'https://edge.edx.org');
