@@ -9,6 +9,20 @@ var JSProblemState = {
 var hxSetData = parent.hxSetData;
 var hxGetData = parent.hxGetData;
 
+// Save slot is passed as a URL parameter.
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(
+    m,
+    key,
+    value
+  ) {
+    vars[key] = value;
+  });
+  return vars;
+}
+var saveslot = getUrlVars().saveslot;
+
 // This wrapper function is necessary.
 // You can rename it if you want, just make sure the attributes
 // in your <jsinput> tag match the function name here.
@@ -33,9 +47,8 @@ var journaling = (function() {
   function getState() {
     console.log('getting state');
     // Save the current buffer.
-    let saveslot = parent.saveslot;
-    let markup_string = parent.document
-      .find('[data-saveslot="' + saveslot + '"]')
+    let markup_string = parent.window
+      .$('[data-saveslot="journaling"] .summernote')
       .summernote('code');
     hxSetData('summernote_' + saveslot, markup_string);
     // Get what the learner typed.
@@ -69,6 +82,9 @@ var journaling = (function() {
         JSProblemState.answer = hxGetData('summernote_' + saveslot);
       } else {
         hxSetData('summernote_' + saveslot, JSProblemState.answer);
+        let markup_string = parent.window
+          .$('[data-saveslot="journaling"] .summernote')
+          .summernote('code', JSProblemState.answer);
       }
     }
   }

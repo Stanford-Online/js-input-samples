@@ -6,6 +6,9 @@
 
 
 <!-- This problem only logs student responses. It grades nearly anything as correct. -->
+<!-- The default save slot is "journaling". If you want more than one
+  of this kind of problem, the others should have different save slots
+  if learners are to see different things in them. -->
 
 <script type="loncapa/python">
 <![CDATA[
@@ -60,14 +63,10 @@ def answercheck(e, ans):
 </script>
 
 <script type="text/javascript">
-// Change this if you want to give different
-// journaling exercises on different pages.
-var saveslot = "journaling";
-
 $(document).ready(function(){
 	console.log('outer ready');
 
-  $('#editor1').attr('data-saveslot',saveslot);
+  $('#editor1').attr('data-saveslot','journaling');
   Logger.log('save slot: ' + saveslot);
 });
 
@@ -84,10 +83,16 @@ function logThatThing(ThatThing){
 
 <!-- This will get turned into a text editor by hx-js. -->
 <!-- Change the ID here and above if you have multiple on the same screen. -->
-<div class="hx-editor" id="editor1">[Editor not loaded yet]</div>
+<div
+  class="hx-editor"
+  id="editor1"
+  data-saveslot="journaling">
+  [Editor not loaded yet]
+</div>
 
 <!-- The gradefn and get_statefn and set_statefn below need to match
      the function name in the .js file. -->
+<!-- Note also the ?saveslot=journaling to set that. -->
 <customresponse cfn="answercheck">
   <jsinput title="Journaling Exercise"
     gradefn="journaling.getGrade"
@@ -95,7 +100,7 @@ function logThatThing(ThatThing){
     set_statefn="journaling.setState"
     width="0"
     height="0"
-    html_file="/static/journaling.html"
+    html_file="/static/journaling.html?saveslot=journaling"
     sop="false"/>
 </customresponse>
 
