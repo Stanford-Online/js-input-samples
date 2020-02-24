@@ -1,11 +1,12 @@
 // If the student comes to this problem for the first time,
 // they start with a blank.
 var JSProblemState = {
-  answer: ''
+  answer: '',
+  saveslot: '',
+  length: ''
 };
 
 // Pull in functions from the editor code
-
 var hxSetData = parent.hxSetData;
 var hxGetData = parent.hxGetData;
 
@@ -21,7 +22,7 @@ function getUrlVars() {
   });
   return vars;
 }
-var saveslot = getUrlVars().saveslot;
+JSProblemState.saveslot = getUrlVars().saveslot;
 
 // This wrapper function is necessary.
 // You can rename it if you want, just make sure the attributes
@@ -46,14 +47,18 @@ var journaling = (function() {
   // Called by edX to obtain the current learner state for this problem.
   function getState() {
     console.log('getting state');
-    // Save the current buffer.
-    let markup_string = parent.window
-      .$('[data-saveslot="journaling"] .summernote')
-      .summernote('code');
-    hxSetData('summernote_' + saveslot, markup_string);
     // Get what the learner typed.
-    JSProblemState.answer = hxGetData('summernote_' + saveslot);
+    let markup_string = parent.window
+      .$('[data-saveslot="' + JSProblemState.saveslot + '"] .summernote')
+      .summernote('code');
+    console.log(markup_string);
+    let len = parent.$(markup_string).text().length;
+    // Save the current buffer.
+    hxSetData('summernote_' + JSProblemState.saveslot, markup_string);
     // Give edX our state as a string.
+    JSProblemState.answer = markup_string;
+    JSProblemState.length = len;
+    console.log(JSProblemState);
     return JSON.stringify(JSProblemState);
   }
 
@@ -61,29 +66,39 @@ var journaling = (function() {
   function setState() {
     console.log('setting state');
     // Reactivate the summernote editor. Problem reset wipes it out.
-    parent.HXEditor.activateEditor(saveslot);
+    parent.HXED.activateEditor(JSProblemState.saveslot);
+    console.log('breakpoint 1');
     // Make sure we're getting the right thing from edX.
     stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
+    console.log('breakpoint 2');
     // edX stores the state as stringified JSON. Parse it.
+    console.log(stateStr);
     JSProblemState = JSON.parse(stateStr);
+    console.log('breakpoint 3');
     // What if the stored state doesn't match the backpack's data? Give choice.
     if (
       !parent._.isEqual(
-        hxGetData('summernote_' + saveslot),
+        hxGetData('summernote_' + JSProblemState.saveslot),
         JSProblemState.answer
       )
     ) {
+      console.log('breakpoint 4');
       if (
         confirm(
           `It looks like you updated your journal somewhere else.
           Press OK to use it, or Cancel to use your old answer to this problem.`
         )
       ) {
-        JSProblemState.answer = hxGetData('summernote_' + saveslot);
+        JSProblemState.answer = hxGetData(
+          'summernote_' + JSProblemState.saveslot
+        );
       } else {
-        hxSetData('summernote_' + saveslot, JSProblemState.answer);
+        hxSetData(
+          'summernote_' + JSProblemState.saveslot,
+          JSProblemState.answer
+        );
         let markup_string = parent.window
-          .$('[data-saveslot="journaling"] .summernote')
+          .$('[data-saveslot="' + JSProblemState.saveslot + '"] .summernote')
           .summernote('code', JSProblemState.answer);
       }
     }
@@ -93,7 +108,10 @@ var journaling = (function() {
   function getGrade() {
     console.log('getting grade');
     // Get what the learner typed.
-    JSProblemState.answer = document.getElementById('answer').value;
+    let markup_string = parent
+      .$('[data-saveslot="' + JSProblemState.saveslot + '"] .summernote')
+      .summernote('code');
+    JSProblemState.answer = markup_string;
     // This calls the logging code from the XML file.
     parent.logThatThing(JSProblemState);
     // Send the problem state to be graded.
@@ -110,4 +128,4 @@ var journaling = (function() {
 })();
 
 // Just letting us know that the iframe is working.
-console.log('inner ready');
+console.log('inner ready: journaling assignment');
