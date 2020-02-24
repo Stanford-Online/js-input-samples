@@ -4,16 +4,12 @@
 <!-- <script src="/static/hx.js" type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="/static/hx.css" /> -->
 
-
 <!-- This problem only logs student responses. It grades nearly anything as correct. -->
-<!-- The default save slot is "journaling". If you want more than one
-  of this kind of problem, the others should have different save slots
-  if learners are to see different things in them. -->
-
 <script type="loncapa/python">
 <![CDATA[
 # The CDATA declaration lets us use less-than signs
 # without edX thinking that we're starting an XML tag.
+import json
 
 def journalingResponseGrader(ans, new_options={"min_length": 10}):
 
@@ -23,14 +19,10 @@ def journalingResponseGrader(ans, new_options={"min_length": 10}):
   # Parse the state and obtain the "answer" string from it.
   parsed = json.loads(ans)
   answer = json.loads(parsed["answer"])["answer"]
-
-  # Remove quotes and whitespace from the ends.
-  answer = answer.strip('"')
-  answer = answer.strip('"')
-  answer = answer.strip()
+  length = json.loads(parsed["answer"])["length"]
 
   # Checking for sufficient length.
-  if len(answer) >= options["min_length"]:
+  if length >= options["min_length"]:
     return {
       "input_list": [
         {
@@ -57,58 +49,55 @@ def answercheck(e, ans):
     'min_length': 10   # This is the minimum length in characters of the response.
   }
 
-  journalingResponseGrader(ans, options)
+  return journalingResponseGrader(ans, options)
 
 ]]>
 </script>
 
+<!-- The default save slot is "journaling". If you want more than one
+  of this kind of problem, the others should have different save slots
+  if learners are to see different things in them. -->
+
 <script type="text/javascript">
 $(document).ready(function(){
-	console.log('outer ready');
-
-  $('#editor1').attr('data-saveslot','journaling');
+  console.log('outer ready');
   Logger.log({'save_slot': 'journaling'});
 });
 
 function logThatThing(ThatThing){
-	console.log(JSON.stringify(ThatThing));
+  console.log(JSON.stringify(ThatThing));
   // Call the edX logging code.
-	Logger.log("harvardx.StudioAdv.journaling", ThatThing);
+  Logger.log("harvardx.StudioAdv.journaling", ThatThing);
 }
-
 </script>
 
+  <p>Put your prompt here</p>
 
-<p>Put your prompt here.</p>
+  <!-- This will get turned into a rich text editor by hx-js. -->
+  <!-- Change the ID here and above if you have multiple on the same screen. -->
+  <div
+    class="hx-editor"
+    id="editor1"
+    data-saveslot="journaling">
+    [Editor not loaded yet]
+  </div>
 
-<!-- This will get turned into a text editor by hx-js. -->
-<!-- Change the ID here and above if you have multiple on the same screen. -->
-<div
-  class="hx-editor"
-  id="editor1"
-  data-saveslot="journaling">
-  [Editor not loaded yet]
-</div>
-
-<!-- The gradefn and get_statefn and set_statefn below need to match
-     the function name in the .js file. -->
-<!-- Note also the ?saveslot=journaling to set that. -->
-<customresponse cfn="answercheck">
-  <jsinput title="Journaling Exercise"
-    gradefn="journaling.getGrade"
-    get_statefn="journaling.getState"
-    set_statefn="journaling.setState"
-    width="0"
-    height="0"
-    html_file="/static/journaling.html?saveslot=journaling"
-    sop="false"/>
-</customresponse>
-
-<solution>
-<div class="detailed-solution">
-<p>Explanation</p>
-<p>You can put commentary here if you want, or you can remove this.</p>
-</div>
-</solution>
+  <customresponse cfn="answercheck">
+    <jsinput
+      title="Journaling Exercise"
+      gradefn="journaling.getGrade"
+      get_statefn="journaling.getState"
+      set_statefn="journaling.setState"
+      width="30"
+      height="30"
+      html_file="/static/journaling.html?saveslot=journaling"
+      sop="false"/>
+  </customresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explanation</p>
+      <p>You can put commentary here if you want, or you can remove this.</p>
+    </div>
+  </solution>
 
 </problem>
