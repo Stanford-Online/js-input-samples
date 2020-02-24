@@ -61,7 +61,6 @@ def answercheck(e, ans):
 <script type="text/javascript">
 $(document).ready(function(){
   console.log('outer ready');
-  Logger.log({'save_slot': 'journaling'});
 });
 
 function logThatThing(ThatThing){
@@ -77,7 +76,6 @@ function logThatThing(ThatThing){
   <!-- Change the ID here and above if you have multiple on the same screen. -->
   <div
     class="hx-editor"
-    id="editor1"
     data-saveslot="journaling">
     [Editor not loaded yet]
   </div>
