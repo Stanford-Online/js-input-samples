@@ -15,7 +15,7 @@
 # The CDATA declaration lets us use less-than signs
 # without edX thinking that we're starting an XML tag.
 
-def textResponseGrader(ans, new_options={"min_length": 10}):
+def journalingResponseGrader(ans, new_options={"min_length": 10}):
 
   options = {"min_length": 10}
   options.update(new_options)
@@ -57,7 +57,7 @@ def answercheck(e, ans):
     'min_length': 10   # This is the minimum length in characters of the response.
   }
 
-  textResponseGrader(ans, options)
+  journalingResponseGrader(ans, options)
 
 ]]>
 </script>
@@ -67,7 +67,7 @@ $(document).ready(function(){
 	console.log('outer ready');
 
   $('#editor1').attr('data-saveslot','journaling');
-  Logger.log('save slot: ' + saveslot);
+  Logger.log({'save_slot': 'journaling'});
 });
 
 function logThatThing(ThatThing){
