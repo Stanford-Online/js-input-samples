@@ -48,8 +48,9 @@ var journaling = (function() {
     // Ignore markup for this.
     let len = parent.$(markup_string).text().length;
     let save_slot = JSProblemState.saveslot;
+    // Note we have to URI-encode the answer.
     return {
-      answer: markup_string,
+      answer: markup_string.replace(/%/g, '%25'),
       saveslot: save_slot,
       length: len
     };
@@ -61,10 +62,10 @@ var journaling = (function() {
     // Get the current state data.
     JSProblemState = getStateData();
     console.log(JSProblemState);
-    // Save the current buffer.
+    // Save the current buffer. Note the URI decoding.
     parent.hxSetData(
       'summernote_' + JSProblemState.saveslot,
-      JSProblemState.answer
+      JSProblemState.answer.replace(/%25/g, '%')
     );
     // Give edX our state as a string.
     console.log(JSProblemState);
