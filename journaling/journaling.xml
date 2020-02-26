@@ -59,25 +59,15 @@ def answercheck(e, ans):
   if learners are to see different things in them. -->
 
 <script type="text/javascript">
-  $(document).ready(function(){
-    let saveslot = 'journaling';
-    console.log('outer ready');
-    Logger.log({'save_slot': saveslot});
-    if($('.note-editor').length === 0){
-      try{
-        HXED.activateEditor(saveslot);
-      }catch(err){
-        console.log(err);
-      }
-    }
+$(document).ready(function(){
+  console.log('outer ready');
+});
 
-  });
-
-  function logThatThing(ThatThing){
-    console.log(JSON.stringify(ThatThing));
-    // Call the edX logging code.
-    Logger.log("harvardx.StudioAdv.journaling", ThatThing);
-  }
+function logThatThing(ThatThing){
+  console.log(JSON.stringify(ThatThing));
+  // Call the edX logging code.
+  Logger.log("harvardx.StudioAdv.journaling", ThatThing);
+}
 </script>
 
   <p>Put your prompt here</p>
