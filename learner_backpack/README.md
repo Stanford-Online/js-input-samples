@@ -24,14 +24,18 @@ Second, and more importantly, it's part of a larger effort to allow edX course a
   - Rename it to `backpack.xml`.
   - Rezip the course and reimport it.
 - On any page, get [HX-JS](https://github.com/Colin-Fredericks/hx-js) running.
-- You can now access the backpack with the following javascript calls:
-  - hxSetData('whatever', stuff) will store the `stuff` object in the `whatever` variable.
-  - hxGetData('whatever') will get the contents of the `whatever` variable.
-  - hxGetAllData() will get the entire data set.
-  - hxClearData('whatever') will empty the `whatever` variable.
-  - hxClearAllData() will remove all variables.
-  - This data is stored in the edX server, up to about 100k per student per course.
-  - The data is NOT currently logged, except in the problem submissions. Use Logger separately if you want to log events.
+
+#### So what can I do with it?
+
+You can now access the backpack with the following javascript calls:
+
+- hxSetData('whatever', stuff) will store the `stuff` object in the `whatever` variable.
+- hxGetData('whatever') will get the contents of the `whatever` variable.
+- hxGetAllData() will get the entire data set.
+- hxClearData('whatever') will empty the `whatever` variable.
+- hxClearAllData() will remove all variables.
+
+This data is stored in the edX server, up to about 100k per student per course. Calls are NOT currently logged, except in the problem submissions. Use Logger separately if you want to log the Get events.
 
 #### Files:
 
