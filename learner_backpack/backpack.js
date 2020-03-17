@@ -193,14 +193,8 @@ var backpack = (function() {
       parent.hxGetAllData = hxGetAllData;
       parent.hxBackpackLoaded = hxBackpackLoaded;
       // Tell the edX page we're ready.
-      try {
-        parent.parent.postMessage('backpack_ready', 'https://edge.edx.org');
-        parent.parent.postMessage('backpack_ready', 'https://preview.edx.org');
-        parent.parent.postMessage('backpack_ready', 'https://courses.edx.org');
-        parent.parent.postMessage('backpack_ready', 'https://learning.edx.org');
-      } catch (err) {
-        // Only one of those can succeed; that's fine.
-      }
+      let host = parent.parent.location.origin;
+      parent.parent.postMessage('backpack_ready', host);
     } else {
       console.log('Not running in an iframe.');
     }
