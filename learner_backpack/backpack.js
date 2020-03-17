@@ -67,7 +67,7 @@ function storeData() {
     // Get the submit button for this problem. Luckily, this is the only problem in the iframe.
     let submit_button = parent_doc.querySelectorAll('button.submit')[0];
     // Click it.
-    submit_button.click();
+    parent.$(submit_button).triggerHandler('click');
     console.log('data stored');
   } else {
     console.log('Not running in iframe; aborted.');
@@ -194,9 +194,10 @@ var backpack = (function() {
       parent.hxBackpackLoaded = hxBackpackLoaded;
       // Tell the edX page we're ready.
       try {
-        parent.parent.postMessage('ready', 'https://edge.edx.org');
-        parent.parent.postMessage('ready', 'https://preview.edx.org');
-        parent.parent.postMessage('ready', 'https://courses.edx.org');
+        parent.parent.postMessage('backpack_ready', 'https://edge.edx.org');
+        parent.parent.postMessage('backpack_ready', 'https://preview.edx.org');
+        parent.parent.postMessage('backpack_ready', 'https://courses.edx.org');
+        parent.parent.postMessage('backpack_ready', 'https://learning.edx.org');
       } catch (err) {
         // Only one of those can succeed; that's fine.
       }
