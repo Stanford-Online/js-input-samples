@@ -1,0 +1,178 @@
+@font-face {
+    font-family: "Andron Scriptor Web";
+    src: url('mufi.ttf');
+}
+
+body {
+    font-family: "Andron Scriptor Web", sans-serif;
+    font-size: 24px;
+}
+
+#txtEditor {
+    position: relative;
+    border: 1px solid #333;
+    background-color: white;
+    font-size: 16px;
+}
+#txtEditor .toolbar {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #333;
+}
+#txtEditor .toolbar li {
+    position: relative;
+    display: block;
+    float: left;
+    border-right: 1px solid #333;
+}
+
+#txtEditor .toolbar li button {
+    cursor: pointer;
+    border: none;
+    padding: 5px 8px;
+    background-color: transparent;
+    font-size: 15px;
+}
+#txtEditor .toolbar li button i {
+    font-size: 18px;
+}
+#txtEditor .toolbar li:hover button,
+#txtEditor .toolbar li#specialChar.active button {
+    background-color: #333;
+    color: #fff;
+}
+
+#txtEditor .toolbar li#specialChar {
+    float: right;
+    border-right: none;
+    border-left: 1px solid #333;
+}
+#txtEditor .toolbar li#specialChar button {
+    padding: 4px 8px 6px 8px;
+}
+#txtEditor .toolbar li#specialChar i {
+    line-height: 18px;
+    font-size: 24px;
+    vertical-align: baseline;
+}
+#txtEditor .toolbar li#specialChar .sr .toggle-open {
+    display: none;
+}
+
+#specialCharTable {
+    display: block;
+
+    position: relative;
+    float: left;
+    clear: both;
+    width: 100%;
+}
+#specialCharTable #charZoomTitle {
+    height: 22px;
+    padding: 4px 120px 2px 5px;
+    text-align: right;
+    font-size: 18px;
+    line-height: 22px;
+    border-bottom: 1px solid #333;
+}
+#specialCharTable #charZoom {
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    float: right;
+    border-left: 1px solid #333;
+    font-size: 60px;
+    line-height: 1.75em;
+    text-align: center;
+    background: white;
+}
+#specialCharTable #charZoom .intro-zoom-icon {
+    margin-top: 19px;
+}
+#specialCharTable .charWrapper {
+    max-width: 500px;
+    width: calc(100% - 111px);
+    float: right;
+    margin-left: -1px;
+}
+#specialCharTable .charWrapper .char {
+    width: 29px;
+    height: 30px;
+    padding: 5px;
+    margin-top: -1px;
+    margin-right: -1px;
+    float: right;
+    border: 1px solid #333;
+    font-size: 22px;
+    line-height: 1.5em;
+    text-align: center;
+}
+#specialCharTable .charWrapper .char:hover {
+    cursor: pointer;
+    background-color: #333;
+    color: #fff;
+}
+
+
+#txtEditor #answer {
+    position: relative;
+    top: -1px;
+    padding: 10px;
+    min-height: 150px;
+    clear: both;
+    overflow: auto;
+    border-top: 1px solid #333;
+    font-size: 20px;
+    font-family: "Andron Scriptor Web", sans-serif !important;
+}
+
+b {
+    float: left;
+    font-size: 72px;
+    line-height: 60px;
+    padding: 5px 5px 0 0;
+}
+
+li.red-text button {
+    color: #dd0000;
+}
+li.red-text:hover button {
+    background-color: #dd0000 !important;
+}
+li.green-text button {
+    color: #008800;
+}
+li.green-text:hover button {
+    background-color: #008800 !important;
+}
+li.blue-text button {
+    color: #0000dd;
+}
+li.blue-text:hover button {
+    background-color: #0000dd !important;
+}
+li.yellow-text button {
+    color: #aaaa00;
+}
+li.yellow-text:hover button {
+    background-color: #aaaa00 !important;
+}
+
+.hint {
+    color: #666;
+}
+
+.sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}

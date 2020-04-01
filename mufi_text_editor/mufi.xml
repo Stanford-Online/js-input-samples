@@ -1,0 +1,46 @@
+<problem display_name="mufi">
+  
+<script type="loncapa/python">
+import json
+def vglcfn(e, ans):
+  '''
+  par is a dictionary containing two keys, "answer" and "state"
+  The value of answer is the JSON string returned by getGrade
+  The value of state is the JSON string returned by getState
+  '''
+  par = json.loads(ans)
+  # We can use either the value of the answer key to grade
+  answer = json.loads(par["answer"])
+  
+  if answer['answer']:
+    return {
+      "input_list": [
+        {
+          "ok": True,
+          "msg": "Thank you for your response.",
+          "grade_decimal": 1
+        }
+      ]
+    }
+  else:
+    return {
+      "input_list": [
+        {
+          "ok": False,
+          "msg": "Your response is too short. Please try again.",
+          "grade_decimal": 0
+        }
+      ]
+    }
+</script>
+  
+<customresponse cfn="vglcfn">
+  <jsinput gradefn="mufi.getGrade"
+    get_statefn="mufi.getState"
+    set_statefn="mufi.setState"
+    width="100%"
+    height="640"
+    html_file="/static/mufi.html"
+    sop="false"/>
+</customresponse>
+</problem>
