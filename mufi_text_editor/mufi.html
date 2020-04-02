@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <title>MUFI Text Editor</title>
+        <meta charset="utf-8">
+        <script src="/static/js/capa/src/jschannel.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="mufi.css">
+    </head>
+    <body>
+        <div class="container">
+            <div id="txtEditor">
+                <ul class="toolbar">
+                    <li class="styleButton" data-command="italic" data-argument="null"><button title="Italic"><i class="fa fa-italic"></i><span class="sr">Italic</span></button></li>
+                    <li class="styleButton" data-command="underline" data-argument="null"><button title="Underline"><i class="fa fa-underline"></i><span class="sr">Underline</span></button></li>
+                    <li class="styleButton" data-command="bold" data-argument="null"><button title="Drop Capital"><i class="fa fa-text-height"></i><span class="sr">Drop Capital</span></button></li>
+                    <li class="styleButton red-text" data-command="foreColor" data-argument="dd0000"><button title="Red Text"><i class="fa fa-font"></i><span class="sr">Red Text</span></button></li>
+                    <li class="styleButton green-text" data-command="foreColor" data-argument="008800"><button title="Green Text"><i class="fa fa-font"></i><span class="sr">Green Text</span></button></li>
+                    <li class="styleButton blue-text" data-command="foreColor" data-argument="0000dd"><button title="Blue Text"><i class="fa fa-font"></i><span class="sr">Blue Text</span></button></li>
+                    <li class="styleButton yellow-text" data-command="foreColor" data-argument="aaaa00"><button title="Yellow Text"><i class="fa fa-font"></i><span class="sr">Yellow Text</span></button></li>
+                    <li class="styleButton" data-command="removeFormat" data-argument="null"><button title="Clear Formatting"><i class="fa fa-times"></i><span class="sr">Clear Formatting</span></button></li>
+                    <li class="specialButton active" id="specialChar">
+                        <button title="Toggle Keyboard for Special Characters"><i class="fa fa-keyboard-o fa-lg"></i><span class="sr">Toggle Keyboard for Special Characters<span class="toggle-open">, open</span></button>
+                    </li>
+                </ul>
+                <div id="specialCharTable">
+                    <div id="charZoom"><i class="fa fa-book fa-lg hint intro-zoom-icon"></i></div>
+                    <div id="charZoomTitle"><span class="hint">Select a character to insert...</span></div>
+                    <div class="charWrapper">
+                        <div class="char" title="Lowercase 'yogh'">&#x021D;</div>
+                        <div class="char" title="Capital 'yogh'">&#x021C;</div>
+                        <div class="char" title="Lowercase 'wynn'">&#x01BF;</div>
+                        <div class="char" title="Capital 'wynn'">&#x01F7;</div>
+                        <div class="char" title="Lowercase 'eth'">&#x00F0;</div>
+                        <div class="char" title="Capital 'eth'">&#x00D0;</div>
+                        <div class="char" title="Lowercase 'thorn'">&#x00FE;</div>
+                        <div class="char" title="Capital 'thorn'">&#x00DE;</div>
+                        <div class="char" title="Lowercase '&#x0153;thel'">&#x0153;</div>
+                        <div class="char" title="Capital '&#x0153;thel'">&#x0152;</div>
+                        <div class="char" title="Lowercase '&#x00E6;sh'">&#x00E6;</div>
+                        <div class="char" title="Capital '&#x00E6;sh'">&#x00C6;</div>
+                        <div class="char" title="'punctus interrogativus'">&#xF160;</div>
+                        <div class="char" title="'punctus flexus'">&#xF1F5;</div>
+                        <div class="char" title="'punctus versus'">&#xF1EA;</div>
+                        <div class="char" title="'punctus elevatus', diagonal stroke">&#xF1F0;</div>
+                        <div class="char" title="'punctus elevatus'">&#xF161;</div>
+                        <div class="char" title="Medieval Comma">&#xF1E0;</div>
+                        <div class="char" title="'paragraphus'">&#xF1E1;</div>
+                        <div class="char" title="'signe de renvoi'">&#xF1EC;</div>
+                        <div class="char" title="Tironian Nota, 'et'">&#x204A;</div>
+                        <div class="char" title="Sharp s, ligature of 'fz' or 'fs'">&#x00DF;</div>
+                        <div class="char" title="Letter 'o' with long stroke overlay, 'obiit'">&#xA74A;</div>
+                        <div class="char" title="Palm Branch, 'ramus'">&#xF1DB;</div>
+                    </div>
+                </div>
+                <div id="answer" name="answer" contenteditable="true"></textarea>
+            </div>
+        </div>
+        <script src="mufi.js"></script>
+    </body>
+</html>
