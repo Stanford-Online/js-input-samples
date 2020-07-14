@@ -3,13 +3,13 @@
 var JSProblemState = {
   answer: '',
   saveslot: '',
-  length: 0
+  length: 0,
 };
 
 // Save slot is passed as a URL parameter.
 function getUrlVars() {
   var vars = {};
-  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (
     m,
     key,
     value
@@ -23,7 +23,7 @@ JSProblemState.saveslot = getUrlVars().saveslot;
 // This wrapper function is necessary.
 // You can rename it if you want, just make sure the attributes
 // in your <jsinput> tag match the function name here.
-var journaling = (function() {
+var journaling = (function () {
   // REQUIRED --- DO NOT REMOVE/CHANGE!!
   var channel;
 
@@ -33,7 +33,7 @@ var journaling = (function() {
     channel = Channel.build({
       window: window.parent,
       origin: '*',
-      scope: 'JSInput'
+      scope: 'JSInput',
     });
     channel.bind('getGrade', getGrade);
     channel.bind('getState', getState);
@@ -52,7 +52,7 @@ var journaling = (function() {
     return {
       answer: markup_string.replace(/%/g, '%25'),
       saveslot: save_slot,
-      length: len
+      length: len,
     };
   }
 
@@ -102,7 +102,7 @@ var journaling = (function() {
   return {
     getState: getState,
     setState: setState,
-    getGrade: getGrade
+    getGrade: getGrade,
   };
 })();
 
