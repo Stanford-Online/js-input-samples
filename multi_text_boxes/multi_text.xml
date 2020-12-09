@@ -1,0 +1,134 @@
+<problem>
+<!-- This problem only logs student responses. It grades nearly anything as correct. -->
+
+<script type="loncapa/python">
+<![CDATA[
+# The CDATA declaration lets us use less-than signs
+# without edX thinking that we're starting an XML tag.
+
+import json
+
+def textResponseGrader(ans, new_options={"min_length": 0, "fill_all": False}):
+
+  options = {"min_length": 0, "fill_all": False}
+  options.update(new_options)
+
+  # Parse the state and obtain the "answer" string from it.
+  parsed = json.loads(ans)
+  answers = json.loads(parsed["answer"])["answers"]
+
+  # Remove quotes and whitespace from the ends.
+  for a in answers:
+    a = a.strip('"')
+    a = a.strip('"')
+    a = a.strip()
+
+  correctness = True
+  message = "Your input has been accepted."
+  grade = 0.5
+
+  # Check for sufficient length.
+  for a in answers:
+    if len(a) <= options["min_length"]:
+      correctness = False
+      message = "One of your responses is too short. Please try again."
+      grade = 0
+
+  # Check for blank answers.
+  if options["fill_all"]:
+    for a in answers:
+      if len(a) == 0:
+        correctness = False
+        message = "One of your responses is blank. Please try again."
+        grade = 0
+
+  # If none of the above conditions fail, everything's good.
+  if correctness: grade = 1
+
+  return {
+    "input_list": [
+      {
+        "ok": correctness,
+        "msg": message,
+        "grade_decimal": grade
+      }
+    ]
+  }
+
+def answercheck(e, ans):
+
+  options = {
+    'min_length': 1,    # This is the minimum length in characters for each response.
+    'fill_all': False   # Do all text boxes need an entry in order to save?
+  }
+
+  return textResponseGrader(ans, options)
+
+]]>
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	console.log('outer ready');
+});
+
+function logThatThing(ThatThing){
+	console.log(JSON.stringify(ThatThing));
+  // Call the edX logging code.
+	Logger.log("harvardx.GrapeApe.multi_text", ThatThing);
+}
+</script>
+
+
+<p>Put your prompt here. Use as many copies as you want of the &lt;textarea&gt; tag below to
+  let learners type into boxes. You can change the height and width (cols and rows),
+  put the textarea tag inside a table, switch it from "block" to "inline" to put it
+  mid-sentence, etc.</p>
+
+<textarea
+  class="multianswer"
+  name="answer"
+  style="display:block;"
+  rows="1"
+  cols="70">Answer 1</textarea>
+
+<textarea
+  class="multianswer"
+  name="answer"
+  style="display:block;"
+  rows="2"
+  cols="40">Answer 2</textarea>
+
+<textarea
+  class="multianswer"
+  name="answer"
+  style="display:block;"
+  rows="3"
+  cols="20">Answer 3</textarea>
+
+<textarea
+  class="multianswer"
+  name="answer"
+  style="display:block;"
+  rows="1"
+  cols="30">Answer 4</textarea>
+
+<customresponse cfn="answercheck">
+  <jsinput title="Multi-Text Response Exercise"
+    gradefn="multi_text.getGrade"
+    get_statefn="multi_text.getState"
+    set_statefn="multi_text.setState"
+    width="1"
+    height="1"
+    html_file="/static/multi_text.html"
+    sop="false"/>
+</customresponse>
+
+<solution>
+<div class="detailed-solution">
+<p>Explanation</p>
+<p>Questions should have explanations, or at least commentary.</p>
+</div>
+</solution>
+
+</problem>
