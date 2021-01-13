@@ -48,8 +48,8 @@ function logThatThing(ThatThing){
     gradefn="journaling.getGrade"
     get_statefn="journaling.getState"
     set_statefn="journaling.setState"
-    width="800"
-    height="120"
+    width="1"
+    height="1"
     html_file="/static/journaling.html?saveslot=journaling"
     sop="false"/>
 </customresponse>
