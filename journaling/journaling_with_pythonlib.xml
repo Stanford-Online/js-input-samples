@@ -15,7 +15,7 @@ def answercheck(e, ans):
     }
 
     # This pulls from the python_lib.zip file in Files & Uploads.
-    return HXGraders.textResponseGrader(ans, options)
+    return HXGraders.journalingResponseGrader(ans, options)
 
 ]]>
 </script>
@@ -35,15 +35,22 @@ function logThatThing(ThatThing){
 
 <p>Put your prompt here.</p>
 
+<!-- This will get turned into a rich text editor by hx-js. -->
+<!-- Change the ID here and above if you have multiple on the same screen. -->
+<div
+  class="hx-editor"
+  data-saveslot="journaling">
+  [Editor not loaded yet]
+</div>
 
 <customresponse cfn="answercheck">
   <jsinput title="Text Response Exercise"
-    gradefn="textlog.getGrade"
-    get_statefn="textlog.getState"
-    set_statefn="textlog.setState"
+    gradefn="journaling.getGrade"
+    get_statefn="journaling.getState"
+    set_statefn="journaling.setState"
     width="800"
     height="120"
-    html_file="/static/textlog.html"
+    html_file="/static/journaling.html?saveslot=journaling"
     sop="false"/>
 </customresponse>
 
