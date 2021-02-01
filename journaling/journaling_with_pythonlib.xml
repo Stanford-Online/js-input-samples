@@ -40,7 +40,6 @@ function logThatThing(ThatThing){
 <div
   class="hx-editor"
   data-saveslot="journaling">
-  [Editor not loaded yet]
 </div>
 
 <customresponse cfn="answercheck">
