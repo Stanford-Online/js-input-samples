@@ -9,7 +9,7 @@
 <![CDATA[
 # The CDATA declaration lets us use less-than signs
 # without edX thinking that we're starting an XML tag.
-import json
+
 from python_lib import HXGraders
 
 def answercheck(e, ans):
