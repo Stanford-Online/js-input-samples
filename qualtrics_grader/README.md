@@ -23,7 +23,9 @@ Here's how to adapt this example to create your own qualtrics-grading problems.
 4. Create a Qualtrics survey along the [method described in the edX documentation](https://edx.readthedocs.io/projects/edx-partner-course-staff/en/latest/exercises_tools/qualtrics.html).
   * You will probably want it set up so that it accepts User IDs. Adding the uid to the survey URL is something that is handled for you, but you still need to set the "uid" that edx's documentation mentions.
   * Do not create an iframe to embed the survey; we've done that for you.
-5. On the final page of that survey, include the javascript from the `qualtrics.js` file.
+5. You've got two options for how to grade things:
+  * On the final page of that survey, include the javascript from the `qualtrics.js` file. This will give students full credit once they're completely done.
+  * Or, in *every problem* on Qualtrics, include the javscript from the `new_qualtrics_script.js` file. This will give students credit for each question they answer. **Your survey should be all on one page in this approach**.
 6. Profit!
 
 ### Customizing Your Qualtrics-Grading Problems ####
@@ -47,4 +49,5 @@ Inside you will find many pieces used to create this problem:
 - `qualtrics_grader.js`: the javascript file that does the majority of the work. You should not need to change this.
 - `qualtrics_grader.html`: the HTML file that will be iframed into the page. You should not need to change this.
 - `qualtrics_grader.xml`: the XML used to create the problem within Studio. You will need to write a prompt, insert your survey URL, and decide whether resetting is allowed.
-- `qualtrics.js`: This is the js code to insert into each Qualtrics page.
+- `qualtrics.js`: This is the js code for the first grading option above.
+- `new_qualtrics_script.js`: js for the second grading option.
