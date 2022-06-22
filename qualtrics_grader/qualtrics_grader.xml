@@ -55,7 +55,7 @@ function logThatThing(ThatThing){
     gradefn="qualtrics_grader.getGrade"
     get_statefn="qualtrics_grader.getState"
     set_statefn="qualtrics_grader.setState"
-    width="900"
+    width="100%"
     height="800"
     html_file="/static/qualtrics_grader.html"
     sop="false"/>

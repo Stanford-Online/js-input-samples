@@ -1,29 +1,18 @@
 // If the student comes to this problem for the first time,
 // they start with a blank.
 var JSProblemState = {
-  answer: '',
-  saveslot: '',
-  length: 0,
+  answers: [],
 };
 
-// Save slot is passed as a URL parameter.
-function getUrlVars() {
-  var vars = {};
-  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (
-    m,
-    key,
-    value
-  ) {
-    vars[key] = value;
-  });
-  return vars;
-}
-JSProblemState.saveslot = getUrlVars().saveslot;
+// This is where we'd normally put extra code to do fancy things,
+// like handling user input or resetting a complex interactive
+// back to its original state. However, this problem type is
+// so simple we don't need it.
 
 // This wrapper function is necessary.
 // You can rename it if you want, just make sure the attributes
 // in your <jsinput> tag match the function name here.
-var journaling = (function () {
+var multi_text = (function () {
   // REQUIRED --- DO NOT REMOVE/CHANGE!!
   var channel;
 
@@ -40,35 +29,21 @@ var journaling = (function () {
     channel.bind('setState', setState);
   }
 
-  function getStateData() {
-    // Use what the learner typed, not what's in the save buffer.
-    // Include markup and everything.
-    let markup_string = parent.HXED.getMarkupFrom(JSProblemState.saveslot);
-    // Also set length equal to number of characters typed.
-    // Ignore markup for this.
-    let len = parent.$(markup_string).text().length;
-    let save_slot = JSProblemState.saveslot;
-    // Note we have to URI-encode the answer.
-    return {
-      answer: markup_string.replace(/%/g, '%25'),
-      saveslot: save_slot,
-      length: len,
-    };
-  }
-
   // Called by edX to obtain the current learner state for this problem.
   function getState() {
     console.log('getting state');
-    // Get the current state data.
-    JSProblemState = getStateData();
-    console.log(JSProblemState);
-    // Save the current buffer. Note the URI decoding.
-    parent.hxSetData(
-      'summernote_' + JSProblemState.saveslot,
-      JSProblemState.answer.replace(/%25/g, '%')
-    );
+    // Get what the learner typed.
+    let d = window.parent.document;
+    d.querySelectorAll('.multianswer').forEach(function (e, i) {
+      console.log(e.value);
+      JSProblemState.answers[i] = e.value;
+    });
+
+    // This string gets URI-decoded later, so percents need to be escaped.
+    JSProblemState.answers.forEach(function (e, i) {
+      e = e.replace(/%/g, '%25');
+    });
     // Give edX our state as a string.
-    console.log(JSProblemState);
     return JSON.stringify(JSProblemState);
   }
 
@@ -79,20 +54,30 @@ var journaling = (function () {
     stateStr = arguments.length === 1 ? arguments[0] : arguments[1];
     // edX stores the state as stringified JSON. Parse it.
     JSProblemState = JSON.parse(stateStr);
-    console.log(JSProblemState);
-    // The editor will automatically pull the last stored text.
-    // No need to repeat that functionality here.
-    // (What if the stored state doesn't match the backpack's data?)
+    // Set the live state to the stored state (the learner's previous answer).
+    let d = window.parent.document;
+    d.querySelectorAll('.multianswer').forEach(function (e, i) {
+      e.value = JSProblemState.answers[i];
+      console.log(e.value);
+    });
   }
 
   // Called by edX when the learner submits the problem.
   function getGrade() {
     console.log('getting grade');
-    // Get the current state data.
-    JSProblemState = getStateData();
-    console.log(JSProblemState);
+    // Get what the learner typed.
+    let d = window.parent.document;
+    d.querySelectorAll('.multianswer').forEach(function (e, i) {
+      console.log(e.value);
+      JSProblemState.answers[i] = e.value;
+    });
     // This calls the logging code from the XML file.
     parent.logThatThing(JSProblemState);
+    // The answer string gets URI-decoded later, so percents need to be escaped.
+    JSProblemState.answers.forEach(function (e, i) {
+      e = e.replace(/%/g, '%25');
+    });
+
     // Send the problem state to be graded.
     return JSON.stringify(JSProblemState);
   }

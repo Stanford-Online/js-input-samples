@@ -9,39 +9,8 @@
 <![CDATA[
 # The CDATA declaration lets us use less-than signs
 # without edX thinking that we're starting an XML tag.
-import json
 
-def journalingResponseGrader(ans, new_options={"min_length": 10}):
-
-  options = {"min_length": 10}
-  options.update(new_options)
-
-  # Parse the state and obtain the "answer" string from it.
-  parsed = json.loads(ans)
-  answer = json.loads(parsed["answer"])["answer"]
-  length = json.loads(parsed["answer"])["length"]
-
-  # Checking for sufficient length.
-  if length >= options["min_length"]:
-    return {
-      "input_list": [
-        {
-          "ok": True,
-          "msg": "Thank you for your response.",
-          "grade_decimal": 1
-        }
-      ]
-    }
-  else:
-    return {
-      "input_list": [
-        {
-          "ok": False,
-          "msg": "Your response is too short. Please try again.",
-          "grade_decimal": 0
-        }
-      ]
-    }
+from python_lib import HXGraders
 
 def answercheck(e, ans):
 
@@ -49,7 +18,7 @@ def answercheck(e, ans):
     'min_length': 10   # This is the minimum length in characters of the response.
   }
 
-  return journalingResponseGrader(ans, options)
+  return HXGraders.journalingResponseGrader(ans, options)
 
 ]]>
 </script>

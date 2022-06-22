@@ -19,12 +19,16 @@ Qualtrics.SurveyEngine.addOnUnload(function()
     text: "Survey is complete.",
     source: "HX_Qualtrics_Survey",
     score: "100" // Score is percentage out of 100%.
-  }
+  };
 
+  // If you will never run your course on Edge,
+  // you can safely remove the first line.
   // If you will never run your course on Edge,
   // you can safely remove the first line.
   window.parent.postMessage(message, "https://edge.edx.org");
   window.parent.postMessage(message, "https://courses.edx.org");
+  window.parent.postMessage(message, "https://learning.edx.org");
+  window.parent.postMessage(message, "https://preview.courses.edx.org");
 
   // Can remove.
   console.log('Qualtrics sent message: ' + message.text);
